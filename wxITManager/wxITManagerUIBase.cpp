@@ -137,6 +137,14 @@ DatabaseConfigDialogBase::DatabaseConfigDialogBase( wxWindow* parent, wxWindowID
 	
 	bSizer12->Add( bSizer13, 0, wxALIGN_LEFT, 5 );
 	
+	wxBoxSizer* bSizer31;
+	bSizer31 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_checkBox_encrypteddatabase = new wxCheckBox( m_panel_sqlite, wxID_ANY, _("Encrypted Database"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer31->Add( m_checkBox_encrypteddatabase, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	bSizer12->Add( bSizer31, 0, wxALIGN_LEFT, 5 );
+	
 	wxBoxSizer* bSizer14;
 	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
 	
@@ -145,6 +153,8 @@ DatabaseConfigDialogBase::DatabaseConfigDialogBase( wxWindow* parent, wxWindowID
 	bSizer14->Add( m_staticText13, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_textCtrl_databasekey = new wxTextCtrl( m_panel_sqlite, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 180,-1 ), wxTE_PASSWORD );
+	m_textCtrl_databasekey->Enable( false );
+	
 	bSizer14->Add( m_textCtrl_databasekey, 0, wxALL, 5 );
 	
 	bSizer12->Add( bSizer14, 0, wxALIGN_LEFT, 5 );
@@ -234,6 +244,18 @@ DatabaseConfigDialogBase::DatabaseConfigDialogBase( wxWindow* parent, wxWindowID
 	
 	bSizer7->Add( bSizer9, 1, wxEXPAND, 5 );
 	
+	wxBoxSizer* bSizer32;
+	bSizer32 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer33;
+	bSizer33 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticTextStatus = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextStatus->Wrap( -1 );
+	bSizer33->Add( m_staticTextStatus, 0, wxALL, 5 );
+	
+	bSizer32->Add( bSizer33, 1, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT, 5 );
+	
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
 	
@@ -246,7 +268,9 @@ DatabaseConfigDialogBase::DatabaseConfigDialogBase( wxWindow* parent, wxWindowID
 	m_button_cancel = new wxButton( this, wxID_BUTTON_CANCEL, _("Close"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer10->Add( m_button_cancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	bSizer7->Add( bSizer10, 0, wxALIGN_RIGHT, 5 );
+	bSizer32->Add( bSizer10, 0, wxALIGN_RIGHT, 5 );
+	
+	bSizer7->Add( bSizer32, 0, wxEXPAND, 5 );
 	
 	this->SetSizer( bSizer7 );
 	this->Layout();
@@ -256,6 +280,7 @@ DatabaseConfigDialogBase::DatabaseConfigDialogBase( wxWindow* parent, wxWindowID
 	// Connect Events
 	m_choice_databasetype->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( DatabaseConfigDialogBase::OnChoiceDatabaseType ), NULL, this );
 	m_button6->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSqliteBrowse ), NULL, this );
+	m_checkBox_encrypteddatabase->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnCheckBoxEncryptedClick ), NULL, this );
 	m_hyperlink_createdatabase->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( DatabaseConfigDialogBase::OnCreateDatabaseClick ), NULL, this );
 	m_button_test->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonTestClick ), NULL, this );
 	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSaveClick ), NULL, this );
@@ -267,6 +292,7 @@ DatabaseConfigDialogBase::~DatabaseConfigDialogBase()
 	// Disconnect Events
 	m_choice_databasetype->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( DatabaseConfigDialogBase::OnChoiceDatabaseType ), NULL, this );
 	m_button6->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSqliteBrowse ), NULL, this );
+	m_checkBox_encrypteddatabase->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnCheckBoxEncryptedClick ), NULL, this );
 	m_hyperlink_createdatabase->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( DatabaseConfigDialogBase::OnCreateDatabaseClick ), NULL, this );
 	m_button_test->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonTestClick ), NULL, this );
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSaveClick ), NULL, this );
@@ -319,12 +345,16 @@ SqliteCreateDialogBase::SqliteCreateDialogBase( wxWindow* parent, wxWindowID id,
 	bSizer23->Add( bSizer27, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer28;
-	bSizer28 = new wxBoxSizer( wxVERTICAL );
+	bSizer28 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_gauge_create = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxSize( 390,10 ), wxGA_HORIZONTAL );
-	bSizer28->Add( m_gauge_create, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	wxBoxSizer* bSizer29;
+	bSizer29 = new wxBoxSizer( wxHORIZONTAL );
 	
-	bSizer23->Add( bSizer28, 0, wxEXPAND, 5 );
+	m_staticTextStatus = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextStatus->Wrap( -1 );
+	bSizer29->Add( m_staticTextStatus, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	bSizer28->Add( bSizer29, 1, wxALIGN_LEFT|wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer26;
 	bSizer26 = new wxBoxSizer( wxHORIZONTAL );
@@ -335,7 +365,9 @@ SqliteCreateDialogBase::SqliteCreateDialogBase( wxWindow* parent, wxWindowID id,
 	m_button_close = new wxButton( this, wxID_ANY, _("Close"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer26->Add( m_button_close, 0, wxALL, 5 );
 	
-	bSizer23->Add( bSizer26, 0, wxALIGN_RIGHT, 5 );
+	bSizer28->Add( bSizer26, 0, wxALIGN_RIGHT, 5 );
+	
+	bSizer23->Add( bSizer28, 0, wxEXPAND|wxTOP, 15 );
 	
 	this->SetSizer( bSizer23 );
 	this->Layout();

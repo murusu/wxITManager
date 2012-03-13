@@ -3,10 +3,14 @@
 
 #include "wxITManagerMain.h"
 #include "wxITManagerUIBase.h"
+#include "wxITManagerConfig.h"
 #include "wxITManagerDatabase.h"
+#include "wxITManagerController.h"
+#include "wxITManagerEvent.h"
 
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
+class Database;
 
 class LoginFrame : public LoginFrameBase
 {
@@ -32,6 +36,7 @@ class DatabaseConfigDialog : public DatabaseConfigDialogBase
 
         void OnChoiceDatabaseType( wxCommandEvent& event );
 		void OnButtonSqliteBrowse( wxCommandEvent& event );
+		void OnCheckBoxEncryptedClick( wxCommandEvent& event );
 		void OnCreateDatabaseClick( wxHyperlinkEvent& event );
 		void OnButtonTestClick( wxCommandEvent& event );
 		void OnButtonSaveClick( wxCommandEvent& event );
@@ -40,6 +45,10 @@ class DatabaseConfigDialog : public DatabaseConfigDialogBase
 
 class SqliteCreateDialog : public SqliteCreateDialogBase
 {
+    private:
+        ManagerConfig   *m_config;
+        Database        *m_database;
+
 	public:
 		SqliteCreateDialog(wxDialog *dialog);
 		~SqliteCreateDialog();
@@ -48,6 +57,11 @@ class SqliteCreateDialog : public SqliteCreateDialogBase
 		void OnCheckBoxEncryptedClick( wxCommandEvent& event );
 		void OnButtonCreateClick( wxCommandEvent& event );
 		void OnButtonCloseClick( wxCommandEvent& event );
+
+		void OnDatabaseUpdate( wxDatabaseEvent& event);
+
+		void EnableDialog(bool flag);
+		void ClearContent();
 };
 
 class MainFrame : public MainFrameBase

@@ -9,8 +9,12 @@ bool wxITManagerApp::OnInit(void)
     m_loginframe    = NULL;
     m_config        = NULL;
     m_database      = NULL;
+    m_dbcontroller  = NULL;
+
+    SetupLocale();
 
     m_config = new ManagerConfig();
+    m_dbcontroller = new DatabaseController();
     //if(!m_config->InitConfig()) return false;
     //Database* mydatabase = DatabaseFactory::CreateDatabase(DATABASE_SQLITE);
     //mydatabase->InitDatabase(m_config);
@@ -21,13 +25,13 @@ bool wxITManagerApp::OnInit(void)
     m_loginframe = new LoginFrame(NULL);
     m_loginframe->Show(true);
 
-    SetupLocale();
+
 /*
 wxSQLite3Database::InitializeSQLite();
 wxSQLite3Database db;
-db.Open(wxT("test.db"), wxT("wecanfly"));
-db.ExecuteUpdate("create table emp(empno integer primary key, empname char(20), salary double);");
-wxString insertCmd(wxT("insert into emp values (null,'Franz Beckenbauer', 2000.10);"));
+db.Open(wxT("test.db"));
+db.ExecuteUpdate("create table emp(empno integer primary key, empname char(20), salary double);create table test(testno integer primary key, empname char(20), salary double);");
+wxString insertCmd(wxT("insert into emp values (null,'Franz Beckenbauer', 2000.10);insert into emp values (null,'test test', 2011.11);"));
 db.ExecuteUpdate(insertCmd);
 db.Close();
 */
@@ -36,7 +40,9 @@ db.Close();
 
 int wxITManagerApp::OnExit()
 {
-    if(m_locale)        delete m_locale;
+    if(m_locale)    delete m_locale;
+    if(m_config)    delete m_config;
+    if(m_dbcontroller) delete m_dbcontroller;
     //if(m_mainframe)     delete m_mainframe;
     //if(m_loginframe)    delete m_loginframe;
     return 0;
@@ -68,4 +74,16 @@ void wxITManagerApp::DoLogout()
 void wxITManagerApp::DoExit()
 {
     m_loginframe->Destroy();
+}
+
+wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
+{
+    switch(controller_id)
+    {
+        case CONTROLLER_DATABASE:
+            return m_dbcontroller;
+            break;
+    }
+
+    return NULL;
 }

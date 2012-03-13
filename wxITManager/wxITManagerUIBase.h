@@ -22,12 +22,11 @@
 #include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/choice.h>
+#include <wx/checkbox.h>
 #include <wx/hyperlink.h>
 #include <wx/panel.h>
 #include <wx/statbox.h>
 #include <wx/dialog.h>
-#include <wx/checkbox.h>
-#include <wx/gauge.h>
 #include <wx/statusbr.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -87,6 +86,7 @@ class DatabaseConfigDialogBase : public wxDialog
 		wxStaticText* m_staticText6;
 		wxTextCtrl* m_textCtrl_databasefile;
 		wxButton* m_button6;
+		wxCheckBox* m_checkBox_encrypteddatabase;
 		wxStaticText* m_staticText13;
 		wxTextCtrl* m_textCtrl_databasekey;
 		wxStaticText* m_staticText111;
@@ -100,6 +100,7 @@ class DatabaseConfigDialogBase : public wxDialog
 		wxTextCtrl* m_textCtrl6;
 		wxStaticText* m_staticText11;
 		wxTextCtrl* m_textCtrl7;
+		wxStaticText* m_staticTextStatus;
 		wxButton* m_button_test;
 		wxButton* m_button_save;
 		wxButton* m_button_cancel;
@@ -107,6 +108,7 @@ class DatabaseConfigDialogBase : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnChoiceDatabaseType( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSqliteBrowse( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCheckBoxEncryptedClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnCreateDatabaseClick( wxHyperlinkEvent& event ) { event.Skip(); }
 		virtual void OnButtonTestClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
@@ -134,7 +136,7 @@ class SqliteCreateDialogBase : public wxDialog
 		wxCheckBox* m_checkBox_encrypteddatabase;
 		wxStaticText* m_staticText13;
 		wxTextCtrl* m_textCtrl_databasekey;
-		wxGauge* m_gauge_create;
+		wxStaticText* m_staticTextStatus;
 		wxButton* m_button_create;
 		wxButton* m_button_close;
 		
@@ -147,7 +149,7 @@ class SqliteCreateDialogBase : public wxDialog
 	
 	public:
 		
-		SqliteCreateDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Database Create"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 408,176 ), long style = wxDEFAULT_DIALOG_STYLE );
+		SqliteCreateDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Database Create"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 408,172 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~SqliteCreateDialogBase();
 	
 };
