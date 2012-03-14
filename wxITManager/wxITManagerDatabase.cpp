@@ -1,5 +1,7 @@
 #include "wxITManagerDatabase.h"
 
+DECLARE_APP(wxITManagerApp)
+
 /////////////////////////////////////////////////////////////////
 //
 //
@@ -13,6 +15,7 @@ Database::Database(ManagerConfig *database_config)
     m_config = database_config;
 
     this->Connect(wxEVT_DATABASE_CREATE, wxDatabaseEventHandler(Database::OnDatabaseCreate));
+    this->Connect(wxEVT_DATABASE_TEST, wxDatabaseEventHandler(Database::OnDatabaseTest));
 }
 
 Database::~Database()
@@ -22,8 +25,6 @@ Database::~Database()
 void Database::OnDatabaseCreate(wxDatabaseEvent& event)
 {
     bool check_flag = false;
-
-    wxString test(GetDBTableInitStr());
 
     if(InitDBByConfig())
     {
@@ -38,12 +39,22 @@ void Database::OnDatabaseCreate(wxDatabaseEvent& event)
 
     if(!check_flag)
     {
-        wxObject *event_sender = event.GetEventObject();
-        wxDatabaseEvent controller_event(wxEVT_DATABASE_CREATE_ERROR);
+        wxEvtHandler *handler = wxGetApp().GetController(event.GetId());
 
-        //(wxGetApp().GetController(event.GetId()))->AddPendingEvent(event);
-        ((wxEvtHandler *)event_sender)->AddPendingEvent(controller_event);
+        wxDatabaseEvent controller_event(wxEVT_DATABASE_CREATE_ERROR);
+        controller_event.SetEventObject(event.GetEventObject());
+        handler->AddPendingEvent(controller_event);
     }
+}
+
+void Database::OnDatabaseTest(wxDatabaseEvent& event)
+{
+    //no testing code, add later
+    wxEvtHandler *handler = wxGetApp().GetController(event.GetId());
+
+    wxDatabaseEvent controller_event(wxEVT_DATABASE_TEST_SUCCESS);
+    controller_event.SetEventObject(event.GetEventObject());
+    handler->AddPendingEvent(controller_event);
 }
 
 /////////////////////////////////////////////////////////////////

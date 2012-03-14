@@ -18,6 +18,8 @@ class DatabaseController : public wxEvtHandler
         ~DatabaseController();
 
         void OnDatabaseCreate(wxDatabaseEvent& event);
+        void OnDatabaseUpdate(wxDatabaseEvent& event);
+        void OnDatabaseTest(wxDatabaseEvent& event);
 
         inline ManagerConfig* GetConfig(){return m_config;}
         //inline DatabaseController* GetDatabaseController(){return m_dbcontroller;}

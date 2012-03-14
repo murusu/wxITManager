@@ -7,14 +7,16 @@ bool wxITManagerApp::OnInit(void)
     m_locale        = NULL;
     m_mainframe     = NULL;
     m_loginframe    = NULL;
+
     m_config        = NULL;
     m_database      = NULL;
+
     m_dbcontroller  = NULL;
 
     SetupLocale();
 
-    m_config = new ManagerConfig();
-    m_dbcontroller = new DatabaseController();
+    //m_config = new ManagerConfig();
+    //m_dbcontroller = new DatabaseController();
     //if(!m_config->InitConfig()) return false;
     //Database* mydatabase = DatabaseFactory::CreateDatabase(DATABASE_SQLITE);
     //mydatabase->InitDatabase(m_config);
@@ -42,6 +44,8 @@ int wxITManagerApp::OnExit()
 {
     if(m_locale)    delete m_locale;
     if(m_config)    delete m_config;
+    if(m_database)  delete m_database;
+
     if(m_dbcontroller) delete m_dbcontroller;
     //if(m_mainframe)     delete m_mainframe;
     //if(m_loginframe)    delete m_loginframe;
@@ -76,14 +80,45 @@ void wxITManagerApp::DoExit()
     m_loginframe->Destroy();
 }
 
+ManagerConfig* wxITManagerApp::GetConfig()
+{
+    if(!m_config) m_config = new ManagerConfig();
+
+    if(!(m_config->ReadConfigData()))
+    {
+        delete m_config;
+        m_config = NULL;
+    }
+
+    return m_config;
+}
+
+Database* wxITManagerApp::GetDatabase()
+{
+    if(!m_database)
+    {
+        m_database = DatabaseFactory::CreateDatabase(GetConfig()->GetDatabaseType(), GetConfig());
+        if(!m_database->InitDBByConfig())
+        {
+            delete m_database;
+            m_database = NULL;
+        }
+    }
+
+    return m_database;
+}
+
 wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
 {
+    wxEvtHandler* handler = NULL;
+
     switch(controller_id)
     {
         case CONTROLLER_DATABASE:
-            return m_dbcontroller;
+            if(!m_dbcontroller) m_dbcontroller = new DatabaseController();
+            handler = m_dbcontroller;
             break;
     }
 
-    return NULL;
+    return handler;
 }

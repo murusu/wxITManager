@@ -10,7 +10,8 @@ const char * const DATABASE_TYPE        = "Database_Type";
 const char * const DATABASE_FILENAME    = "Database_Filename";
 const char * const DATABASE_KEY         = "Database_Key";
 
-const size_t CONTROLLER_DATABASE = 0;
+const size_t CONTROLLER_NULL = 0;
+const size_t CONTROLLER_DATABASE = 1;
 
 const size_t DATABASE_SQLITE    = 0;
 const size_t DATABASE_MYSQL     = 1;

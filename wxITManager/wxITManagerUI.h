@@ -10,7 +10,7 @@
 
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
-class Database;
+//class Database;
 
 class LoginFrame : public LoginFrameBase
 {
@@ -41,13 +41,19 @@ class DatabaseConfigDialog : public DatabaseConfigDialogBase
 		void OnButtonTestClick( wxCommandEvent& event );
 		void OnButtonSaveClick( wxCommandEvent& event );
 		void OnButtonCloseClick( wxCommandEvent& event );
+
+		void OnDatabaseTest( wxDatabaseEvent& event);
+
+        void LoadConfig();
+        void EnableDialog(bool flag);
+		void ClearContent();
 };
 
 class SqliteCreateDialog : public SqliteCreateDialogBase
 {
-    private:
-        ManagerConfig   *m_config;
-        Database        *m_database;
+    //private:
+        //ManagerConfig   *m_config;
+        //Database        *m_database;
 
 	public:
 		SqliteCreateDialog(wxDialog *dialog);

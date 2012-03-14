@@ -85,7 +85,7 @@ class DatabaseConfigDialogBase : public wxDialog
 		wxPanel* m_panel_sqlite;
 		wxStaticText* m_staticText6;
 		wxTextCtrl* m_textCtrl_databasefile;
-		wxButton* m_button6;
+		wxButton* m_button_databasefile;
 		wxCheckBox* m_checkBox_encrypteddatabase;
 		wxStaticText* m_staticText13;
 		wxTextCtrl* m_textCtrl_databasekey;

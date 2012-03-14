@@ -1,4 +1,3 @@
-#include "wxITManagerDatabase.h"
 #include "wxITManagerThread.h"
 /*
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATE_SUCCESS)
@@ -9,10 +8,6 @@ DECLARE_APP(wxITManagerApp)
 
 DatabaseUpdateThread::DatabaseUpdateThread(wxObject* sender, size_t controller_id, Database *database, wxString sql) : wxThread()
 {
-
-   // m_resultrow = result_row;
-    //m_errstr    = error_str;
-
     m_sender        = sender;
     m_controller    = wxGetApp().GetController(controller_id);
     m_database      = database;
@@ -40,11 +35,18 @@ void *DatabaseUpdateThread::Entry()
     }
 
     wxDatabaseEvent event(event_id);
+    event.SetEventObject(m_sender);
     event.SetResultRow(result_row);
     event.SetErrorString(error_str);
 
-    //m_controller->AddPendingEvent(event);
-    ((wxEvtHandler *)m_sender)->AddPendingEvent(event);
+    if(m_controller)
+    {
+       m_controller->AddPendingEvent(event);
+    }
+    else
+    {
+        ((wxEvtHandler *)m_sender)->AddPendingEvent(event);
+    }
 
     return NULL;
 }

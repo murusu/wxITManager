@@ -6,6 +6,7 @@
 #include "wx/wxsqlite3.h"
 
 #include "GlobalValue.h"
+#include "wxITManagerMain.h"
 #include "wxITManagerConfig.h"
 #include "wxITManagerEvent.h"
 #include "wxITManagerThread.h"
@@ -13,8 +14,8 @@
 class Database : public wxEvtHandler
 {
     private:
-        size_t          *m_resultrow;
-        wxString        *m_errstr;
+        //size_t          *m_resultrow;
+        //wxString        *m_errstr;
 
     protected:
         ManagerConfig   *m_config;
@@ -23,7 +24,7 @@ class Database : public wxEvtHandler
         Database(ManagerConfig *database_config);
         ~Database();
 
-        wxObject *m_sender;
+        //wxObject *m_sender;
 
         //virtual void InitDBTable() {return;};
         virtual bool InitDBByConfig() {return NULL;};
@@ -31,9 +32,10 @@ class Database : public wxEvtHandler
         virtual size_t ExecuteUpdate(wxString sql_string) {return 0;};
 
         void OnDatabaseCreate(wxDatabaseEvent& event);
+        void OnDatabaseTest(wxDatabaseEvent& event);
 
-        inline size_t *GetResultRowPointer(){return m_resultrow;};
-        inline wxString *GetErrorStrPointer(){return m_errstr;};
+        //inline size_t *GetResultRowPointer(){return m_resultrow;};
+        //inline wxString *GetErrorStrPointer(){return m_errstr;};
         //inline void SetConfig(ManagerConfig *database_config){m_config = database_config;};
 };
 

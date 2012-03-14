@@ -132,8 +132,8 @@ DatabaseConfigDialogBase::DatabaseConfigDialogBase( wxWindow* parent, wxWindowID
 	m_textCtrl_databasefile = new wxTextCtrl( m_panel_sqlite, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 180,-1 ), wxTE_READONLY );
 	bSizer13->Add( m_textCtrl_databasefile, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_button6 = new wxButton( m_panel_sqlite, wxID_ANY, _("Browse"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer13->Add( m_button6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	m_button_databasefile = new wxButton( m_panel_sqlite, wxID_ANY, _("Browse"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer13->Add( m_button_databasefile, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	bSizer12->Add( bSizer13, 0, wxALIGN_LEFT, 5 );
 	
@@ -279,7 +279,7 @@ DatabaseConfigDialogBase::DatabaseConfigDialogBase( wxWindow* parent, wxWindowID
 	
 	// Connect Events
 	m_choice_databasetype->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( DatabaseConfigDialogBase::OnChoiceDatabaseType ), NULL, this );
-	m_button6->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSqliteBrowse ), NULL, this );
+	m_button_databasefile->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSqliteBrowse ), NULL, this );
 	m_checkBox_encrypteddatabase->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnCheckBoxEncryptedClick ), NULL, this );
 	m_hyperlink_createdatabase->Connect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( DatabaseConfigDialogBase::OnCreateDatabaseClick ), NULL, this );
 	m_button_test->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonTestClick ), NULL, this );
@@ -291,7 +291,7 @@ DatabaseConfigDialogBase::~DatabaseConfigDialogBase()
 {
 	// Disconnect Events
 	m_choice_databasetype->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( DatabaseConfigDialogBase::OnChoiceDatabaseType ), NULL, this );
-	m_button6->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSqliteBrowse ), NULL, this );
+	m_button_databasefile->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonSqliteBrowse ), NULL, this );
 	m_checkBox_encrypteddatabase->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnCheckBoxEncryptedClick ), NULL, this );
 	m_hyperlink_createdatabase->Disconnect( wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler( DatabaseConfigDialogBase::OnCreateDatabaseClick ), NULL, this );
 	m_button_test->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DatabaseConfigDialogBase::OnButtonTestClick ), NULL, this );

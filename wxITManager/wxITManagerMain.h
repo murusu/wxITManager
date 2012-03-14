@@ -5,7 +5,6 @@
 
 #include "wxITManagerUI.h"
 #include "wxITManagerConfig.h"
-//#include "wxITManagerDatabase.h"
 #include "wxITManagerController.h"
 
 class MainFrame;
@@ -20,8 +19,10 @@ class wxITManagerApp: public wxApp
         wxLocale            *m_locale;
         MainFrame           *m_mainframe;
         LoginFrame          *m_loginframe;
+
         ManagerConfig       *m_config;
         Database            *m_database;
+
         DatabaseController  *m_dbcontroller;
 
     public:
@@ -35,7 +36,8 @@ class wxITManagerApp: public wxApp
 
         wxEvtHandler* GetController(size_t controller_id);
 
-        inline ManagerConfig* GetConfig(){return m_config;}
+        ManagerConfig* GetConfig();
+        Database* GetDatabase();
 };
 
 
