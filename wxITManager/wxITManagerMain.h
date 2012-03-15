@@ -3,9 +3,13 @@
 
 #include <wx/wx.h>
 
+#include "GlobalValue.h"
+#include "wxITManagerEvent.h"
 #include "wxITManagerUI.h"
 #include "wxITManagerConfig.h"
 #include "wxITManagerController.h"
+#include "wxITManagerDatabase.h"
+#include "wxITManagerThread.h"
 
 class MainFrame;
 class LoginFrame;

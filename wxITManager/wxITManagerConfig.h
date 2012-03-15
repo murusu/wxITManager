@@ -4,7 +4,7 @@
 #include <wx/wx.h>
 #include <wx/xml/xml.h>
 
-#include "GlobalValue.h"
+#include "wxITManagerMain.h"
 
 class ManagerConfig
 {

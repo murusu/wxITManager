@@ -4,7 +4,7 @@
 #include <wx/thread.h>
 
 #include "wxITManagerMain.h"
-#include "wxITManagerDatabase.h"
+//#include "wxITManagerDatabase.h"
 
 class Database;
 class wxEventHandler;

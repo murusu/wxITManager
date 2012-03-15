@@ -85,14 +85,25 @@ wxString DatabaseSqlite::GetDBTableInitStr()
                           //wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), TEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20));");
     wxString init_sql = wxT("");
 
-    init_sql += wxString::Format(wxT("DROP TABLE `user`;"));
-    init_sql += wxString::Format(wxT("DROP TABLE `user_group`;"));
-    init_sql += wxString::Format(wxT("DROP TABLE `vcard`;"));
-    init_sql += wxString::Format(wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vcard_id integer);"));
-    init_sql += wxString::Format(wxT("CREATE TABLE `user_group`(id integer PRIMARY KEY, name varchar(30));"));
-    init_sql += wxString::Format(wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), TEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20));"));
+    //init_sql += wxString::Format(wxT("DROP TABLE `user`;"));
+    //init_sql += wxString::Format(wxT("DROP TABLE `user_group`;"));
+    //init_sql += wxString::Format(wxT("DROP TABLE `vcard`;"));
+    //init_sql += wxString::Format(wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vcard_id integer);"));
+    //init_sql += wxString::Format(wxT("CREATE TABLE `user_group`(id integer PRIMARY KEY, name varchar(30));"));
+    //init_sql += wxString::Format(wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), TEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20));"));
 
-    init_sql = wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vcard_id integer);");
+    //init_sql += wxT("DROP TABLE `user`;");
+    //init_sql += wxT("DROP TABLE `user_group`;");
+    //init_sql += wxT("DROP TABLE `vcard`;");
+
+    init_sql += wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vcard_id integer);");
+    init_sql += wxT("CREATE TABLE `user_group`(id integer PRIMARY KEY, name varchar(30));");
+    init_sql += wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), TEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20));");
+
+    //init_sql += wxT("INSERT INTO `user` VALUES (NULL, `admin`, `21232f297a57a5a743894a0e4a801fc3`, 1, 1);");
+    //init_sql += wxT("INSERT INTO `user_group` VALUES (NULL, `administrator`);");
+    //init_sql += wxT("INSERT INTO `vcard` VALUES (NULL, `admin`, ``, ``, ``, ``, ``, `3.0`);");
+
     return init_sql;
 }
 

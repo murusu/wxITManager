@@ -5,11 +5,11 @@
 #include <wx/event.h>
 #include "wx/wxsqlite3.h"
 
-#include "GlobalValue.h"
+//#include "GlobalValue.h"
 #include "wxITManagerMain.h"
-#include "wxITManagerConfig.h"
-#include "wxITManagerEvent.h"
-#include "wxITManagerThread.h"
+//#include "wxITManagerConfig.h"
+//#include "wxITManagerEvent.h"
+//#include "wxITManagerThread.h"
 
 class Database : public wxEvtHandler
 {

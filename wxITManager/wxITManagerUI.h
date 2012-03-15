@@ -3,10 +3,10 @@
 
 #include "wxITManagerMain.h"
 #include "wxITManagerUIBase.h"
-#include "wxITManagerConfig.h"
-#include "wxITManagerDatabase.h"
-#include "wxITManagerController.h"
-#include "wxITManagerEvent.h"
+//#include "wxITManagerConfig.h"
+//#include "wxITManagerDatabase.h"
+//#include "wxITManagerController.h"
+//#include "wxITManagerEvent.h"
 
 class DatabaseConfigDialog;
 class SqliteCreateDialog;

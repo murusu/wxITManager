@@ -31,6 +31,9 @@ DatabaseConfigDialog::DatabaseConfigDialog(wxFrame *frame) : DatabaseConfigDialo
 {
     m_sqlitedialog = NULL;
     LoadConfig();
+
+    this->Connect(wxEVT_DATABASE_TEST_SUCCESS, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
+    this->Connect(wxEVT_DATABASE_TEST_ERROR, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
 }
 
 DatabaseConfigDialog::~DatabaseConfigDialog()
@@ -183,7 +186,7 @@ void DatabaseConfigDialog::ClearContent()
 
 void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
 {
-    EnableDialog(false);
+    EnableDialog(true);
 
     if(event.GetEventType() == wxEVT_DATABASE_TEST_SUCCESS)
     {

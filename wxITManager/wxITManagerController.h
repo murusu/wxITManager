@@ -2,10 +2,11 @@
 #define WXITMANAGERCONTROLLER_H_INCLUDED
 
 #include "wxITManagerMain.h"
-#include "wxITManagerEvent.h"
-#include "wxITManagerDatabase.h"
+//#include "wxITManagerEvent.h"
+//#include "wxITManagerDatabase.h"
 
 class Database;
+class ManagerConfig;
 
 class DatabaseController : public wxEvtHandler
 {
