@@ -14,16 +14,27 @@ class DatabaseController : public wxEvtHandler
         Database        *m_database;
         ManagerConfig   *m_config;
 
+        wxMutex         *m_mutex;
+        wxMutexLocker   *m_locker;
+
     public:
         DatabaseController();
         ~DatabaseController();
 
-        void OnDatabaseCreate(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseUpdate(wxDatabaseEvent& event);
-        void OnDatabaseTest(wxDatabaseEvent& event);
 
         inline ManagerConfig* GetConfig(){return m_config;}
-        //inline DatabaseController* GetDatabaseController(){return m_dbcontroller;}
+};
+
+class UserController : public wxEvtHandler
+{
+    public:
+        UserController();
+        ~UserController();
+
+        void OnRequest(wxDatabaseEvent& event);
+        void OnUpdate(wxDatabaseEvent& event);
 };
 
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

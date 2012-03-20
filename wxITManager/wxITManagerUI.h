@@ -3,14 +3,9 @@
 
 #include "wxITManagerMain.h"
 #include "wxITManagerUIBase.h"
-//#include "wxITManagerConfig.h"
-//#include "wxITManagerDatabase.h"
-//#include "wxITManagerController.h"
-//#include "wxITManagerEvent.h"
 
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
-//class Database;
 
 class LoginFrame : public LoginFrameBase
 {
@@ -51,10 +46,6 @@ class DatabaseConfigDialog : public DatabaseConfigDialogBase
 
 class SqliteCreateDialog : public SqliteCreateDialogBase
 {
-    //private:
-        //ManagerConfig   *m_config;
-        //Database        *m_database;
-
 	public:
 		SqliteCreateDialog(wxDialog *dialog);
 		~SqliteCreateDialog();

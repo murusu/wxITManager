@@ -16,14 +16,17 @@ DatabaseController::DatabaseController()
 {
     m_database  = NULL;
     m_config    = NULL;
+    m_locker    = NULL;
+    m_mutex     = new wxMutex();
 
     m_config = new ManagerConfig();
 
-    this->Connect(wxEVT_DATABASE_CREATE, wxDatabaseEventHandler(DatabaseController::OnDatabaseCreate));
+    this->Connect(wxEVT_DATABASE_CREATE, wxDatabaseEventHandler(DatabaseController::OnDatabaseRequest));
+    this->Connect(wxEVT_DATABASE_TEST, wxDatabaseEventHandler(DatabaseController::OnDatabaseRequest));
+
     this->Connect(wxEVT_DATABASE_UPDATE_SUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseUpdate));
     this->Connect(wxEVT_DATABASE_UPDATE_ERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseUpdate));
 
-    this->Connect(wxEVT_DATABASE_TEST, wxDatabaseEventHandler(DatabaseController::OnDatabaseTest));
     this->Connect(wxEVT_DATABASE_TEST_SUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseUpdate));
     this->Connect(wxEVT_DATABASE_TEST_ERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseUpdate));
 }
@@ -32,22 +35,13 @@ DatabaseController::~DatabaseController()
 {
     if(m_database) delete m_database;
     if(m_config) delete m_config;
-}
-
-void DatabaseController::OnDatabaseCreate(wxDatabaseEvent& event)
-{
-    if(m_database) delete m_database;
-    m_database = NULL;
-    m_database = DatabaseFactory::CreateDatabase(m_config->GetDatabaseType(), m_config);
-
-    wxDatabaseEvent controller_event(event.GetEventType());
-    controller_event.SetEventObject(event.GetEventObject());
-    controller_event.SetId(CONTROLLER_DATABASE);
-    m_database->AddPendingEvent(controller_event);
+    if(m_locker) delete m_locker;
+    if(m_mutex)  delete m_mutex;
 }
 
 void DatabaseController::OnDatabaseUpdate(wxDatabaseEvent& event)
 {
+    if(m_locker) delete m_locker;
     if(m_database) delete m_database;
     m_database = NULL;
 
@@ -55,14 +49,43 @@ void DatabaseController::OnDatabaseUpdate(wxDatabaseEvent& event)
     ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
 }
 
-void DatabaseController::OnDatabaseTest(wxDatabaseEvent& event)
+void DatabaseController::OnDatabaseRequest(wxDatabaseEvent& event)
 {
-    if(m_database) delete m_database;
-    m_database = NULL;
-    m_database = DatabaseFactory::CreateDatabase(m_config->GetDatabaseType(), m_config);
+    m_locker = new wxMutexLocker(*m_mutex);
 
-    wxDatabaseEvent controller_event(event.GetEventType());
-    controller_event.SetEventObject(event.GetEventObject());
-    controller_event.SetId(CONTROLLER_DATABASE);
-    m_database->AddPendingEvent(controller_event);
+    if(m_locker->IsOk())
+    {
+        m_database = DatabaseFactory::CreateDatabase(m_config->GetDatabaseType(), m_config);
+
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetId(CONTROLLER_DATABASE);
+        m_database->AddPendingEvent(controller_event);
+    }
+    else
+    {
+        ::wxUsleep((unsigned long)100);
+
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetEventObject(event.GetEventObject());
+        this->AddPendingEvent(controller_event);
+    }
+}
+
+UserController::UserController()
+{
+
+}
+
+UserController::~UserController()
+{
+
+}
+
+UserController::OnRequest()
+{
+}
+
+UserController::OnUpdate()
+{
 }
