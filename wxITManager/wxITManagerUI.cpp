@@ -32,8 +32,8 @@ DatabaseConfigDialog::DatabaseConfigDialog(wxFrame *frame) : DatabaseConfigDialo
     m_sqlitedialog = NULL;
     LoadConfig();
 
-    this->Connect(wxEVT_DATABASE_TEST_SUCCESS, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
-    this->Connect(wxEVT_DATABASE_TEST_ERROR, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
+    this->Connect(wxEVT_DATABASE_QUERYSUCCESS, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
+    this->Connect(wxEVT_DATABASE_QUERYERROR, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
 }
 
 DatabaseConfigDialog::~DatabaseConfigDialog()
@@ -95,7 +95,7 @@ void DatabaseConfigDialog::OnButtonTestClick( wxCommandEvent& event )
         config ->SetDatabaseKey(wxT(""));
     }
 
-    wxDatabaseEvent database_event(wxEVT_DATABASE_TEST, CONTROLLER_DATABASE);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_TESTDATABSE, CONTROLLER_DATABASE);
     database_event.SetEventObject(this);
     handler->AddPendingEvent(database_event);
 }
@@ -188,7 +188,7 @@ void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
 {
     EnableDialog(true);
 
-    if(event.GetEventType() == wxEVT_DATABASE_TEST_SUCCESS)
+    if(event.GetEventType() == wxEVT_DATABASE_QUERYSUCCESS)
     {
         m_staticTextStatus->SetLabel(_("Connected Database Successfully"));
     }
@@ -202,8 +202,8 @@ void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
 
 SqliteCreateDialog::SqliteCreateDialog(wxDialog *dialog) : SqliteCreateDialogBase(dialog)
 {
-    this->Connect(wxEVT_DATABASE_UPDATE_SUCCESS, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
-    this->Connect(wxEVT_DATABASE_UPDATE_ERROR, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATESUCCESS, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATEERROR, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
 }
 
 SqliteCreateDialog::~SqliteCreateDialog()
@@ -245,7 +245,7 @@ void SqliteCreateDialog::OnButtonCreateClick( wxCommandEvent& event )
     config->SetDatabaseFile(m_textCtrl_databasefile->GetValue());
     config->SetDatabaseKey(m_textCtrl_databasekey->GetValue());
 
-    wxDatabaseEvent database_event(wxEVT_DATABASE_CREATE, CONTROLLER_DATABASE);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_CREATEDATABSE, CONTROLLER_DATABASE);
     database_event.SetEventObject(this);
     handler->AddPendingEvent(database_event);
 
@@ -262,7 +262,7 @@ void SqliteCreateDialog::OnDatabaseUpdate( wxDatabaseEvent& event)
     EnableDialog(true);
     ClearContent();
 
-    if(event.GetEventType() == wxEVT_DATABASE_UPDATE_SUCCESS)
+    if(event.GetEventType() == wxEVT_DATABASE_UPDATESUCCESS)
     {
         m_staticTextStatus->SetLabel(_("Database Created"));
     }

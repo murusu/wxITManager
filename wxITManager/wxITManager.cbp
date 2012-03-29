@@ -97,6 +97,8 @@
 		<Unit filename="wxITManagerController.h" />
 		<Unit filename="wxITManagerDatabase.cpp" />
 		<Unit filename="wxITManagerDatabase.h" />
+		<Unit filename="wxITManagerDatalist.cpp" />
+		<Unit filename="wxITManagerDatalist.h" />
 		<Unit filename="wxITManagerEvent.h" />
 		<Unit filename="wxITManagerMain.cpp" />
 		<Unit filename="wxITManagerMain.h" />

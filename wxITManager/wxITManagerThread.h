@@ -8,16 +8,17 @@
 class Database;
 class wxEventHandler;
 
-class DatabaseUpdateThread : public wxThread
+class DatabaseProcessThread : public wxThread
 {
     protected:
         wxObject        *m_sender;
         wxEvtHandler    *m_controller;
         Database        *m_database;
         wxString         m_sql;
+        wxEventType      m_type;
 
     public:
-        DatabaseUpdateThread(wxObject* sender, size_t controller_id, Database *database, wxString sql);
+        DatabaseProcessThread(wxObject* sender, size_t controller_id, Database *database, wxString sql, wxEventType type);
 
         void *Entry();
         void OnExit();

@@ -22,13 +22,17 @@ class DatabaseController : public wxEvtHandler
         ~DatabaseController();
 
         void OnDatabaseRequest(wxDatabaseEvent& event);
-        void OnDatabaseUpdate(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
 
         inline ManagerConfig* GetConfig(){return m_config;}
 };
 
 class UserController : public wxEvtHandler
 {
+    private:
+        UserInfoArray *m_userlist;
+        UserInfo      *m_currentuser;
+
     public:
         UserController();
         ~UserController();

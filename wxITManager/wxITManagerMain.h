@@ -7,6 +7,7 @@
 #include "wxITManagerEvent.h"
 #include "wxITManagerUI.h"
 #include "wxITManagerConfig.h"
+#include "wxITManagerDatalist.h"
 #include "wxITManagerController.h"
 #include "wxITManagerDatabase.h"
 #include "wxITManagerThread.h"

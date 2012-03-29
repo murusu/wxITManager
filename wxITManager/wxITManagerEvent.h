@@ -8,12 +8,19 @@ class wxDatabaseEvent : public wxNotifyEvent
     private:
         size_t          m_resultrow;
         wxString        m_errstr;
+        wxString        m_sqlstr;
 
     public:
         wxDatabaseEvent(wxEventType commandType = wxEVT_NULL, int id = 0):
             wxNotifyEvent(commandType, id) {m_resultrow = 0;m_errstr = wxT("");};
+        //wxDatabaseEvent(const wxDatabaseEvent& event):
+         //   wxNotifyEvent(event) {};
         wxDatabaseEvent(const wxDatabaseEvent& event):
-            wxNotifyEvent(event) {};
+            wxNotifyEvent(event),
+            m_resultrow(event.m_resultrow),
+            m_errstr(event.m_errstr),
+            m_sqlstr(event.m_sqlstr)
+            {};
         virtual wxEvent *Clone() const {
             return new wxDatabaseEvent(*this);
         };
@@ -22,6 +29,8 @@ class wxDatabaseEvent : public wxNotifyEvent
         inline void SetResultRow(size_t result_row){m_resultrow = result_row;};
         inline wxString GetErrorString(){return m_errstr;};
         inline void SetErrorString(wxString error_str){m_errstr = error_str;};
+        inline wxString GetSqlString(){return m_sqlstr;};
+        inline void SetSqlString(wxString sql_str){m_sqlstr = sql_str;};
 
     DECLARE_DYNAMIC_CLASS(wxDatabaseEvent);
 };
@@ -29,51 +38,69 @@ class wxDatabaseEvent : public wxNotifyEvent
 typedef void (wxEvtHandler::*wxDatabaseEventFunction) (wxDatabaseEvent&);
 
 BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_CREATE, 100)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_CREATE_SUCCESS, 101)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_CREATE_ERROR, 102)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_TEST, 103)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_TEST_SUCCESS, 104)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_TEST_ERROR, 105)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATE, 106)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATE_SUCCESS, 107)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATE_ERROR, 108)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEREQUEST, 100)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATESUCCESS, 101)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEERROR, 102)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYREQUEST, 103)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYSUCCESS, 104)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYERROR, 105)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_CREATEDATABSE, 106)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_TESTDATABSE, 107)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETUSERLIST, 108)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDUSER, 109)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSER, 110)
+
 END_DECLARE_EVENT_TYPES()
 
-#define EVT_DATABASE_CREATE(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_CREATE, 0, -1, (wxObjectEventFunction) \
+#define EVT_DATABASE_UPDATEREQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATEREQUEST, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_CREATE_SUCCESS(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_CREATE_SUCCESS, 0, -1, (wxObjectEventFunction) \
+#define EVT_DATABASE_UPDATESUCCESS(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATESUCCESS, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_CREATE_ERROR(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_CREATE_ERROR, 0, -1, (wxObjectEventFunction) \
+#define EVT_DATABASE_UPDATEERROR(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATEERROR, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_TEST(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_TEST, 0, -1, (wxObjectEventFunction) \
+
+#define EVT_DATABASE_QUERYREQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_QUERYEQUEST, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_TEST_SUCCESS(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_TEST_SUCCESS, 0, -1, (wxObjectEventFunction) \
+#define EVT_DATABASE_QUERYSUCCESS(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_QUERYSUCCESS, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_TEST_ERROR(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_TEST_ERROR, 0, -1, (wxObjectEventFunction) \
+#define EVT_DATABASE_QUERYERROR(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_QUERYERROR, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_UPDATE(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_UPDATE, 0, -1, (wxObjectEventFunction) \
+
+#define EVT_DATABASE_CREATEDATABSE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_CREATEDATABSE, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_UPDATE_SUCCESS(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_UPDATE_SUCCESS, 0, -1, (wxObjectEventFunction) \
+#define EVT_DATABASE_TESTDATABSE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_TESTDATABSE, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-#define EVT_DATABASE_UPDATE_ERROR(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_UPDATE_ERROR, 0, -1, (wxObjectEventFunction) \
+
+#define EVT_DATABASE_GETUSERLIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETUSERLIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDUSER(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDUSER, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETEUSER(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETEUSER, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
 

@@ -14,14 +14,40 @@ Database::Database(ManagerConfig *database_config)
 {
     m_config = database_config;
 
-    this->Connect(wxEVT_DATABASE_CREATE, wxDatabaseEventHandler(Database::OnDatabaseCreate));
-    this->Connect(wxEVT_DATABASE_TEST, wxDatabaseEventHandler(Database::OnDatabaseTest));
+    this->Connect(wxEVT_DATABASE_UPDATEREQUEST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_QUERYREQUEST, wxDatabaseEventHandler(Database::OnRequest));
 }
 
 Database::~Database()
 {
 }
 
+void Database::OnRequest(wxDatabaseEvent& event)
+{
+    bool check_flag = false;
+
+    if(InitDBByConfig())
+    {
+        DatabaseProcessThread *database_thread = new DatabaseProcessThread(event.GetEventObject(), event.GetId(), this, event.GetSqlString(), event.GetEventType());
+
+        if(database_thread->Create() == wxTHREAD_NO_ERROR)
+        {
+            database_thread->Run();
+            check_flag = true;
+        }
+    }
+
+    if(!check_flag)
+    {
+        wxEvtHandler *handler = wxGetApp().GetController(event.GetId());
+
+        wxDatabaseEvent controller_event(wxEVT_DATABASE_UPDATEERROR);
+        controller_event.SetEventObject(event.GetEventObject());
+        handler->AddPendingEvent(controller_event);
+    }
+}
+
+/*
 void Database::OnDatabaseCreate(wxDatabaseEvent& event)
 {
     bool check_flag = false;
@@ -41,7 +67,7 @@ void Database::OnDatabaseCreate(wxDatabaseEvent& event)
     {
         wxEvtHandler *handler = wxGetApp().GetController(event.GetId());
 
-        wxDatabaseEvent controller_event(wxEVT_DATABASE_CREATE_ERROR);
+        wxDatabaseEvent controller_event(wxEVT_DATABASE_ERROR);
         controller_event.SetEventObject(event.GetEventObject());
         handler->AddPendingEvent(controller_event);
     }
@@ -52,10 +78,11 @@ void Database::OnDatabaseTest(wxDatabaseEvent& event)
     //no testing code, add later
     wxEvtHandler *handler = wxGetApp().GetController(event.GetId());
 
-    wxDatabaseEvent controller_event(wxEVT_DATABASE_TEST_SUCCESS);
+    wxDatabaseEvent controller_event(wxEVT_DATABASE_SUCCESS);
     controller_event.SetEventObject(event.GetEventObject());
     handler->AddPendingEvent(controller_event);
 }
+*/
 
 /////////////////////////////////////////////////////////////////
 //
@@ -90,6 +117,15 @@ wxString DatabaseSqlite::GetDBTableInitStr()
     return init_sql;
 }
 
+wxString DatabaseSqlite::GetDBTestStr()
+{
+    wxString test_sql = wxT("");
+
+    test_sql += wxT("select count(*) from sqlite_master WHERE type = 'table';");
+
+    return test_sql;
+}
+
 bool DatabaseSqlite::InitDBByConfig()
 {
     wxSQLite3Database::InitializeSQLite();
@@ -109,6 +145,11 @@ bool DatabaseSqlite::InitDBByConfig()
 size_t DatabaseSqlite::ExecuteUpdate(wxString sql_string)
 {
     return m_sqlitedb.ExecuteUpdate(sql_string);
+}
+
+size_t DatabaseSqlite::ExecuteQuery(wxString sql_string)
+{
+    return 0;
 }
 
 DatabaseFactory::DatabaseFactory()

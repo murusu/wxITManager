@@ -18,10 +18,13 @@ class Database : public wxEvtHandler
 
         virtual bool InitDBByConfig() {return NULL;};
         virtual wxString GetDBTableInitStr() {return wxT("");};
+        virtual wxString GetDBTestStr() {return wxT("");};
         virtual size_t ExecuteUpdate(wxString sql_string) {return 0;};
+        virtual size_t ExecuteQuery(wxString sql_string) {return 0;};
 
-        void OnDatabaseCreate(wxDatabaseEvent& event);
-        void OnDatabaseTest(wxDatabaseEvent& event);
+        void OnRequest(wxDatabaseEvent& event);
+        //void OnQueryRequest(wxDatabaseEvent& event);
+        //void OnDatabaseTest(wxDatabaseEvent& event);
 };
 
 class DatabaseSqlite : public Database
@@ -35,7 +38,9 @@ class DatabaseSqlite : public Database
 
         bool InitDBByConfig();
         wxString GetDBTableInitStr();
+        wxString GetDBTestStr();
         size_t ExecuteUpdate(wxString sql_string);
+        size_t ExecuteQuery(wxString sql_string);
 };
 
 class DatabaseFactory

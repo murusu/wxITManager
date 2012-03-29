@@ -6,32 +6,58 @@ IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
 */
 DECLARE_APP(wxITManagerApp)
 
-DatabaseUpdateThread::DatabaseUpdateThread(wxObject* sender, size_t controller_id, Database *database, wxString sql) : wxThread()
+DatabaseProcessThread::DatabaseProcessThread(wxObject* sender, size_t controller_id, Database *database, wxString sql, wxEventType type) : wxThread()
 {
     m_sender        = sender;
     m_controller    = wxGetApp().GetController(controller_id);
     m_database      = database;
     m_sql           = sql;
+    m_type          = type;
 }
 
-void DatabaseUpdateThread::OnExit()
+void DatabaseProcessThread::OnExit()
 {
 }
 
-void *DatabaseUpdateThread::Entry()
+void *DatabaseProcessThread::Entry()
 {
     size_t result_row = 0;
     wxString error_str = wxT("");
-    size_t event_id = wxEVT_DATABASE_UPDATE_SUCCESS;
+
+    size_t event_id = 0;
+    if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
+    {
+        event_id = wxEVT_DATABASE_UPDATESUCCESS;
+    }
+    else
+    {
+        event_id = wxEVT_DATABASE_QUERYSUCCESS;
+    }
 
     try
     {
-        result_row = m_database->ExecuteUpdate(m_sql);
+
+        if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
+        {
+            result_row = m_database->ExecuteUpdate(m_sql);
+        }
+        else
+        {
+            result_row = m_database->ExecuteQuery(m_sql);
+        }
+
     }
     catch(wxSQLite3Exception e)
     {
         error_str = e.GetMessage();
-        event_id = wxEVT_DATABASE_UPDATE_ERROR;
+        if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
+        {
+            event_id = wxEVT_DATABASE_UPDATEERROR;
+        }
+        else
+        {
+            event_id = wxEVT_DATABASE_QUERYERROR;
+        }
     }
 
     wxDatabaseEvent event(event_id);
