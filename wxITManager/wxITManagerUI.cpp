@@ -190,7 +190,16 @@ void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
 
     if(event.GetEventType() == wxEVT_DATABASE_QUERYSUCCESS)
     {
-        m_staticTextStatus->SetLabel(_("Connected Database Successfully"));
+        wxJSONValue result(event.GetResultJson());
+        if(wxAtoi(result[0][0].AsString()) > 1)
+        {
+            m_staticTextStatus->SetLabel(_("Connected Database Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Database Corrupted!"));
+        }
+
     }
     else
     {

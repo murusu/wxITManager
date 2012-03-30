@@ -23,6 +23,7 @@ void *DatabaseProcessThread::Entry()
 {
     size_t result_row = 0;
     wxString error_str = wxT("");
+    wxJSONValue result_json;
 
     size_t event_id = 0;
     if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
@@ -43,7 +44,7 @@ void *DatabaseProcessThread::Entry()
         }
         else
         {
-            result_row = m_database->ExecuteQuery(m_sql);
+            result_json = m_database->ExecuteQuery(m_sql);
         }
 
     }
@@ -64,6 +65,7 @@ void *DatabaseProcessThread::Entry()
     event.SetEventObject(m_sender);
     event.SetResultRow(result_row);
     event.SetErrorString(error_str);
+    event.SetResultJson(result_json);
 
     if(m_controller)
     {

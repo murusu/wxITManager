@@ -3,12 +3,16 @@
 
 #include <wx/event.h>
 
+#include "wx/jsonreader.h"
+#include "wx/jsonwriter.h"
+
 class wxDatabaseEvent : public wxNotifyEvent
 {
     private:
         size_t          m_resultrow;
         wxString        m_errstr;
         wxString        m_sqlstr;
+        wxJSONValue     m_json;
 
     public:
         wxDatabaseEvent(wxEventType commandType = wxEVT_NULL, int id = 0):
@@ -19,7 +23,8 @@ class wxDatabaseEvent : public wxNotifyEvent
             wxNotifyEvent(event),
             m_resultrow(event.m_resultrow),
             m_errstr(event.m_errstr),
-            m_sqlstr(event.m_sqlstr)
+            m_sqlstr(event.m_sqlstr),
+            m_json(event.m_json)
             {};
         virtual wxEvent *Clone() const {
             return new wxDatabaseEvent(*this);
@@ -31,6 +36,8 @@ class wxDatabaseEvent : public wxNotifyEvent
         inline void SetErrorString(wxString error_str){m_errstr = error_str;};
         inline wxString GetSqlString(){return m_sqlstr;};
         inline void SetSqlString(wxString sql_str){m_sqlstr = sql_str;};
+        inline wxJSONValue GetResultJson(){return m_json;};
+        inline void SetResultJson(wxJSONValue result_json){m_json = result_json;};
 
     DECLARE_DYNAMIC_CLASS(wxDatabaseEvent);
 };

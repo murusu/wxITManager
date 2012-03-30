@@ -5,6 +5,7 @@
 #include <wx/event.h>
 #include "wx/wxsqlite3.h"
 
+
 #include "wxITManagerMain.h"
 
 class Database : public wxEvtHandler
@@ -20,7 +21,7 @@ class Database : public wxEvtHandler
         virtual wxString GetDBTableInitStr() {return wxT("");};
         virtual wxString GetDBTestStr() {return wxT("");};
         virtual size_t ExecuteUpdate(wxString sql_string) {return 0;};
-        virtual size_t ExecuteQuery(wxString sql_string) {return 0;};
+        virtual wxJSONValue ExecuteQuery(wxString sql_string) {return 0;};
 
         void OnRequest(wxDatabaseEvent& event);
         //void OnQueryRequest(wxDatabaseEvent& event);
@@ -40,7 +41,7 @@ class DatabaseSqlite : public Database
         wxString GetDBTableInitStr();
         wxString GetDBTestStr();
         size_t ExecuteUpdate(wxString sql_string);
-        size_t ExecuteQuery(wxString sql_string);
+        wxJSONValue ExecuteQuery(wxString sql_string);
 };
 
 class DatabaseFactory

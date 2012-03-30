@@ -147,9 +147,27 @@ size_t DatabaseSqlite::ExecuteUpdate(wxString sql_string)
     return m_sqlitedb.ExecuteUpdate(sql_string);
 }
 
-size_t DatabaseSqlite::ExecuteQuery(wxString sql_string)
+wxJSONValue DatabaseSqlite::ExecuteQuery(wxString sql_string)
 {
-    return 0;
+    wxJSONValue result_json;
+
+    wxSQLite3ResultSet dataset = m_sqlitedb.ExecuteQuery(sql_string);
+    size_t colnum = dataset.GetColumnCount();
+    size_t count = 0;
+
+	while (dataset.NextRow())
+	{
+		for(size_t index = 0; index < colnum; index++ )
+		{
+		    result_json[count][index] = dataset.GetAsString(index);
+		}
+
+		count++;
+	}
+
+	dataset.Finalize();
+
+    return result_json;
 }
 
 DatabaseFactory::DatabaseFactory()

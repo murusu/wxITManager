@@ -23,6 +23,7 @@
 				<Linker>
 					<Add library="..\wxsqlite\lib\libwxsqlite.a" />
 					<Add library="..\sqlite\lib\libsqlite.a" />
+					<Add library="..\wxjson\lib\libwxjson.a" />
 					<Add library="libwxmsw28ud.a" />
 					<Add library="libwxpngd.a" />
 					<Add library="libwxjpegd.a" />
@@ -48,11 +49,15 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="..\wxsqlite\lib\libwxsqlite.a" />
+					<Add library="..\sqlite\lib\libsqlite.a" />
+					<Add library="..\wxjson\lib\libwxjson.a" />
 					<Add library="libwxmsw28u.a" />
 					<Add library="libwxpng.a" />
 					<Add library="libwxjpeg.a" />
 					<Add library="libwxtiff.a" />
 					<Add library="libwxzlib.a" />
+					<Add library="libwxregexu.a" />
 					<Add library="libwxexpat.a" />
 					<Add directory="$(#wx)\lib\gcc_lib" />
 				</Linker>
@@ -70,6 +75,7 @@
 			<Add directory="$(#wx)\contrib\include" />
 			<Add directory="..\wxsqlite" />
 			<Add directory="..\sqlite" />
+			<Add directory="..\wxjson" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#wx)\include" />
