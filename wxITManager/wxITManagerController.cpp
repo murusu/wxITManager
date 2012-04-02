@@ -46,8 +46,10 @@ void DatabaseController::OnDatabaseResponse(wxDatabaseEvent& event)
     if(m_locker) delete m_locker;
     if(m_database) delete m_database;
     m_database = NULL;
+    m_locker = NULL;
 
     wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetResultJson(event.GetResultJson());
     ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
 }
 
