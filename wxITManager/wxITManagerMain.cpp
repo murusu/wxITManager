@@ -118,6 +118,11 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
             if(!m_dbcontroller) m_dbcontroller = new DatabaseController();
             handler = m_dbcontroller;
             break;
+
+        case CONTROLLER_USER:
+            if(!m_usercontroller) m_usercontroller = new UserController();
+            handler = m_usercontroller;
+            break;
     }
 
     return handler;

@@ -21,6 +21,7 @@ class DatabaseController : public wxEvtHandler
         DatabaseController();
         ~DatabaseController();
 
+        void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -37,8 +38,9 @@ class UserController : public wxEvtHandler
         UserController();
         ~UserController();
 
-        void OnRequest(wxDatabaseEvent& event);
-        void OnUpdate(wxDatabaseEvent& event);
+        void OnUserLogin(wxDatabaseEvent& event);
+        //void OnRequest(wxDatabaseEvent& event);
+        //void OnUpdate(wxDatabaseEvent& event);
 };
 
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

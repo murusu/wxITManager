@@ -10,8 +10,13 @@ const char * const DATABASE_TYPE        = "Database_Type";
 const char * const DATABASE_FILENAME    = "Database_Filename";
 const char * const DATABASE_KEY         = "Database_Key";
 
-const size_t CONTROLLER_NULL = 0;
-const size_t CONTROLLER_DATABASE = 1;
+const size_t EVENTSTATUS_REQUEST    = 0;
+const size_t EVENTSTATUS_SUCCESS    = 1;
+const size_t EVENTSTATUS_FAIL       = 2;
+
+const size_t CONTROLLER_NULL        = 0;
+const size_t CONTROLLER_DATABASE    = 1;
+const size_t CONTROLLER_USER        = 2;
 
 const size_t DATABASE_SQLITE    = 0;
 const size_t DATABASE_MYSQL     = 1;

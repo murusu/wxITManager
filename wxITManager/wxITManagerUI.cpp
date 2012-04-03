@@ -5,6 +5,7 @@ DECLARE_APP(wxITManagerApp)
 LoginFrame::LoginFrame(wxFrame *frame) : LoginFrameBase(frame)
 {
     m_configdialog = NULL;
+    this->Connect(wxEVT_DATABASE_USERLOGIN, wxDatabaseEventHandler(LoginFrame::OnLoginRespone));
 }
 
 LoginFrame::~LoginFrame()
@@ -13,7 +14,30 @@ LoginFrame::~LoginFrame()
 
 void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
 {
-    wxGetApp().DoLogin();
+    EnableFrame(false);
+    //wxGetApp().DoLogin();
+
+    m_staticText_Status->SetLabel(_("Loging in......"));
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USER);
+    //ManagerConfig *config = wxGetApp().GetConfig();
+
+    //config->SetDatabaseType(m_choice_databasetype->GetCurrentSelection());
+    //config->SetDatabaseFile(m_textCtrl_databasefile->GetValue());
+/*
+    if(m_checkBox_encrypteddatabase->GetValue())
+    {
+        config ->SetDatabaseKey(m_textCtrl_databasekey->GetValue());
+    }
+    else
+    {
+        config ->SetDatabaseKey(wxT(""));
+    }
+*/
+    wxDatabaseEvent database_event(wxEVT_DATABASE_USERLOGIN, CONTROLLER_USER);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    handler->AddPendingEvent(database_event);
 }
 
 void LoginFrame::OnButtonConfigClick( wxCommandEvent& event )
@@ -25,6 +49,21 @@ void LoginFrame::OnButtonConfigClick( wxCommandEvent& event )
     m_configdialog->ShowModal();
 }
 
+void LoginFrame::OnLoginRespone(wxDatabaseEvent& event)
+{
+    EnableFrame(true);
+
+    m_staticText_Status->SetLabel(_(""));
+}
+
+void LoginFrame::EnableFrame(bool flag)
+{
+    m_comboBox_username->Enable(flag);
+    m_textCtrl_password->Enable(flag);
+    m_button_login->Enable(flag);
+    m_button_config->Enable(flag);
+}
+
 ///////////////////////////////////////////////////////////////
 
 DatabaseConfigDialog::DatabaseConfigDialog(wxFrame *frame) : DatabaseConfigDialogBase(frame)
@@ -32,8 +71,8 @@ DatabaseConfigDialog::DatabaseConfigDialog(wxFrame *frame) : DatabaseConfigDialo
     m_sqlitedialog = NULL;
     LoadConfig();
 
-    this->Connect(wxEVT_DATABASE_QUERYSUCCESS, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
-    this->Connect(wxEVT_DATABASE_QUERYERROR, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
+    this->Connect(wxEVT_DATABASE_TESTDATABSE, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
+    //this->Connect(wxEVT_DATABASE_QUERYERROR, wxDatabaseEventHandler(DatabaseConfigDialog::OnDatabaseTest));
 }
 
 DatabaseConfigDialog::~DatabaseConfigDialog()
@@ -188,12 +227,9 @@ void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
 {
     EnableDialog(true);
 
-    if(event.GetEventType() == wxEVT_DATABASE_QUERYSUCCESS)
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS)
     {
         wxJSONValue result(event.GetResultJson());
-        wxJSONWriter writer;
-  wxString     jsonText;
-  writer.Write( result, jsonText );
 
         if(wxAtoi(result[0][0].AsString()) > 1)
         {
@@ -214,8 +250,8 @@ void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
 
 SqliteCreateDialog::SqliteCreateDialog(wxDialog *dialog) : SqliteCreateDialogBase(dialog)
 {
-    this->Connect(wxEVT_DATABASE_UPDATESUCCESS, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
-    this->Connect(wxEVT_DATABASE_UPDATEERROR, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
+    this->Connect(wxEVT_DATABASE_CREATEDATABSE, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
+    //this->Connect(wxEVT_DATABASE_UPDATEERROR, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
 }
 
 SqliteCreateDialog::~SqliteCreateDialog()
@@ -258,6 +294,7 @@ void SqliteCreateDialog::OnButtonCreateClick( wxCommandEvent& event )
     config->SetDatabaseKey(m_textCtrl_databasekey->GetValue());
 
     wxDatabaseEvent database_event(wxEVT_DATABASE_CREATEDATABSE, CONTROLLER_DATABASE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
     database_event.SetEventObject(this);
     handler->AddPendingEvent(database_event);
 
@@ -274,7 +311,7 @@ void SqliteCreateDialog::OnDatabaseUpdate( wxDatabaseEvent& event)
     EnableDialog(true);
     ClearContent();
 
-    if(event.GetEventType() == wxEVT_DATABASE_UPDATESUCCESS)
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS)
     {
         m_staticTextStatus->SetLabel(_("Database Created"));
     }

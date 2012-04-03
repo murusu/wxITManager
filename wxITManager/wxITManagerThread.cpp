@@ -21,10 +21,12 @@ void DatabaseProcessThread::OnExit()
 
 void *DatabaseProcessThread::Entry()
 {
-    size_t result_row = 0;
-    wxString error_str = wxT("");
+    size_t status       = EVENTSTATUS_SUCCESS;
+    size_t result_row   = 0;
+    wxString error_str  = wxT("");
     wxJSONValue result_json;
 
+/*
     size_t event_id = 0;
     if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
     {
@@ -34,35 +36,28 @@ void *DatabaseProcessThread::Entry()
     {
         event_id = wxEVT_DATABASE_QUERYSUCCESS;
     }
-
+*/
     try
     {
-
-        if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
+        if((m_type == wxEVT_DATABASE_CREATEDATABSE) )
         {
             result_row = m_database->ExecuteUpdate(m_sql);
         }
-        else
+
+        if ((m_type == wxEVT_DATABASE_TESTDATABSE) )
         {
             result_json = m_database->ExecuteQuery(m_sql);
         }
-
     }
     catch(wxSQLite3Exception e)
     {
         error_str = e.GetMessage();
-        if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
-        {
-            event_id = wxEVT_DATABASE_UPDATEERROR;
-        }
-        else
-        {
-            event_id = wxEVT_DATABASE_QUERYERROR;
-        }
+        status = EVENTSTATUS_FAIL;
     }
 
-    wxDatabaseEvent event(event_id);
+    wxDatabaseEvent event(m_type);
     event.SetEventObject(m_sender);
+    event.SetStatus(status);
     event.SetResultRow(result_row);
     event.SetErrorString(error_str);
     event.SetResultJson(result_json);

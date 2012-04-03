@@ -18,6 +18,9 @@ class LoginFrame : public LoginFrameBase
 
 		void OnButtonLoginClick( wxCommandEvent& event );
 		void OnButtonConfigClick( wxCommandEvent& event );
+
+        void OnLoginRespone(wxDatabaseEvent& event);
+		void EnableFrame(bool flag);
 };
 
 class DatabaseConfigDialog : public DatabaseConfigDialogBase
@@ -37,7 +40,7 @@ class DatabaseConfigDialog : public DatabaseConfigDialogBase
 		void OnButtonSaveClick( wxCommandEvent& event );
 		void OnButtonCloseClick( wxCommandEvent& event );
 
-		void OnDatabaseTest( wxDatabaseEvent& event);
+		void OnDatabaseTest( wxDatabaseEvent& event );
 
         void LoadConfig();
         void EnableDialog(bool flag);

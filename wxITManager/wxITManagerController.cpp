@@ -23,14 +23,14 @@ DatabaseController::DatabaseController()
 
     m_config = new ManagerConfig();
 
-    this->Connect(wxEVT_DATABASE_CREATEDATABSE, wxDatabaseEventHandler(DatabaseController::OnDatabaseRequest));
-    this->Connect(wxEVT_DATABASE_TESTDATABSE, wxDatabaseEventHandler(DatabaseController::OnDatabaseRequest));
+    this->Connect(wxEVT_DATABASE_CREATEDATABSE, wxDatabaseEventHandler(DatabaseController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_TESTDATABSE, wxDatabaseEventHandler(DatabaseController::OnDatabaseEvent));
 
-    this->Connect(wxEVT_DATABASE_UPDATESUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
-    this->Connect(wxEVT_DATABASE_UPDATEERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
+    //this->Connect(wxEVT_DATABASE_UPDATESUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
+    //this->Connect(wxEVT_DATABASE_UPDATEERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
 
-    this->Connect(wxEVT_DATABASE_QUERYSUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
-    this->Connect(wxEVT_DATABASE_QUERYERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
+    //this->Connect(wxEVT_DATABASE_QUERYSUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
+    //this->Connect(wxEVT_DATABASE_QUERYERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
 }
 
 DatabaseController::~DatabaseController()
@@ -41,6 +41,18 @@ DatabaseController::~DatabaseController()
     if(m_mutex)  delete m_mutex;
 }
 
+void DatabaseController::OnDatabaseEvent(wxDatabaseEvent& event)
+{
+    if(event.GetStatus() == EVENTSTATUS_REQUEST)
+    {
+        OnDatabaseRequest(event);
+    }
+    else
+    {
+        OnDatabaseResponse(event);
+    }
+}
+
 void DatabaseController::OnDatabaseResponse(wxDatabaseEvent& event)
 {
     if(m_locker) delete m_locker;
@@ -49,6 +61,9 @@ void DatabaseController::OnDatabaseResponse(wxDatabaseEvent& event)
     m_locker = NULL;
 
     wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
     controller_event.SetResultJson(event.GetResultJson());
     ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
 }
@@ -61,28 +76,31 @@ void DatabaseController::OnDatabaseRequest(wxDatabaseEvent& event)
     {
         m_database = DatabaseFactory::CreateDatabase(m_config->GetDatabaseType(), m_config);
 
-        //wxDatabaseEvent controller_event(event.GetEventType());
         wxDatabaseEvent controller_event;
+        controller_event.SetEventType(event.GetEventType());
+
         if(event.GetEventType() == wxEVT_DATABASE_CREATEDATABSE)
         {
-            controller_event.SetEventType(wxEVT_DATABASE_UPDATEREQUEST);
             controller_event.SetSqlString(m_database->GetDBTableInitStr());
         }
-        else
+
+        if(event.GetEventType() == wxEVT_DATABASE_TESTDATABSE)
         {
-            controller_event.SetEventType(wxEVT_DATABASE_QUERYREQUEST);
             controller_event.SetSqlString(m_database->GetDBTestStr());
         }
 
         controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
         controller_event.SetId(CONTROLLER_DATABASE);
         m_database->AddPendingEvent(controller_event);
     }
     else
     {
-        ::wxUsleep((unsigned long)100);
+        ::wxMilliSleep(100);
 
         wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
+        controller_event.SetId(CONTROLLER_DATABASE);
         controller_event.SetEventObject(event.GetEventObject());
         this->AddPendingEvent(controller_event);
     }
@@ -97,6 +115,7 @@ UserController::UserController()
 
     //this->Connect(wxEVT_DATABASE_SUCCESS, wxDatabaseEventHandler(UserController::OnUpdate));
     //this->Connect(wxEVT_DATABASE_ERROR, wxDatabaseEventHandler(UserController::OnUpdate));
+    this->Connect(wxEVT_DATABASE_USERLOGIN, wxDatabaseEventHandler(UserController::OnUserLogin));
 }
 
 UserController::~UserController()
@@ -105,6 +124,25 @@ UserController::~UserController()
 
     if(m_userlist) delete m_userlist;
     if(m_currentuser) delete m_currentuser;
+}
+
+void UserController::OnUserLogin(wxDatabaseEvent& event)
+{
+    if(event.GetStatus() == EVENTSTATUS_REQUEST)
+    {
+        //OnDatabaseRequest(event);
+        wxDatabaseEvent controller_event;
+        controller_event.SetEventType(event.GetEventType());
+        controller_event.SetSqlString();
+        controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
+        controller_event.SetId(CONTROLLER_USER);
+        (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+    }
+    else
+    {
+        //OnDatabaseResponse(event);
+    }
 }
 /*
 UserController::OnRequest()

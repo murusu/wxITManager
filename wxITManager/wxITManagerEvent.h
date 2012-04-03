@@ -9,6 +9,7 @@
 class wxDatabaseEvent : public wxNotifyEvent
 {
     private:
+        size_t          m_status;
         size_t          m_resultrow;
         wxString        m_errstr;
         wxString        m_sqlstr;
@@ -16,11 +17,10 @@ class wxDatabaseEvent : public wxNotifyEvent
 
     public:
         wxDatabaseEvent(wxEventType commandType = wxEVT_NULL, int id = 0):
-            wxNotifyEvent(commandType, id) {m_resultrow = 0;m_errstr = wxT("");};
-        //wxDatabaseEvent(const wxDatabaseEvent& event):
-         //   wxNotifyEvent(event) {};
+            wxNotifyEvent(commandType, id) {m_status = EVENTSTATUS_REQUEST;m_resultrow = 0;m_errstr = wxT("");m_sqlstr = wxT("");};
         wxDatabaseEvent(const wxDatabaseEvent& event):
             wxNotifyEvent(event),
+            m_status(event.m_status),
             m_resultrow(event.m_resultrow),
             m_errstr(event.m_errstr),
             m_sqlstr(event.m_sqlstr),
@@ -30,6 +30,8 @@ class wxDatabaseEvent : public wxNotifyEvent
             return new wxDatabaseEvent(*this);
         };
 
+        inline size_t GetStatus(){return m_status;};
+        inline void SetStatus(size_t status){m_status = status;};
         inline size_t GetResultRow(){return m_resultrow;};
         inline void SetResultRow(size_t result_row){m_resultrow = result_row;};
         inline wxString GetErrorString(){return m_errstr;};
@@ -60,6 +62,7 @@ BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETUSERLIST, 108)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDUSER, 109)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSER, 110)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_USERLOGIN, 111)
 
 END_DECLARE_EVENT_TYPES()
 

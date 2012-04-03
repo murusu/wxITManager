@@ -38,8 +38,8 @@ LoginFrameBase::LoginFrameBase( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText3->Wrap( -1 );
 	bSizer4->Add( m_staticText3, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_comboBox1 = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0, NULL, 0 ); 
-	bSizer4->Add( m_comboBox1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	m_comboBox_username = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0, NULL, 0 ); 
+	bSizer4->Add( m_comboBox_username, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	bSizer3->Add( bSizer4, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
@@ -50,10 +50,19 @@ LoginFrameBase::LoginFrameBase( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText2->Wrap( -1 );
 	bSizer5->Add( m_staticText2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_textCtrl1 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), wxTE_PASSWORD );
-	bSizer5->Add( m_textCtrl1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	m_textCtrl_password = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), wxTE_PASSWORD );
+	bSizer5->Add( m_textCtrl_password, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	bSizer3->Add( bSizer5, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	wxBoxSizer* bSizer33;
+	bSizer33 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText_Status = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Status->Wrap( -1 );
+	bSizer33->Add( m_staticText_Status, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	bSizer3->Add( bSizer33, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxHORIZONTAL );
@@ -396,7 +405,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
 	
-	m_statusBar1 = this->CreateStatusBar( 2, wxST_SIZEGRIP, wxID_ANY );
+	m_statusBar1 = this->CreateStatusBar( 3, wxST_SIZEGRIP, wxID_ANY );
 	m_menubar = new wxMenuBar( 0 );
 	m_menu1 = new wxMenu();
 	wxMenuItem* m_menuItem_logout;
@@ -450,9 +459,20 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	m_menubar->Append( m_menu3, _("Settings") ); 
 	
+	m_menu4 = new wxMenu();
+	wxMenuItem* m_menuItem12;
+	m_menuItem12 = new wxMenuItem( m_menu4, wxID_MENUITEM_IMPORTDATA, wxString( _("ImportData") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem12 );
+	
+	wxMenuItem* m_menuItem13;
+	m_menuItem13 = new wxMenuItem( m_menu4, wxID_MENUITEM_EXPORTDATA, wxString( _("ExportData") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem13 );
+	
+	m_menubar->Append( m_menu4, _("Database") ); 
+	
 	m_menu2 = new wxMenu();
 	wxMenuItem* m_menuItem3;
-	m_menuItem3 = new wxMenuItem( m_menu2, wxID_ANY, wxString( _("About wxITManagement") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem3 = new wxMenuItem( m_menu2, wxID_MENUITEM_ABOUT, wxString( _("About wxITManagement") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu2->Append( m_menuItem3 );
 	
 	m_menubar->Append( m_menu2, _("Help") ); 
@@ -488,6 +508,9 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Connect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Connect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
+	this->Connect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
+	this->Connect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
+	this->Connect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
 }
 
 MainFrameBase::~MainFrameBase()
@@ -496,5 +519,8 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Disconnect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
+	this->Disconnect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
+	this->Disconnect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
+	this->Disconnect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
 	
 }

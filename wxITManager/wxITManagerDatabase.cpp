@@ -14,8 +14,9 @@ Database::Database(ManagerConfig *database_config)
 {
     m_config = database_config;
 
-    this->Connect(wxEVT_DATABASE_UPDATEREQUEST, wxDatabaseEventHandler(Database::OnRequest));
-    this->Connect(wxEVT_DATABASE_QUERYREQUEST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_CREATEDATABSE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_TESTDATABSE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_USERLOGIN, wxDatabaseEventHandler(Database::OnRequest));
 }
 
 Database::~Database()
@@ -41,7 +42,8 @@ void Database::OnRequest(wxDatabaseEvent& event)
     {
         wxEvtHandler *handler = wxGetApp().GetController(event.GetId());
 
-        wxDatabaseEvent controller_event(wxEVT_DATABASE_UPDATEERROR);
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(EVENTSTATUS_FAIL);
         controller_event.SetEventObject(event.GetEventObject());
         handler->AddPendingEvent(controller_event);
     }
@@ -106,13 +108,13 @@ wxString DatabaseSqlite::GetDBTableInitStr()
 {
     wxString init_sql = wxT("");
 
-    init_sql += wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vcard_id integer);");
+    init_sql += wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer);");
     init_sql += wxT("CREATE TABLE `user_group`(id integer PRIMARY KEY, name varchar(30));");
     init_sql += wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), WORKTEL varchar(40), MOBILETEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20));");
 
-    //init_sql += wxT("INSERT INTO `user` VALUES (NULL, `admin`, `21232f297a57a5a743894a0e4a801fc3`, 1, 1);");
-    //init_sql += wxT("INSERT INTO `user_group` VALUES (NULL, `administrator`);");
-    //init_sql += wxT("INSERT INTO `vcard` VALUES (NULL, `admin`, ``, ``, ``, ``, ``, `3.0`);");
+    init_sql += wxT("INSERT INTO 'user' VALUES (NULL, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);");
+    init_sql += wxT("INSERT INTO 'user_group' VALUES (NULL, 'administrator');");
+    //init_sql += wxT("INSERT INTO 'vcard' VALUES (NULL, `admin`, ``, ``, ``, ``, ``, `3.0`);");
 
     return init_sql;
 }

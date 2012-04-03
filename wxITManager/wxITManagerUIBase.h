@@ -42,6 +42,9 @@
 #define wxID_BUTTON_CANCEL 1004
 #define wxID_MENUITEM_LOGOUT 1005
 #define wxID_MENUITEM_EXIT 1006
+#define wxID_MENUITEM_IMPORTDATA 1007
+#define wxID_MENUITEM_EXPORTDATA 1008
+#define wxID_MENUITEM_ABOUT 1009
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class LoginFrameBase
@@ -53,9 +56,10 @@ class LoginFrameBase : public wxFrame
 	protected:
 		wxStaticText* m_staticText1;
 		wxStaticText* m_staticText3;
-		wxComboBox* m_comboBox1;
+		wxComboBox* m_comboBox_username;
 		wxStaticText* m_staticText2;
-		wxTextCtrl* m_textCtrl1;
+		wxTextCtrl* m_textCtrl_password;
+		wxStaticText* m_staticText_Status;
 		wxButton* m_button_login;
 		wxButton* m_button_config;
 		
@@ -166,6 +170,7 @@ class MainFrameBase : public wxFrame
 		wxMenuBar* m_menubar;
 		wxMenu* m_menu1;
 		wxMenu* m_menu3;
+		wxMenu* m_menu4;
 		wxMenu* m_menu2;
 		wxPanel* m_panel4;
 		wxPanel* m_panel5;
@@ -175,6 +180,9 @@ class MainFrameBase : public wxFrame
 		virtual void OnMainFrameClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnMenuLogoutSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExitSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnMenuImportdataSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnMenuExportdataSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnMenuAboutSelection( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

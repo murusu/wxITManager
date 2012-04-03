@@ -17,6 +17,7 @@ class LoginFrame;
 class ManagerConfig;
 class Database;
 class DatabaseController;
+class UserController;
 
 class wxITManagerApp: public wxApp
 {
@@ -29,6 +30,7 @@ class wxITManagerApp: public wxApp
         Database            *m_database;
 
         DatabaseController  *m_dbcontroller;
+        UserController      *m_usercontroller;
 
     public:
         bool    OnInit(void);
