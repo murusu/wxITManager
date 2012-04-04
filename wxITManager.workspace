@@ -4,5 +4,8 @@
 		<Project filename="sqlite/sqlite.cbp" />
 		<Project filename="wxsqlite/wxsqlite.cbp" />
 		<Project filename="wxITManager/wxITManager.cbp" active="1" />
+		<Project filename="wxjson/wxjson.cbp" />
+		<Project filename="cryptopp/cryptlib.cbp" />
+		<Project filename="test/test.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

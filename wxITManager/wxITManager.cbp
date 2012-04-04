@@ -24,6 +24,7 @@
 					<Add library="..\wxsqlite\lib\libwxsqlite.a" />
 					<Add library="..\sqlite\lib\libsqlite.a" />
 					<Add library="..\wxjson\lib\libwxjson.a" />
+					<Add library="..\cryptopp\lib\libcryptppd.a" />
 					<Add library="libwxmsw28ud.a" />
 					<Add library="libwxpngd.a" />
 					<Add library="libwxjpegd.a" />
@@ -52,6 +53,7 @@
 					<Add library="..\wxsqlite\lib\libwxsqlite.a" />
 					<Add library="..\sqlite\lib\libsqlite.a" />
 					<Add library="..\wxjson\lib\libwxjson.a" />
+					<Add library="..\cryptopp\lib\libcryptpp.a" />
 					<Add library="libwxmsw28u.a" />
 					<Add library="libwxpng.a" />
 					<Add library="libwxjpeg.a" />
@@ -76,6 +78,7 @@
 			<Add directory="..\wxsqlite" />
 			<Add directory="..\sqlite" />
 			<Add directory="..\wxjson" />
+			<Add directory="..\cryptopp" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#wx)\include" />

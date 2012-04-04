@@ -14,6 +14,8 @@ LoginFrame::~LoginFrame()
 
 void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
 {
+    using namespace CryptoPP;
+
     EnableFrame(false);
     //wxGetApp().DoLogin();
 
@@ -34,9 +36,26 @@ void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
         config ->SetDatabaseKey(wxT(""));
     }
 */
+    wxString pass_str = m_textCtrl_password->GetValue();
+
+    MD5 md5;
+    unsigned char md5_data[16];
+    size_t len = pass_str.Len();
+    unsigned char message[len + 2];
+    strcpy((char*)message, pass_str.mb_str());
+    md5.CalculateDigest(md5_data, message, len);
+    wxString md5_str = wxString::Format(wxT("%02x"), md5_data);
+
+    //for(int i=0; i<16; i++)  printf("%02x", md5_data[i]);
+
+    wxJSONValue param_json;
+    param_json[wxT("user_name")] = m_comboBox_username->GetValue();
+    param_json[wxT("password")]  = md5_str;
+
     wxDatabaseEvent database_event(wxEVT_DATABASE_USERLOGIN, CONTROLLER_USER);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
     database_event.SetEventObject(this);
+    database_event.SetJsonData(param_json);
     handler->AddPendingEvent(database_event);
 }
 
@@ -52,8 +71,18 @@ void LoginFrame::OnButtonConfigClick( wxCommandEvent& event )
 void LoginFrame::OnLoginRespone(wxDatabaseEvent& event)
 {
     EnableFrame(true);
+    m_textCtrl_password->SetValue(wxT(""));
 
-    m_staticText_Status->SetLabel(_(""));
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS)
+    {
+        m_comboBox_username->SetValue(wxT(""));
+        m_staticText_Status->SetLabel(_(""));
+        wxGetApp().DoLogin();
+    }
+    else
+    {
+        m_staticText_Status->SetLabel(_("Login Fail!"));
+    }
 }
 
 void LoginFrame::EnableFrame(bool flag)
@@ -229,7 +258,7 @@ void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
 
     if(event.GetStatus() == EVENTSTATUS_SUCCESS)
     {
-        wxJSONValue result(event.GetResultJson());
+        wxJSONValue result(event.GetJsonData());
 
         if(wxAtoi(result[0][0].AsString()) > 1)
         {

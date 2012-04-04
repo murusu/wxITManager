@@ -56,13 +56,13 @@ LoginFrameBase::LoginFrameBase( wxWindow* parent, wxWindowID id, const wxString&
 	bSizer3->Add( bSizer5, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxBoxSizer* bSizer33;
-	bSizer33 = new wxBoxSizer( wxHORIZONTAL );
+	bSizer33 = new wxBoxSizer( wxVERTICAL );
 	
-	m_staticText_Status = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_Status = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE|wxST_NO_AUTORESIZE );
 	m_staticText_Status->Wrap( -1 );
-	bSizer33->Add( m_staticText_Status, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	bSizer33->Add( m_staticText_Status, 0, wxALL|wxEXPAND, 5 );
 	
-	bSizer3->Add( bSizer33, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
+	bSizer3->Add( bSizer33, 0, wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxHORIZONTAL );

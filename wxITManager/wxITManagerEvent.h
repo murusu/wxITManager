@@ -38,8 +38,8 @@ class wxDatabaseEvent : public wxNotifyEvent
         inline void SetErrorString(wxString error_str){m_errstr = error_str;};
         inline wxString GetSqlString(){return m_sqlstr;};
         inline void SetSqlString(wxString sql_str){m_sqlstr = sql_str;};
-        inline wxJSONValue GetResultJson(){return m_json;};
-        inline void SetResultJson(wxJSONValue result_json){m_json = result_json;};
+        inline wxJSONValue GetJsonData(){return m_json;};
+        inline void SetJsonData(wxJSONValue json){m_json = json;};
 
     DECLARE_DYNAMIC_CLASS(wxDatabaseEvent);
 };

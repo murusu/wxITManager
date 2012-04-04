@@ -4,6 +4,8 @@
 #include "wxITManagerMain.h"
 #include "wxITManagerUIBase.h"
 
+#include "md5.h"
+
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
 

@@ -60,7 +60,7 @@ void *DatabaseProcessThread::Entry()
     event.SetStatus(status);
     event.SetResultRow(result_row);
     event.SetErrorString(error_str);
-    event.SetResultJson(result_json);
+    event.SetJsonData(result_json);
 
     if(m_controller)
     {

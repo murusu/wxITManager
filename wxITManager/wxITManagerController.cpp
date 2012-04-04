@@ -1,5 +1,7 @@
 #include "wxITManagerController.h"
 
+DECLARE_APP(wxITManagerApp)
+
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATEREQUEST)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATESUCCESS)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATEERROR)
@@ -11,6 +13,7 @@ DEFINE_EVENT_TYPE(wxEVT_DATABASE_TESTDATABSE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETUSERLIST)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDUSER)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSER)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_USERLOGIN)
 
 IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
 
@@ -64,7 +67,7 @@ void DatabaseController::OnDatabaseResponse(wxDatabaseEvent& event)
     controller_event.SetStatus(event.GetStatus());
     controller_event.SetErrorString(event.GetErrorString());
     controller_event.SetResultRow(event.GetResultRow());
-    controller_event.SetResultJson(event.GetResultJson());
+    controller_event.SetJsonData(event.GetJsonData());
     ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
 }
 
@@ -133,7 +136,7 @@ void UserController::OnUserLogin(wxDatabaseEvent& event)
         //OnDatabaseRequest(event);
         wxDatabaseEvent controller_event;
         controller_event.SetEventType(event.GetEventType());
-        controller_event.SetSqlString();
+        controller_event.SetSqlString(wxT("SELECT * FROM 'user';"));
         controller_event.SetEventObject(event.GetEventObject());
         controller_event.SetStatus(EVENTSTATUS_REQUEST);
         controller_event.SetId(CONTROLLER_USER);
@@ -142,6 +145,12 @@ void UserController::OnUserLogin(wxDatabaseEvent& event)
     else
     {
         //OnDatabaseResponse(event);
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(event.GetStatus());
+        controller_event.SetErrorString(event.GetErrorString());
+        controller_event.SetResultRow(event.GetResultRow());
+        controller_event.SetJsonData(event.GetJsonData());
+        ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
     }
 }
 /*
