@@ -15,9 +15,8 @@ class UserInfo
         size_t          m_id;
         wxString        m_name;
         size_t          m_usergroup;
-        size_t          m_vcard;
 
-        UserInfo(size_t user_id, const wxString& user_name, size_t user_group, size_t user_vcard);
+        UserInfo(size_t user_id, const wxString& user_name, size_t user_group);
         ~UserInfo();
 };
 
