@@ -5,6 +5,8 @@
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
+#include "wxITManagerUI.h"
+
 #include "wxITManagerUIBase.h"
 
 ///////////////////////////////////////////////////////////////////////////
@@ -405,7 +407,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
 	
-	m_statusBar1 = this->CreateStatusBar( 3, wxST_SIZEGRIP, wxID_ANY );
+	m_statusBar = this->CreateStatusBar( 3, wxST_SIZEGRIP, wxID_ANY );
 	m_menubar = new wxMenuBar( 0 );
 	m_menu1 = new wxMenu();
 	wxMenuItem* m_menuItem_logout;
@@ -431,11 +433,11 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	m_menu3 = new wxMenu();
 	wxMenuItem* m_menuItem4;
-	m_menuItem4 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("User") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem4 = new wxMenuItem( m_menu3, wxID_MENUITEM_USER, wxString( _("User") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem4 );
 	
 	wxMenuItem* m_menuItem5;
-	m_menuItem5 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("UserGroup") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem5 = new wxMenuItem( m_menu3, wxID_MENUITEM_USERGROUP, wxString( _("UserGroup") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem5 );
 	
 	wxMenuItem* m_separator2;
@@ -512,72 +514,67 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer20;
 	bSizer20 = new wxBoxSizer( wxVERTICAL );
 	
-	m_panel4 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_setting = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer129;
+	bSizer129 = new wxBoxSizer( wxVERTICAL );
+	
+	m_panel_settingbutton = new wxPanel( m_panel_setting, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer132;
+	bSizer132 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_button_settingadd = new wxButton( m_panel_settingbutton, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer132->Add( m_button_settingadd, 0, wxALL, 5 );
+	
+	m_button_settingdelete = new wxButton( m_panel_settingbutton, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer132->Add( m_button_settingdelete, 0, wxALL, 5 );
+	
+	m_button_settingreflash = new wxButton( m_panel_settingbutton, wxID_ANY, _("Reflash"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer132->Add( m_button_settingreflash, 0, wxALL, 5 );
+	
+	m_panel_settingbutton->SetSizer( bSizer132 );
+	m_panel_settingbutton->Layout();
+	bSizer132->Fit( m_panel_settingbutton );
+	bSizer129->Add( m_panel_settingbutton, 0, wxALIGN_RIGHT, 5 );
+	
+	m_panel_settinglist = new wxPanel( m_panel_setting, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer21;
 	bSizer21 = new wxBoxSizer( wxVERTICAL );
 	
-	m_panel5 = new wxPanel( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_user = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer201;
 	bSizer201 = new wxBoxSizer( wxVERTICAL );
 	
-	wxBoxSizer* bSizer202;
-	bSizer202 = new wxBoxSizer( wxHORIZONTAL );
+	m_listCtrl_user = new UserListCtrl( m_panel_user, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	bSizer201->Add( m_listCtrl_user, 0, wxALL, 5 );
 	
-	m_button67 = new wxButton( m_panel5, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer202->Add( m_button67, 0, wxALL, 5 );
+	m_panel_user->SetSizer( bSizer201 );
+	m_panel_user->Layout();
+	bSizer201->Fit( m_panel_user );
+	bSizer21->Add( m_panel_user, 1, wxEXPAND, 0 );
 	
-	m_button68 = new wxButton( m_panel5, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer202->Add( m_button68, 0, wxALL, 5 );
-	
-	bSizer201->Add( bSizer202, 0, wxALIGN_RIGHT, 5 );
-	
-	wxBoxSizer* bSizer203;
-	bSizer203 = new wxBoxSizer( wxVERTICAL );
-	
-	m_listCtrl9 = new wxListCtrl( m_panel5, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_ICON|wxLC_REPORT|wxLC_VRULES );
-	bSizer203->Add( m_listCtrl9, 0, wxALL, 5 );
-	
-	bSizer201->Add( bSizer203, 1, wxEXPAND, 5 );
-	
-	m_panel5->SetSizer( bSizer201 );
-	m_panel5->Layout();
-	bSizer201->Fit( m_panel5 );
-	bSizer21->Add( m_panel5, 1, wxEXPAND | wxALL, 0 );
-	
-	m_panel6 = new wxPanel( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_panel6->Hide();
+	m_panel_usergroup = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_usergroup->Hide();
 	
 	wxBoxSizer* bSizer204;
 	bSizer204 = new wxBoxSizer( wxVERTICAL );
 	
-	wxBoxSizer* bSizer205;
-	bSizer205 = new wxBoxSizer( wxHORIZONTAL );
+	m_listCtrl_usergroup = new UserGroupListCtrl( m_panel_usergroup, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	bSizer204->Add( m_listCtrl_usergroup, 0, wxALL, 5 );
 	
-	m_button69 = new wxButton( m_panel6, wxID_ANY, _("MyButton"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer205->Add( m_button69, 0, wxALL, 5 );
+	m_panel_usergroup->SetSizer( bSizer204 );
+	m_panel_usergroup->Layout();
+	bSizer204->Fit( m_panel_usergroup );
+	bSizer21->Add( m_panel_usergroup, 1, wxEXPAND, 0 );
 	
-	m_button70 = new wxButton( m_panel6, wxID_ANY, _("MyButton"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer205->Add( m_button70, 0, wxALL, 5 );
+	m_panel_settinglist->SetSizer( bSizer21 );
+	m_panel_settinglist->Layout();
+	bSizer21->Fit( m_panel_settinglist );
+	bSizer129->Add( m_panel_settinglist, 1, wxEXPAND, 5 );
 	
-	bSizer204->Add( bSizer205, 1, wxALIGN_RIGHT, 5 );
-	
-	wxBoxSizer* bSizer206;
-	bSizer206 = new wxBoxSizer( wxVERTICAL );
-	
-	m_listCtrl10 = new wxListCtrl( m_panel6, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_ICON );
-	bSizer206->Add( m_listCtrl10, 0, wxALL, 5 );
-	
-	bSizer204->Add( bSizer206, 1, wxEXPAND, 5 );
-	
-	m_panel6->SetSizer( bSizer204 );
-	m_panel6->Layout();
-	bSizer204->Fit( m_panel6 );
-	bSizer21->Add( m_panel6, 1, wxEXPAND | wxALL, 0 );
-	
-	m_panel4->SetSizer( bSizer21 );
-	m_panel4->Layout();
-	bSizer21->Fit( m_panel4 );
-	bSizer20->Add( m_panel4, 1, wxEXPAND | wxALL, 0 );
+	m_panel_setting->SetSizer( bSizer129 );
+	m_panel_setting->Layout();
+	bSizer129->Fit( m_panel_setting );
+	bSizer20->Add( m_panel_setting, 1, wxEXPAND, 0 );
 	
 	this->SetSizer( bSizer20 );
 	this->Layout();
@@ -588,9 +585,24 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Connect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Connect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
+	this->Connect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Connect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Connect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
+	m_button_settingadd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
+	m_button_settingdelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
+	m_button_settingreflash->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingReflash ), NULL, this );
+	m_listCtrl_user->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
+	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserList ), NULL, this );
+	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
+	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserItemActivated ), NULL, this );
+	m_listCtrl_user->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_usergroup->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
+	m_listCtrl_usergroup->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserGroupList ), NULL, this );
+	m_listCtrl_usergroup->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
+	m_listCtrl_usergroup->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserGroupItemActivated ), NULL, this );
+	m_listCtrl_usergroup->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 }
 
 MainFrameBase::~MainFrameBase()
@@ -599,9 +611,24 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Disconnect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
+	this->Disconnect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
+	m_button_settingadd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
+	m_button_settingdelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
+	m_button_settingreflash->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingReflash ), NULL, this );
+	m_listCtrl_user->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
+	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserList ), NULL, this );
+	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
+	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserItemActivated ), NULL, this );
+	m_listCtrl_user->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_usergroup->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
+	m_listCtrl_usergroup->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserGroupList ), NULL, this );
+	m_listCtrl_usergroup->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
+	m_listCtrl_usergroup->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserGroupItemActivated ), NULL, this );
+	m_listCtrl_usergroup->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	
 }
 
@@ -748,6 +775,7 @@ UserDialogBase::UserDialogBase( wxWindow* parent, wxWindowID id, const wxString&
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	m_button_addusergroup->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UserDialogBase::OnButtonAddUserGroupClick ), NULL, this );
 	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UserDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UserDialogBase::OnButtonCloseClick ), NULL, this );
 }
@@ -755,6 +783,7 @@ UserDialogBase::UserDialogBase( wxWindow* parent, wxWindowID id, const wxString&
 UserDialogBase::~UserDialogBase()
 {
 	// Disconnect Events
+	m_button_addusergroup->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UserDialogBase::OnButtonAddUserGroupClick ), NULL, this );
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UserDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( UserDialogBase::OnButtonCloseClick ), NULL, this );
 	

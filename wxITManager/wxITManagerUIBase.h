@@ -10,6 +10,9 @@
 
 #include <wx/intl.h>
 
+class UserGroupListCtrl;
+class UserListCtrl;
+
 #include <wx/string.h>
 #include <wx/stattext.h>
 #include <wx/gdicmn.h>
@@ -46,9 +49,11 @@
 #define wxID_BUTTON_CANCEL 1004
 #define wxID_MENUITEM_LOGOUT 1005
 #define wxID_MENUITEM_EXIT 1006
-#define wxID_MENUITEM_IMPORTDATA 1007
-#define wxID_MENUITEM_EXPORTDATA 1008
-#define wxID_MENUITEM_ABOUT 1009
+#define wxID_MENUITEM_USER 1007
+#define wxID_MENUITEM_USERGROUP 1008
+#define wxID_MENUITEM_IMPORTDATA 1009
+#define wxID_MENUITEM_EXPORTDATA 1010
+#define wxID_MENUITEM_ABOUT 1011
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class LoginFrameBase
@@ -170,7 +175,7 @@ class MainFrameBase : public wxFrame
 	private:
 	
 	protected:
-		wxStatusBar* m_statusBar1;
+		wxStatusBar* m_statusBar;
 		wxMenuBar* m_menubar;
 		wxMenu* m_menu1;
 		wxMenu* m_menu6;
@@ -178,23 +183,35 @@ class MainFrameBase : public wxFrame
 		wxMenu* m_menu7;
 		wxMenu* m_menu4;
 		wxMenu* m_menu2;
-		wxPanel* m_panel4;
-		wxPanel* m_panel5;
-		wxButton* m_button67;
-		wxButton* m_button68;
-		wxListCtrl* m_listCtrl9;
-		wxPanel* m_panel6;
-		wxButton* m_button69;
-		wxButton* m_button70;
-		wxListCtrl* m_listCtrl10;
+		wxPanel* m_panel_setting;
+		wxPanel* m_panel_settingbutton;
+		wxButton* m_button_settingadd;
+		wxButton* m_button_settingdelete;
+		wxButton* m_button_settingreflash;
+		wxPanel* m_panel_settinglist;
+		wxPanel* m_panel_user;
+		UserListCtrl* m_listCtrl_user;
+		wxPanel* m_panel_usergroup;
+		UserGroupListCtrl* m_listCtrl_usergroup;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnMainFrameClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnMenuLogoutSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExitSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnMenuSettingSelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuImportdataSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExportdataSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuAboutSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonSettingAdd( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonSettingDelete( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonSettingReflash( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnListKeyDown( wxKeyEvent& event ) { event.Skip(); }
+		virtual void SortUserList( wxListEvent& event ) { event.Skip(); }
+		virtual void ShowPopupMenu( wxListEvent& event ) { event.Skip(); }
+		virtual void OnUserItemActivated( wxListEvent& event ) { event.Skip(); }
+		virtual void OnListSizeChange( wxSizeEvent& event ) { event.Skip(); }
+		virtual void SortUserGroupList( wxListEvent& event ) { event.Skip(); }
+		virtual void OnUserGroupItemActivated( wxListEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -250,6 +267,7 @@ class UserDialogBase : public wxDialog
 		wxButton* m_button_close;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnButtonAddUserGroupClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonCloseClick( wxCommandEvent& event ) { event.Skip(); }
 		

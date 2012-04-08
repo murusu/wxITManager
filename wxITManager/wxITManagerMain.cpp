@@ -11,7 +11,8 @@ bool wxITManagerApp::OnInit(void)
     m_config        = NULL;
     m_database      = NULL;
 
-    m_dbcontroller  = NULL;
+    m_dbcontroller      = NULL;
+    m_usercontroller    = NULL;
 
     SetupLocale();
 
@@ -47,6 +48,7 @@ int wxITManagerApp::OnExit()
     if(m_database)  delete m_database;
 
     if(m_dbcontroller) delete m_dbcontroller;
+    if(m_usercontroller) delete m_usercontroller;
     //if(m_mainframe)     delete m_mainframe;
     //if(m_loginframe)    delete m_loginframe;
     return 0;

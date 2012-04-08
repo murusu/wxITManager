@@ -2,6 +2,21 @@
 
 DECLARE_APP(wxITManagerApp)
 
+
+wxString UserListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("tset");
+
+    return ItemText;
+}
+
+wxString UserGroupListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("tset");
+
+    return ItemText;
+}
+
 LoginFrame::LoginFrame(wxFrame *frame) : LoginFrameBase(frame)
 {
     m_configdialog = NULL;
@@ -49,8 +64,8 @@ void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
     //for(int i=0; i<16; i++)  printf("%02x", md5_data[i]);
 
     wxJSONValue param_json;
-    param_json[wxT("user_name")] = m_comboBox_username->GetValue();
-    param_json[wxT("password")]  = md5_str;
+    param_json[wxT("user_name")] = wxT("test");//m_comboBox_username->GetValue();
+    param_json[wxT("password")]  = wxT("test");//md5_str;
 
     wxDatabaseEvent database_event(wxEVT_DATABASE_USERLOGIN, CONTROLLER_USER);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
@@ -373,6 +388,14 @@ void SqliteCreateDialog::ClearContent()
 
 MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
 {
+    m_listCtrl_user->InsertColumn(0,_("ID"),wxLIST_FORMAT_LEFT,100);
+    m_listCtrl_user->InsertColumn(1,_("User Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_user->InsertColumn(2,_("User Group"),wxLIST_FORMAT_RIGHT,200);
+
+    m_listCtrl_usergroup->InsertColumn(0,_("ID"),wxLIST_FORMAT_LEFT,100);
+    m_listCtrl_usergroup->InsertColumn(1,_("Group Name"),wxLIST_FORMAT_LEFT,200);
+
+    DoListSize();
 }
 
 MainFrame::~MainFrame()
@@ -392,4 +415,68 @@ void MainFrame::OnMenuLogoutSelection( wxCommandEvent& event )
 void MainFrame::OnMenuExitSelection( wxCommandEvent& event )
 {
     wxGetApp().DoExit();
+}
+
+void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
+{
+    m_panel_setting->Show(true);
+
+    m_panel_user->Show(false);
+    m_panel_usergroup->Show(false);
+
+    switch(event.GetId())
+    {
+        case wxID_MENUITEM_USER:
+            m_panel_user->Show(true);
+            break;
+
+        case wxID_MENUITEM_USERGROUP:
+            m_panel_usergroup->Show(true);
+            break;
+    }
+
+    DoListSize();
+}
+
+void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )
+{
+    wxDialog    *dialog   = NULL;
+    wxListCtrl  *listctrl = NULL;
+
+    if(m_panel_user->IsShown())
+    {
+        dialog   = new UserDialog(this);
+        listctrl = m_listCtrl_user;
+    }
+
+    if(m_panel_usergroup->IsShown())
+    {
+        dialog   = new UserGroupDialog(this);
+        listctrl = m_listCtrl_usergroup;
+    }
+
+    dialog->ShowModal();
+    listctrl->Refresh();
+
+    delete dialog;
+}
+
+void MainFrame::OnListSizeChange( wxSizeEvent& event )
+{
+    DoListSize();
+    event.Skip();
+}
+
+void MainFrame::DoListSize()
+{
+    wxSize size = GetClientSize();
+    m_listCtrl_user->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+    m_listCtrl_usergroup->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+}
+
+
+void UserDialog::OnButtonAddUserGroupClick( wxCommandEvent& event )
+{
+    UserGroupDialog *dialog = new UserGroupDialog(this);
+    dialog->ShowModal();
 }

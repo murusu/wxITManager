@@ -20,4 +20,5 @@ class UserInfo
         ~UserInfo();
 };
 
+
 #endif // WXITMANAGERDATALIST_H_INCLUDED

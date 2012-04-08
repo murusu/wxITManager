@@ -9,6 +9,22 @@
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
 
+class UserListCtrl : public wxListCtrl
+{
+    public:
+        UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style){};
+
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class UserGroupListCtrl : public wxListCtrl
+{
+    public:
+        UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style){};
+
+        wxString OnGetItemText(long item, long column) const;
+};
+
 class LoginFrame : public LoginFrameBase
 {
     protected:
@@ -75,6 +91,31 @@ class MainFrame : public MainFrameBase
         void OnMainFrameClose( wxCloseEvent& event );
 		void OnMenuLogoutSelection( wxCommandEvent& event );
 		void OnMenuExitSelection( wxCommandEvent& event );
+		void OnMenuSettingSelect( wxCommandEvent& event );
+
+		void OnButtonSettingAdd( wxCommandEvent& event );
+
+		void OnListSizeChange( wxSizeEvent& event );
+
+		void DoListSize();
+};
+
+class UserDialog : public UserDialogBase
+{
+	public:
+		UserDialog(wxWindow* parent):UserDialogBase(parent){};
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+
+		void OnButtonAddUserGroupClick( wxCommandEvent& event );
+};
+
+class UserGroupDialog : public UserGroupDialogBase
+{
+	public:
+		UserGroupDialog(wxWindow* parent):UserGroupDialogBase(parent){};
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
 };
 
 #endif // WXITMANAGERUI_H_INCLUDED

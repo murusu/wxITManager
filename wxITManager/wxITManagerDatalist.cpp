@@ -2,7 +2,7 @@
 
 WX_DEFINE_OBJARRAY(UserInfoArray);
 
-UserInfo::UserInfo(size_t user_id, const wxString& user_name, size_t user_group, size_t user_vcard)
+UserInfo::UserInfo(size_t user_id, const wxString& user_name, size_t user_group)
 {
     m_id            = user_id;
     m_name          = user_name;
@@ -12,3 +12,5 @@ UserInfo::UserInfo(size_t user_id, const wxString& user_name, size_t user_group,
 UserInfo::~UserInfo()
 {
 }
+
+
