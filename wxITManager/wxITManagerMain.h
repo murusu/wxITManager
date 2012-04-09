@@ -11,6 +11,7 @@
 #include "wxITManagerController.h"
 #include "wxITManagerDatabase.h"
 #include "wxITManagerThread.h"
+#include "wxITManagerMisc.h"
 
 class MainFrame;
 class LoginFrame;

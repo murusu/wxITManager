@@ -1,19 +1,26 @@
 #include "wxITManagerController.h"
 
 DECLARE_APP(wxITManagerApp)
-
+/*
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATEREQUEST)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATESUCCESS)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATEERROR)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_QUERYREQUEST)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_QUERYSUCCESS)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_QUERYERROR)
+*/
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_CREATEDATABSE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_TESTDATABSE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_USERLOGIN)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETUSERLIST)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDUSER)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSER)
-DEFINE_EVENT_TYPE(wxEVT_DATABASE_USERLOGIN)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATEUSER)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETUSERGROUPLIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDUSERGROUP)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSERGROUP)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATEUSERGROUP)
+
 
 IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
 
@@ -148,7 +155,7 @@ void UserController::OnGetUserList(wxDatabaseEvent& event)
     if(event.GetStatus() == EVENTSTATUS_REQUEST)
     {
         wxDatabaseEvent controller_event(event.GetEventType());
-        controller_event.SetSqlString(wxT("SELECT * FROM 'user';"));
+        controller_event.SetSqlString(wxT("SELECT a.id, a.name, a.group_id, b.name as group_name FROM 'user' a JOIN 'user_group' b ON a.group_id = b.id;"));
         controller_event.SetEventObject(event.GetEventObject());
         controller_event.SetStatus(EVENTSTATUS_REQUEST);
         controller_event.SetId(CONTROLLER_USER);
@@ -161,7 +168,7 @@ void UserController::OnGetUserList(wxDatabaseEvent& event)
         wxJSONValue result_data = event.GetJsonData();
         for ( int i = 0; i < result_data.Size(); i++ )
         {
-            m_userlist->Add(UserInfo(result_data[i][0].AsInt(), result_data[i][1].AsString(), result_data[i][2].AsInt()));
+            m_userlist->Add(UserInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString(), wxAtoi(result_data[i][2].AsString()), result_data[i][3].AsString()));
         }
 
         wxDatabaseEvent controller_event(event.GetEventType());
@@ -181,6 +188,8 @@ void UserController::OnDeleteUser(wxDatabaseEvent& event)
 UserGroupController::UserGroupController()
 {
     m_usergrouplist = new UserGroupInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(UserGroupController::OnGetUserGroupList));
 }
 
 UserGroupController::~UserGroupController()
@@ -188,4 +197,31 @@ UserGroupController::~UserGroupController()
     m_usergrouplist->Clear();
 
     if(m_usergrouplist) delete m_usergrouplist;
+}
+
+void UserGroupController::OnGetUserGroupList(wxDatabaseEvent& event)
+{
+    if(event.GetStatus() == EVENTSTATUS_REQUEST)
+    {
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetSqlString(wxT("SELECT * FROM 'user_group';"));
+        controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
+        controller_event.SetId(CONTROLLER_USERGROUP);
+        (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+    }
+    else
+    {
+        m_usergrouplist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_usergrouplist->Add(UserGroupInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString()));
+        }
+
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(event.GetStatus());
+        ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+    }
 }

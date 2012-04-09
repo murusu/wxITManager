@@ -111,8 +111,12 @@
 		<Unit filename="wxITManagerEvent.h" />
 		<Unit filename="wxITManagerMain.cpp" />
 		<Unit filename="wxITManagerMain.h" />
-		<Unit filename="wxITManagerMisc.cpp" />
-		<Unit filename="wxITManagerMisc.h" />
+		<Unit filename="wxITManagerMisc.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="wxITManagerMisc.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="wxITManagerThread.cpp" />
 		<Unit filename="wxITManagerThread.h" />
 		<Unit filename="wxITManagerUI.cpp" />

@@ -47,7 +47,7 @@ class wxDatabaseEvent : public wxNotifyEvent
 typedef void (wxEvtHandler::*wxDatabaseEventFunction) (wxDatabaseEvent&);
 
 BEGIN_DECLARE_EVENT_TYPES()
-
+/*
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEREQUEST, 100)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATESUCCESS, 101)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEERROR, 102)
@@ -55,17 +55,25 @@ BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYREQUEST, 103)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYSUCCESS, 104)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYERROR, 105)
-
+*/
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_CREATEDATABSE, 106)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_TESTDATABSE, 107)
 
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETUSERLIST, 108)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDUSER, 109)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSER, 110)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_USERLOGIN, 111)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_USERLOGIN, 108)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETUSERLIST, 109)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDUSER, 110)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSER, 111)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEUSER, 112)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETUSERGROUPLIST, 113)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDUSERGROUP, 114)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSERGROUP, 115)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEUSERGROUP, 116)
+
 
 END_DECLARE_EVENT_TYPES()
-
+/*
 #define EVT_DATABASE_UPDATEREQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( \
     wxEVT_DATABASE_UPDATEREQUEST, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
@@ -91,7 +99,7 @@ END_DECLARE_EVENT_TYPES()
     wxEVT_DATABASE_QUERYERROR, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
-
+*/
 #define EVT_DATABASE_CREATEDATABSE(fn) DECLARE_EVENT_TABLE_ENTRY( \
     wxEVT_DATABASE_CREATEDATABSE, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
@@ -111,6 +119,27 @@ END_DECLARE_EVENT_TYPES()
     (wxObject *) NULL ),
 #define EVT_DATABASE_DELETEUSER(fn) DECLARE_EVENT_TABLE_ENTRY( \
     wxEVT_DATABASE_DELETEUSER, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATEUSER(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATEUSER, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+
+#define EVT_DATABASE_GETUSERGROUPLIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETUSERGROUPLIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDUSERGROUP(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDUSERGROUP, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETEUSERGROUP(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETEUSERGROUP, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATEUSERGROUP(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATEUSERGROUP, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
 

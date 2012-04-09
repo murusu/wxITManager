@@ -1,13 +1,8 @@
 #ifndef WXITMANAGERUI_H_INCLUDED
 #define WXITMANAGERUI_H_INCLUDED
 
-
-
 #include "wxITManagerMain.h"
 #include "wxITManagerUIBase.h"
-#include "wxITManagerMisc.h"
-
-
 
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
@@ -15,16 +10,18 @@ class SqliteCreateDialog;
 class UserListCtrl : public wxListCtrl
 {
     public:
-        UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style){};
+        UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
+        void OnReflashList( wxDatabaseEvent& event);
         wxString OnGetItemText(long item, long column) const;
 };
 
 class UserGroupListCtrl : public wxListCtrl
 {
     public:
-        UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style){};
+        UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
+        void OnReflashList( wxDatabaseEvent& event);
         wxString OnGetItemText(long item, long column) const;
 };
 
@@ -97,6 +94,8 @@ class MainFrame : public MainFrameBase
 		void OnMenuSettingSelect( wxCommandEvent& event );
 
 		void OnButtonSettingAdd( wxCommandEvent& event );
+		void OnButtonSettingDelete( wxCommandEvent& event );
+		void OnButtonSettingReflash( wxCommandEvent& event );
 
 		void OnListSizeChange( wxSizeEvent& event );
 

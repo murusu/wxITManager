@@ -44,6 +44,7 @@ class UserController : public wxEvtHandler
         void OnDeleteUser(wxDatabaseEvent& event);
 
         size_t getItemNumber() {return m_userlist->GetCount();};
+        UserInfoArray* GetList() {return m_userlist;};
 };
 
 class UserGroupController : public wxEvtHandler
@@ -55,7 +56,10 @@ class UserGroupController : public wxEvtHandler
         UserGroupController();
         ~UserGroupController();
 
+        void OnGetUserGroupList(wxDatabaseEvent& event);
+
         size_t getItemNumber() {return m_usergrouplist->GetCount();};
+        UserGroupInfoArray* GetList() {return m_usergrouplist;};
 };
 
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

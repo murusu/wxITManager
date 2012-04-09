@@ -44,7 +44,7 @@ void *DatabaseProcessThread::Entry()
             result_row = m_database->ExecuteUpdate(m_sql);
         }
 
-        if ((m_type == wxEVT_DATABASE_TESTDATABSE) )
+        if ((m_type == wxEVT_DATABASE_TESTDATABSE) || (m_type == wxEVT_DATABASE_GETUSERLIST) || (m_type == wxEVT_DATABASE_GETUSERGROUPLIST))
         {
             result_json = m_database->ExecuteQuery(m_sql);
         }

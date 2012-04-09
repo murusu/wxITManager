@@ -2,17 +2,60 @@
 
 DECLARE_APP(wxITManagerApp)
 
+UserListCtrl::UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    this->Connect(wxEVT_DATABASE_GETUSERLIST, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
+}
+
+void UserListCtrl::OnReflashList( wxDatabaseEvent& event)
+{
+    SetItemCount(((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->getItemNumber());
+    Refresh();
+}
 
 wxString UserListCtrl::OnGetItemText(long item, long column) const
 {
-    wxString ItemText = wxT("tset");
+    wxString ItemText = wxT("");
+
+    UserInfoArray* list = ((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_name;
+            break;
+
+        case 1:
+            ItemText = list->Item(item).m_usergroupname;
+            break;
+    }
 
     return ItemText;
 }
 
+UserGroupListCtrl::UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(UserGroupListCtrl::OnReflashList));
+}
+
+void UserGroupListCtrl::OnReflashList( wxDatabaseEvent& event)
+{
+    SetItemCount(((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->getItemNumber());
+    Refresh();
+}
+
 wxString UserGroupListCtrl::OnGetItemText(long item, long column) const
 {
-    wxString ItemText = wxT("tset");
+    wxString ItemText = wxT("");
+
+    UserGroupInfoArray* list = ((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_name;
+            break;
+    }
 
     return ItemText;
 }
@@ -38,7 +81,7 @@ void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
 
     wxJSONValue param_json;
     param_json[wxT("user_name")] = m_comboBox_username->GetValue();
-    param_json[wxT("password")]  = MiscFunction::MD5(m_textCtrl_password->GetValue());//md5_str;
+    param_json[wxT("password")]  = m_textCtrl_password->GetValue();//MiscFunction::MD5(m_textCtrl_password->GetValue());
 
     wxDatabaseEvent database_event(wxEVT_DATABASE_USERLOGIN, CONTROLLER_USER);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
@@ -419,18 +462,6 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     wxPoint temppoint = this->GetSizer()->GetPosition();
     temppoint.y++;
     select_panel->Move(temppoint);
-
-////////////////////////////////////////////////////
-    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USER);
-    wxDatabaseEvent database_event2(wxEVT_DATABASE_GETUSERLIST, CONTROLLER_USER);
-    database_event2.SetStatus(EVENTSTATUS_REQUEST);
-    database_event2.SetEventObject(this);
-    handler->AddPendingEvent(database_event2);
-
-    m_listCtrl_user->SetItemCount(((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->getItemNumber());
-    m_listCtrl_user->Refresh();
-/////////////////////////////////////////////////////
-
 }
 
 void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )
@@ -454,6 +485,75 @@ void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )
     listctrl->Refresh();
 
     delete dialog;
+}
+
+void MainFrame::OnButtonSettingDelete( wxCommandEvent& event )
+{
+    size_t       controller_id = CONTROLLER_NULL;
+    wxListCtrl  *listctrl = NULL;
+    wxEventType  event_type = wxEVT_DATABASE_DELETEUSER;
+
+    if(m_panel_user->IsShown())
+    {
+        controller_id = CONTROLLER_USER;
+        listctrl = m_listCtrl_user;
+        event_type = wxEVT_DATABASE_DELETEUSER;
+    }
+
+    if(m_panel_usergroup->IsShown())
+    {
+        controller_id = CONTROLLER_USERGROUP;
+        listctrl = m_listCtrl_usergroup;
+        event_type = wxEVT_DATABASE_DELETEUSERGROUP;
+    }
+
+    size_t item = -1;
+    size_t index = 0;
+    wxJSONValue delete_json;
+
+    for ( ;; )
+    {
+        item = listctrl->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (item == -1) break;
+
+        delete_json[index] = ((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->GetList()->Item(item).m_id;
+        index++;
+    }
+
+
+    wxEvtHandler *handler = wxGetApp().GetController(controller_id);
+    wxDatabaseEvent database_event(event_type, controller_id);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(listctrl);
+    database_event.SetJsonData(delete_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void MainFrame::OnButtonSettingReflash( wxCommandEvent& event )
+{
+    size_t       controller_id = CONTROLLER_NULL;
+    wxListCtrl  *listctrl = NULL;
+    wxEventType  event_type = wxEVT_DATABASE_GETUSERLIST;
+
+    if(m_panel_user->IsShown())
+    {
+        controller_id = CONTROLLER_USER;
+        listctrl = m_listCtrl_user;
+        event_type = wxEVT_DATABASE_GETUSERLIST;
+    }
+
+    if(m_panel_usergroup->IsShown())
+    {
+        controller_id = CONTROLLER_USERGROUP;
+        listctrl = m_listCtrl_usergroup;
+        event_type = wxEVT_DATABASE_GETUSERGROUPLIST;
+    }
+
+    wxEvtHandler *handler = wxGetApp().GetController(controller_id);
+    wxDatabaseEvent database_event(event_type, controller_id);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(listctrl);
+    handler->AddPendingEvent(database_event);
 }
 
 void MainFrame::OnListSizeChange( wxSizeEvent& event )

@@ -16,9 +16,10 @@ class UserInfo
     public:
         size_t          m_id;
         wxString        m_name;
-        size_t          m_usergroup;
+        size_t          m_usergroupid;
+        wxString        m_usergroupname;
 
-        UserInfo(size_t user_id, const wxString& user_name, size_t user_group){m_id = user_id; m_name = user_name; m_usergroup = user_group;};
+        UserInfo(size_t user_id, const wxString& user_name, size_t user_group, wxString user_groupname){m_id = user_id; m_name = user_name; m_usergroupid = user_group; m_usergroupname = user_groupname;};
 };
 
 class UserGroupInfo
