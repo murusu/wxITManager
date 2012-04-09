@@ -18,6 +18,7 @@ class ManagerConfig;
 class Database;
 class DatabaseController;
 class UserController;
+class UserGroupController;
 
 class wxITManagerApp: public wxApp
 {
@@ -31,6 +32,7 @@ class wxITManagerApp: public wxApp
 
         DatabaseController  *m_dbcontroller;
         UserController      *m_usercontroller;
+        UserGroupController *m_usergroupcontroller;
 
     public:
         bool    OnInit(void);

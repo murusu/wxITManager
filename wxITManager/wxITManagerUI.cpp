@@ -32,40 +32,13 @@ void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
     using namespace CryptoPP;
 
     EnableFrame(false);
-    //wxGetApp().DoLogin();
-
     m_staticText_Status->SetLabel(_("Loging in......"));
 
     wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USER);
-    //ManagerConfig *config = wxGetApp().GetConfig();
-
-    //config->SetDatabaseType(m_choice_databasetype->GetCurrentSelection());
-    //config->SetDatabaseFile(m_textCtrl_databasefile->GetValue());
-/*
-    if(m_checkBox_encrypteddatabase->GetValue())
-    {
-        config ->SetDatabaseKey(m_textCtrl_databasekey->GetValue());
-    }
-    else
-    {
-        config ->SetDatabaseKey(wxT(""));
-    }
-*/
-    wxString pass_str = m_textCtrl_password->GetValue();
-
-    MD5 md5;
-    unsigned char md5_data[16];
-    size_t len = pass_str.Len();
-    unsigned char message[len + 2];
-    strcpy((char*)message, pass_str.mb_str());
-    md5.CalculateDigest(md5_data, message, len);
-    wxString md5_str = wxString::Format(wxT("%02x"), md5_data);
-
-    //for(int i=0; i<16; i++)  printf("%02x", md5_data[i]);
 
     wxJSONValue param_json;
-    param_json[wxT("user_name")] = wxT("test");//m_comboBox_username->GetValue();
-    param_json[wxT("password")]  = wxT("test");//md5_str;
+    param_json[wxT("user_name")] = m_comboBox_username->GetValue();
+    param_json[wxT("password")]  = MiscFunction::MD5(m_textCtrl_password->GetValue());//md5_str;
 
     wxDatabaseEvent database_event(wxEVT_DATABASE_USERLOGIN, CONTROLLER_USER);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
@@ -388,12 +361,15 @@ void SqliteCreateDialog::ClearContent()
 
 MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
 {
-    m_listCtrl_user->InsertColumn(0,_("ID"),wxLIST_FORMAT_LEFT,100);
-    m_listCtrl_user->InsertColumn(1,_("User Name"),wxLIST_FORMAT_LEFT,200);
-    m_listCtrl_user->InsertColumn(2,_("User Group"),wxLIST_FORMAT_RIGHT,200);
+    m_listCtrl_user->InsertColumn(0,_("User Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_user->InsertColumn(1,_("User Group"),wxLIST_FORMAT_RIGHT,200);
 
-    m_listCtrl_usergroup->InsertColumn(0,_("ID"),wxLIST_FORMAT_LEFT,100);
-    m_listCtrl_usergroup->InsertColumn(1,_("Group Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_usergroup->InsertColumn(0,_("Group Name"),wxLIST_FORMAT_LEFT,200);
+
+    //m_listCtrl_user->SetItemCount(((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->getItemNumber());
+    //m_listCtrl_user->Refresh();
+    //m_listCtrl_usergroup->SetItemCount(((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->getItemNumber());
+    //m_listCtrl_usergroup->Refresh();
 
     DoListSize();
 }
@@ -419,6 +395,8 @@ void MainFrame::OnMenuExitSelection( wxCommandEvent& event )
 
 void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
 {
+    wxPanel *select_panel = NULL;
+
     m_panel_setting->Show(true);
 
     m_panel_user->Show(false);
@@ -427,15 +405,32 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     switch(event.GetId())
     {
         case wxID_MENUITEM_USER:
-            m_panel_user->Show(true);
+            select_panel = m_panel_user;
             break;
 
         case wxID_MENUITEM_USERGROUP:
-            m_panel_usergroup->Show(true);
+            select_panel = m_panel_usergroup;
             break;
     }
 
-    DoListSize();
+    select_panel->Show(true);
+
+    select_panel->SetSize(this->GetSizer()->GetSize());
+    wxPoint temppoint = this->GetSizer()->GetPosition();
+    temppoint.y++;
+    select_panel->Move(temppoint);
+
+////////////////////////////////////////////////////
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USER);
+    wxDatabaseEvent database_event2(wxEVT_DATABASE_GETUSERLIST, CONTROLLER_USER);
+    database_event2.SetStatus(EVENTSTATUS_REQUEST);
+    database_event2.SetEventObject(this);
+    handler->AddPendingEvent(database_event2);
+
+    m_listCtrl_user->SetItemCount(((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->getItemNumber());
+    m_listCtrl_user->Refresh();
+/////////////////////////////////////////////////////
+
 }
 
 void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )

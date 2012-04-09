@@ -39,8 +39,23 @@ class UserController : public wxEvtHandler
         ~UserController();
 
         void OnUserLogin(wxDatabaseEvent& event);
-        //void OnRequest(wxDatabaseEvent& event);
-        //void OnUpdate(wxDatabaseEvent& event);
+        void OnGetUserList(wxDatabaseEvent& event);
+        void OnAddUser(wxDatabaseEvent& event);
+        void OnDeleteUser(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_userlist->GetCount();};
+};
+
+class UserGroupController : public wxEvtHandler
+{
+    private:
+        UserGroupInfoArray *m_usergrouplist;
+
+    public:
+        UserGroupController();
+        ~UserGroupController();
+
+        size_t getItemNumber() {return m_usergrouplist->GetCount();};
 };
 
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

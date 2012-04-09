@@ -11,8 +11,9 @@ bool wxITManagerApp::OnInit(void)
     m_config        = NULL;
     m_database      = NULL;
 
-    m_dbcontroller      = NULL;
-    m_usercontroller    = NULL;
+    m_dbcontroller          = NULL;
+    m_usercontroller        = NULL;
+    m_usergroupcontroller   = NULL;
 
     SetupLocale();
 
@@ -49,6 +50,7 @@ int wxITManagerApp::OnExit()
 
     if(m_dbcontroller) delete m_dbcontroller;
     if(m_usercontroller) delete m_usercontroller;
+    if(m_usergroupcontroller) delete m_usergroupcontroller;
     //if(m_mainframe)     delete m_mainframe;
     //if(m_loginframe)    delete m_loginframe;
     return 0;
@@ -124,6 +126,11 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
         case CONTROLLER_USER:
             if(!m_usercontroller) m_usercontroller = new UserController();
             handler = m_usercontroller;
+            break;
+
+        case CONTROLLER_USERGROUP:
+            if(!m_usergroupcontroller) m_usergroupcontroller = new UserGroupController();
+            handler = m_usergroupcontroller;
             break;
     }
 

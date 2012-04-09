@@ -1,10 +1,13 @@
 #ifndef WXITMANAGERUI_H_INCLUDED
 #define WXITMANAGERUI_H_INCLUDED
 
+
+
 #include "wxITManagerMain.h"
 #include "wxITManagerUIBase.h"
+#include "wxITManagerMisc.h"
 
-#include "md5.h"
+
 
 class DatabaseConfigDialog;
 class SqliteCreateDialog;

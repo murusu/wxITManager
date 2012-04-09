@@ -111,6 +111,8 @@
 		<Unit filename="wxITManagerEvent.h" />
 		<Unit filename="wxITManagerMain.cpp" />
 		<Unit filename="wxITManagerMain.h" />
+		<Unit filename="wxITManagerMisc.cpp" />
+		<Unit filename="wxITManagerMisc.h" />
 		<Unit filename="wxITManagerThread.cpp" />
 		<Unit filename="wxITManagerThread.h" />
 		<Unit filename="wxITManagerUI.cpp" />

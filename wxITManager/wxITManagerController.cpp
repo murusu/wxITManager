@@ -28,12 +28,6 @@ DatabaseController::DatabaseController()
 
     this->Connect(wxEVT_DATABASE_CREATEDATABSE, wxDatabaseEventHandler(DatabaseController::OnDatabaseEvent));
     this->Connect(wxEVT_DATABASE_TESTDATABSE, wxDatabaseEventHandler(DatabaseController::OnDatabaseEvent));
-
-    //this->Connect(wxEVT_DATABASE_UPDATESUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
-    //this->Connect(wxEVT_DATABASE_UPDATEERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
-
-    //this->Connect(wxEVT_DATABASE_QUERYSUCCESS, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
-    //this->Connect(wxEVT_DATABASE_QUERYERROR, wxDatabaseEventHandler(DatabaseController::OnDatabaseResponse));
 }
 
 DatabaseController::~DatabaseController()
@@ -114,11 +108,8 @@ UserController::UserController()
     m_currentuser   = NULL;
     m_userlist      = new UserInfoArray();
 
-    //this->Connect(wxEVT_DATABASE_USERLIST, wxDatabaseEventHandler(UserController::OnRequest));
-
-    //this->Connect(wxEVT_DATABASE_SUCCESS, wxDatabaseEventHandler(UserController::OnUpdate));
-    //this->Connect(wxEVT_DATABASE_ERROR, wxDatabaseEventHandler(UserController::OnUpdate));
     this->Connect(wxEVT_DATABASE_USERLOGIN, wxDatabaseEventHandler(UserController::OnUserLogin));
+    this->Connect(wxEVT_DATABASE_GETUSERLIST, wxDatabaseEventHandler(UserController::OnGetUserList));
 }
 
 UserController::~UserController()
@@ -133,7 +124,6 @@ void UserController::OnUserLogin(wxDatabaseEvent& event)
 {
     if(event.GetStatus() == EVENTSTATUS_REQUEST)
     {
-        //OnDatabaseRequest(event);
         wxDatabaseEvent controller_event;
         controller_event.SetEventType(event.GetEventType());
         controller_event.SetSqlString(wxT("SELECT * FROM 'user';"));
@@ -144,7 +134,6 @@ void UserController::OnUserLogin(wxDatabaseEvent& event)
     }
     else
     {
-        //OnDatabaseResponse(event);
         wxDatabaseEvent controller_event(event.GetEventType());
         controller_event.SetStatus(event.GetStatus());
         controller_event.SetErrorString(event.GetErrorString());
@@ -153,12 +142,50 @@ void UserController::OnUserLogin(wxDatabaseEvent& event)
         ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
     }
 }
-/*
-UserController::OnRequest()
+
+void UserController::OnGetUserList(wxDatabaseEvent& event)
+{
+    if(event.GetStatus() == EVENTSTATUS_REQUEST)
+    {
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetSqlString(wxT("SELECT * FROM 'user';"));
+        controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
+        controller_event.SetId(CONTROLLER_USER);
+        (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+    }
+    else
+    {
+        m_userlist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_userlist->Add(UserInfo(result_data[i][0].AsInt(), result_data[i][1].AsString(), result_data[i][2].AsInt()));
+        }
+
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(event.GetStatus());
+        ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+    }
+}
+
+void UserController::OnAddUser(wxDatabaseEvent& event)
 {
 }
 
-UserController::OnUpdate()
+void UserController::OnDeleteUser(wxDatabaseEvent& event)
 {
 }
-*/
+
+UserGroupController::UserGroupController()
+{
+    m_usergrouplist = new UserGroupInfoArray();
+}
+
+UserGroupController::~UserGroupController()
+{
+    m_usergrouplist->Clear();
+
+    if(m_usergrouplist) delete m_usergrouplist;
+}

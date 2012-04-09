@@ -545,7 +545,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer201 = new wxBoxSizer( wxVERTICAL );
 	
 	m_listCtrl_user = new UserListCtrl( m_panel_user, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
-	bSizer201->Add( m_listCtrl_user, 0, wxALL, 5 );
+	bSizer201->Add( m_listCtrl_user, 0, wxALL|wxEXPAND, 5 );
 	
 	m_panel_user->SetSizer( bSizer201 );
 	m_panel_user->Layout();
@@ -559,7 +559,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer204 = new wxBoxSizer( wxVERTICAL );
 	
 	m_listCtrl_usergroup = new UserGroupListCtrl( m_panel_usergroup, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
-	bSizer204->Add( m_listCtrl_usergroup, 0, wxALL, 5 );
+	bSizer204->Add( m_listCtrl_usergroup, 0, wxALL|wxEXPAND, 5 );
 	
 	m_panel_usergroup->SetSizer( bSizer204 );
 	m_panel_usergroup->Layout();
