@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxITManager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-11 01:06+0800\n"
+"POT-Creation-Date: 2012-04-10 21:37+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Murusu <murusu0.0@gmail.com>\n"
 "Language-Team: \n"
@@ -12,198 +12,554 @@ msgstr ""
 "X-Poedit-Basepath: D:\\MyProject\\coding\\wxITManager\\wxITManager\n"
 "X-Poedit-SearchPath-0: D:\\MyProject\\coding\\wxITManager\\wxITManager\n"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:47
-msgid "Can not read config file, please comfirm your access"
-msgstr ""
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:85
+msgid "Loging in......"
+msgstr "登录中......"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:47
-msgid "Error"
-msgstr ""
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:122
+msgid "Login Fail!"
+msgstr "登录失败！"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:81
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:156
 msgid "Please Choose Database File"
 msgstr "请选择数据库文件"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:125
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:187
+msgid "Testing Database Connection......"
+msgstr "正在测试连接数据库......"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:227
 msgid "Fail To Save Config File"
 msgstr "保存设置文件失败"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:130
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:231
 msgid "Config File Saved"
 msgstr "设置文件已保存"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:158
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:248
+msgid "Fail On Reading Config"
+msgstr "无法读取配置文件"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:303
+msgid "Connected Database Successfully"
+msgstr "成功连接数据库"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:307
+msgid "Database Corrupted!"
+msgstr "数据库已损毁"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:312
+msgid "Fail To Connecte Database"
+msgstr "无法连接数据库"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:329
 msgid "Save Database File As"
 msgstr "将数据库文件保存为"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:182
-msgid "Creating New Database"
-msgstr "正在建立数据库"
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:329
+msgid "Database Files (*.db)|*.db"
+msgstr "数据库文件 (*.db)|*.db"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:246
-msgid "New Database Created"
-msgstr "数据库已建立"
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:353
+msgid "Creating Database"
+msgstr "正在创建数据库"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:250
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:382
+msgid "Database Created"
+msgstr "数据库已创建"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:386
 msgid "Fail To Create Database"
 msgstr "建立数据库失败"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:23
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:413
+msgid "User Name"
+msgstr "用户名"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:414
+msgid "User Group"
+msgstr "用户组"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:416
+msgid "Group Name"
+msgstr "用户组名"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:622
+msgid "Saving Data......"
+msgstr "正在保存......"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:654
+msgid "Add User Successfully"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:658
+msgid "Update User Info Successfully"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:671
+msgid "Fail To Add User"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUI.cpp:675
+msgid "Fail To Update User Info"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:25
 msgid "IT Management System"
 msgstr "IT管理系统"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:37
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:212
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:39
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:223
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:711
 msgid "User Name:"
 msgstr "用户名："
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:49
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:224
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:51
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:235
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:725
 msgid "Password:"
 msgstr "密码："
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:61
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:72
 msgid "Login"
 msgstr "登录"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:64
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:75
 msgid "Database Config"
 msgstr "数据库设置"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:99
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:110
 msgid "Database Type:"
 msgstr "数据库类型："
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:103
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:114
 msgid "Sqlite"
 msgstr ""
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:119
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:130
 msgid "Database Setting"
 msgstr "数据库设置"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:128
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:313
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:139
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:324
 msgid "Database File:"
 msgstr "数据库文件："
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:135
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:320
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:146
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:331
 msgid "Browse"
 msgstr "浏览"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:143
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:328
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:154
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:339
 msgid "Encrypted Database"
 msgstr "加密数据库"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:151
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:336
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:162
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:347
 msgid "Database Key:"
 msgstr "密匙:"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:165
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:176
 msgid "No Database?"
-msgstr "无可用数据库"
+msgstr "无可用数据库？"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:169
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:180
 msgid "Create New One"
 msgstr "建立新数据库"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:188
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:199
 msgid "IP Address:"
 msgstr "IP地址："
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:200
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:211
 msgid "Database Name:"
 msgstr "数据库名："
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:262
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:273
 msgid "Test Connection"
 msgstr "连接测试"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:265
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:276
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:673
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:766
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:902
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:964
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1045
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1107
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1212
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1276
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1346
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1561
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1631
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1767
 msgid "Save"
 msgstr "保存"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:268
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:365
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:279
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:376
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:676
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:769
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:905
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:967
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1048
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1110
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1215
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1279
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1349
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1564
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1634
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1770
 msgid "Close"
 msgstr "关闭"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:362
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:373
 msgid "Create"
 msgstr "创建"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:403
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:414
 msgid "Logout"
 msgstr "登出"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:407
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:418
 msgid "Exit"
 msgstr "退出"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:410
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:421
 msgid "System"
 msgstr "系统"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:414
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:425
+msgid "Management"
+msgstr "管理"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:429
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1542
+msgid "Log"
+msgstr "日志"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:432
+msgid "Depoly"
+msgstr "配置"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:436
 msgid "User"
 msgstr "用户"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:418
-msgid "Brand"
-msgstr "品牌"
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:440
+msgid "UserGroup"
+msgstr "用户组"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:422
-msgid "Suppliers"
-msgstr ""
-
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:426
-msgid "Maintenance Company"
-msgstr ""
-
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:433
-msgid "Hardware Type"
-msgstr ""
-
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:437
-msgid "Hardware"
-msgstr ""
-
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:444
-msgid "Software Type"
-msgstr ""
-
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:448
-msgid "Software"
-msgstr ""
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:447
+msgid "Vcard"
+msgstr "电子名片"
 
 #: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:451
-msgid "Settings"
-msgstr ""
+msgid "Vcard Group"
+msgstr "电子名片组群"
 
 #: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:455
+msgid "Company"
+msgstr "公司"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:459
+msgid "Company Type"
+msgstr "公司类型"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:466
+msgid "Resource"
+msgstr "资源"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:470
+msgid "Resource Type"
+msgstr "资源类型"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:474
+msgid "Resource Status"
+msgstr "资源状态"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:478
+msgid "Resource Fee Type"
+msgstr "资源费用类型"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:481
+msgid "Settings"
+msgstr "设置"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:485
+msgid "Deploy Report"
+msgstr "配置报表"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:489
+msgid "Fee Report"
+msgstr "费用报表"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:492
+msgid "Report"
+msgstr "报表"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:496
+msgid "ImportData"
+msgstr "导入数据"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:500
+msgid "ExportData"
+msgstr "导出数据"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:503
+msgid "Database"
+msgstr "数据库"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:507
 msgid "About wxITManagement"
 msgstr "关于wxITManagement"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:458
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:510
 msgid "Help"
 msgstr "帮助"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:69
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:525
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:746
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1025
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1168
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1512
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1681
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1704
+msgid "Add"
+msgstr "添加"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:528
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1488
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1515
+msgid "Delete"
+msgstr "删除"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:531
+msgid "Reflash"
+msgstr "刷新"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:649
+msgid "User Group Name:"
+msgstr "用户组名："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:737
+msgid "User Group:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:806
+msgid "Full Name:"
+msgstr "全名："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:818
+msgid "Nick Name:"
+msgstr "昵称："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:830
+msgid "Work Phone:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:842
+msgid "Mobie Phone:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:854
+msgid "E-Mail:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:866
+msgid "Title:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:878
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1689
+msgid "Company:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:940
+msgid "Location Name:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1002
+msgid "Company Name:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1016
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1083
+msgid "Company Type:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1145
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1423
+msgid "Resource Name:"
+msgstr "资源名："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1159
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1413
+msgid "Resource Type:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1176
+msgid "Pattern:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1188
+msgid "Weight:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1250
+msgid "Type Name:"
+msgstr "类型名："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1314
+msgid "Status Name:"
+msgstr "状态名："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1326
+msgid "Available Status?"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1392
+msgid "Code:"
+msgstr "编号："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1399
+msgid "Resource Status:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1417
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1693
+msgid "All"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1437
+msgid "Location:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1441
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1451
+msgid "None"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1447
+msgid "Owner:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1462
+msgid "Remark:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1474
+msgid "Base Info"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1482
+msgid "Add New Resource"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1485
+msgid "Add Deployed Resource"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1504
+msgid "Sub Resource"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1531
+msgid "Fee"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1599
+msgid "Fee Type Name:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1611
+msgid "Have Expiration Date?"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1669
+msgid "Fee Type:"
+msgstr "费用类型："
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1712
+msgid "Serial Number:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1724
+msgid "Price:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1736
+msgid "Purchase Date:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.cpp:1743
+msgid "Expiration Date:"
+msgstr ""
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:82
 msgid "wxITManager - Login"
 msgstr "wxITManager - 登录"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:120
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:133
 msgid "wxITManager - Database Config"
 msgstr "wxITManager - 数据库设置"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:152
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:165
 msgid "wxITManager - Database Create"
 msgstr "wxITManager - 创建数据库"
 
-#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:182
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:219
 msgid "wxITManager - Main"
 msgstr "wxITManager - 主界面"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:245
+msgid "wxITManager - User Group"
+msgstr "wxITManager - 用户组"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:277
+msgid "wxITManager - User"
+msgstr "wxITManager - 用户"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:315
+msgid "wxITManager - Vcard"
+msgstr "wxITManager - 电子名片"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:341
+msgid "wxITManager - Location"
+msgstr "wxITManager - 地点"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:370
+msgid "wxITManager - Company"
+msgstr "wxITManager - 公司"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:396
+msgid "wxITManager - Company Type"
+msgstr "wxITManager - 公司类型"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:429
+msgid "wxITManager - Resource"
+msgstr "wxITManager - 资源"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:455
+msgid "wxITManager - Resource Type"
+msgstr "wxITManager - 资源类型"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:482
+msgid "wxITManager - Resource Status"
+msgstr "wxITManager - 资源状态"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:534
+msgid "wxITManager - Resource Deploy"
+msgstr "wxITManager - 资源配置"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:561
+msgid "wxITManager - Resource Fee Type"
+msgstr "wxITManager - 资源费用类型"
+
+#: D:\MyProject\coding\wxITManager\wxITManager/wxITManagerUIBase.h:601
+msgid "wxITManager - Resource Fee"
+msgstr "wxITManager - 资源费用"
+
+#~ msgid "Brand"
+#~ msgstr "品牌"
 

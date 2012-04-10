@@ -114,7 +114,7 @@ void LoginFrame::OnLoginRespone(wxDatabaseEvent& event)
     if(event.GetStatus() == EVENTSTATUS_SUCCESS)
     {
         m_comboBox_username->SetValue(wxT(""));
-        m_staticText_Status->SetLabel(_(""));
+        m_staticText_Status->SetLabel(wxT(""));
         wxGetApp().DoLogin();
     }
     else
