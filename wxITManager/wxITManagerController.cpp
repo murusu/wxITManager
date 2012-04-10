@@ -117,6 +117,9 @@ UserController::UserController()
 
     this->Connect(wxEVT_DATABASE_USERLOGIN, wxDatabaseEventHandler(UserController::OnUserLogin));
     this->Connect(wxEVT_DATABASE_GETUSERLIST, wxDatabaseEventHandler(UserController::OnGetUserList));
+    this->Connect(wxEVT_DATABASE_DELETEUSER, wxDatabaseEventHandler(UserController::OnDeleteUser));
+    this->Connect(wxEVT_DATABASE_ADDUSER, wxDatabaseEventHandler(UserController::OnAddUser));
+    this->Connect(wxEVT_DATABASE_UPDATEUSER, wxDatabaseEventHandler(UserController::OnUpdateUser));
 }
 
 UserController::~UserController()
@@ -179,10 +182,92 @@ void UserController::OnGetUserList(wxDatabaseEvent& event)
 
 void UserController::OnAddUser(wxDatabaseEvent& event)
 {
+    if(event.GetStatus() == EVENTSTATUS_REQUEST)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("','");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT("',");
+        sql_str += request_data[2].AsString();
+        sql_str += wxT(")");
+
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
+        controller_event.SetId(CONTROLLER_USER);
+        (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+    }
+    else
+    {
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(event.GetStatus());
+        ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+    }
 }
 
 void UserController::OnDeleteUser(wxDatabaseEvent& event)
 {
+    if(event.GetStatus() == EVENTSTATUS_REQUEST)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("DELETE FROM 'user' WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
+        controller_event.SetId(CONTROLLER_USER);
+        (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+    }
+    else
+    {
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(event.GetStatus());
+        ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+    }
+}
+
+void UserController::OnUpdateUser(wxDatabaseEvent& event)
+{
+    if(event.GetStatus() == EVENTSTATUS_REQUEST)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        //UPDATE 'user' SET Address = '77, Lincoln st.', City = 'Kirkland', State = 'Washington'
+
+        sql_str += wxT("UPDATE 'user' SET 'name' = '");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("', 'password' = '");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT("', 'group_id' = ");
+        sql_str += request_data[2].AsString();
+
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetEventObject(event.GetEventObject());
+        controller_event.SetStatus(EVENTSTATUS_REQUEST);
+        controller_event.SetId(CONTROLLER_USER);
+        (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+    }
+    else
+    {
+        wxDatabaseEvent controller_event(event.GetEventType());
+        controller_event.SetStatus(event.GetStatus());
+        ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+    }
 }
 
 UserGroupController::UserGroupController()

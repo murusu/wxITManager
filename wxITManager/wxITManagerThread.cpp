@@ -39,7 +39,7 @@ void *DatabaseProcessThread::Entry()
 */
     try
     {
-        if((m_type == wxEVT_DATABASE_CREATEDATABSE) )
+        if((m_type == wxEVT_DATABASE_CREATEDATABSE) || (m_type == wxEVT_DATABASE_DELETEUSER) || (m_type == wxEVT_DATABASE_ADDUSER) || (m_type == wxEVT_DATABASE_UPDATEUSER))
         {
             result_row = m_database->ExecuteUpdate(m_sql);
         }

@@ -42,6 +42,7 @@ class UserController : public wxEvtHandler
         void OnGetUserList(wxDatabaseEvent& event);
         void OnAddUser(wxDatabaseEvent& event);
         void OnDeleteUser(wxDatabaseEvent& event);
+        void OnUpdateUser(wxDatabaseEvent& event);
 
         size_t getItemNumber() {return m_userlist->GetCount();};
         UserInfoArray* GetList() {return m_userlist;};

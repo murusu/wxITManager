@@ -7,6 +7,5 @@
 		<Project filename="wxjson/wxjson.cbp" />
 		<Project filename="cryptopp/cryptlib.cbp" />
 		<Project filename="test/test.cbp" />
-		<Project filename="../wxFileManager/wxFileManager.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

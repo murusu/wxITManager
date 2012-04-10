@@ -5,6 +5,9 @@ DECLARE_APP(wxITManagerApp)
 UserListCtrl::UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
     this->Connect(wxEVT_DATABASE_GETUSERLIST, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
+    this->Connect(wxEVT_DATABASE_DELETEUSER, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
+    this->Connect(wxEVT_DATABASE_ADDUSER, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
+    this->Connect(wxEVT_DATABASE_UPDATEUSER, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
 }
 
 void UserListCtrl::OnReflashList( wxDatabaseEvent& event)
@@ -33,6 +36,8 @@ wxString UserListCtrl::OnGetItemText(long item, long column) const
     return ItemText;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 UserGroupListCtrl::UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
     this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(UserGroupListCtrl::OnReflashList));
@@ -59,6 +64,8 @@ wxString UserGroupListCtrl::OnGetItemText(long item, long column) const
 
     return ItemText;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 LoginFrame::LoginFrame(wxFrame *frame) : LoginFrameBase(frame)
 {
@@ -124,7 +131,7 @@ void LoginFrame::EnableFrame(bool flag)
     m_button_config->Enable(flag);
 }
 
-///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DatabaseConfigDialog::DatabaseConfigDialog(wxFrame *frame) : DatabaseConfigDialogBase(frame)
 {
@@ -306,12 +313,11 @@ void DatabaseConfigDialog::OnDatabaseTest( wxDatabaseEvent& event)
     }
 }
 
-///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 SqliteCreateDialog::SqliteCreateDialog(wxDialog *dialog) : SqliteCreateDialogBase(dialog)
 {
     this->Connect(wxEVT_DATABASE_CREATEDATABSE, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
-    //this->Connect(wxEVT_DATABASE_UPDATEERROR, wxDatabaseEventHandler(SqliteCreateDialog::OnDatabaseUpdate));
 }
 
 SqliteCreateDialog::~SqliteCreateDialog()
@@ -400,7 +406,7 @@ void SqliteCreateDialog::ClearContent()
     m_staticTextStatus->SetLabel(wxT(""));
 }
 
-///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
 {
@@ -408,11 +414,6 @@ MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
     m_listCtrl_user->InsertColumn(1,_("User Group"),wxLIST_FORMAT_RIGHT,200);
 
     m_listCtrl_usergroup->InsertColumn(0,_("Group Name"),wxLIST_FORMAT_LEFT,200);
-
-    //m_listCtrl_user->SetItemCount(((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->getItemNumber());
-    //m_listCtrl_user->Refresh();
-    //m_listCtrl_usergroup->SetItemCount(((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->getItemNumber());
-    //m_listCtrl_usergroup->Refresh();
 
     DoListSize();
 }
@@ -516,7 +517,7 @@ void MainFrame::OnButtonSettingDelete( wxCommandEvent& event )
         item = listctrl->GetNextItem(item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (item == -1) break;
 
-        delete_json[index] = ((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->GetList()->Item(item).m_id;
+        delete_json[index] = ((UserController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
         index++;
     }
 
@@ -556,6 +557,16 @@ void MainFrame::OnButtonSettingReflash( wxCommandEvent& event )
     handler->AddPendingEvent(database_event);
 }
 
+void MainFrame::OnUserItemActivated( wxListEvent& event )
+{
+    UserDialog *dialog = new UserDialog(this, event.GetIndex() + 1);
+
+    dialog->ShowModal();
+    m_listCtrl_user->Refresh();
+
+    delete dialog;
+}
+
 void MainFrame::OnListSizeChange( wxSizeEvent& event )
 {
     DoListSize();
@@ -569,9 +580,99 @@ void MainFrame::DoListSize()
     m_listCtrl_usergroup->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
 }
 
+UserDialog::UserDialog(wxWindow* parent, size_t id):UserDialogBase(parent)
+{
+    m_id = id;
+
+    UserGroupInfoArray* usergroup_array = ((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->GetList();
+    for(size_t index = 0; index < usergroup_array->GetCount(); index++)
+    {
+        wxIDClientData id_data(usergroup_array->Item(index).m_id);
+        m_choice_usergroup->Append(usergroup_array->Item(index).m_name, &id_data);
+    }
+
+    if(m_id)
+    {
+        UserInfo user_info = ((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->GetList()->Item(m_id - 1);
+
+        m_textCtrl_username->SetValue(user_info.m_name);
+        m_choice_usergroup->SetSelection(m_choice_usergroup->FindString(user_info.m_usergroupname));
+    }
+    else
+    {
+        m_choice_usergroup->SetSelection(0);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDUSER, wxDatabaseEventHandler(UserDialog::OnUserInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATEUSER, wxDatabaseEventHandler(UserDialog::OnUserInfoUpdate));
+}
+
+void UserDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_username->Enable(flag);
+    m_textCtrl_userpassword->Enable(flag);
+    m_choice_usergroup->Enable(flag);
+    m_button_addusergroup->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void UserDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_username->GetValue();
+    request_json[1] = m_textCtrl_userpassword->GetValue();
+    request_json[2] = ((wxIDClientData *)(m_choice_usergroup->GetClientObject(m_choice_usergroup->GetCurrentSelection())))->GetID();
+    wxEventType event_type          = wxEVT_DATABASE_ADDUSER;
+    if(m_id) event_type = wxEVT_DATABASE_UPDATEUSER;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USER);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_USER);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
 
 void UserDialog::OnButtonAddUserGroupClick( wxCommandEvent& event )
 {
     UserGroupDialog *dialog = new UserGroupDialog(this);
     dialog->ShowModal();
+}
+
+void UserDialog::OnUserInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS)
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDUSER)
+        {
+            m_staticTextStatus->SetLabel(_("Add User Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update User Info Successfully"));
+        }
+
+        m_textCtrl_username->SetValue(wxT(""));
+        m_textCtrl_userpassword->SetValue(wxT(""));
+        m_choice_usergroup->SetSelection(0);
+
+
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDUSER)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add User"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update User Info"));
+        }
+    }
 }

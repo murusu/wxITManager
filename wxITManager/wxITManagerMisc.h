@@ -4,12 +4,13 @@
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 
 #include <wx/wx.h>
+
 #include "md5.h"
 
 class MiscFunction
 {
     public:
-        static wxString MD5(wxString plaint_text);
+        static wxString MD5(wxString plain_text);
 };
 
 #endif // WXITMANAGERMISC_H_INCLUDED
