@@ -15,10 +15,11 @@ class DatabaseProcessThread : public wxThread
         wxEvtHandler    *m_controller;
         Database        *m_database;
         wxString         m_sql;
-        wxEventType      m_type;
+        wxEventType      m_eventtype;
+        size_t           m_sqltype;
 
     public:
-        DatabaseProcessThread(wxObject* sender, size_t controller_id, Database *database, wxString sql, wxEventType type);
+        DatabaseProcessThread(wxObject* sender, size_t controller_id, Database *database, wxString sql, wxEventType event_type, size_t sql_type);
 
         void *Entry();
         void OnExit();

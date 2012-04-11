@@ -11,9 +11,11 @@ class wxDatabaseEvent : public wxNotifyEvent
     private:
         size_t          m_status;
         size_t          m_resultrow;
+        size_t          m_sqltype;
         wxString        m_errstr;
         wxString        m_sqlstr;
         wxJSONValue     m_json;
+
 
     public:
         wxDatabaseEvent(wxEventType commandType = wxEVT_NULL, int id = 0):
@@ -22,6 +24,7 @@ class wxDatabaseEvent : public wxNotifyEvent
             wxNotifyEvent(event),
             m_status(event.m_status),
             m_resultrow(event.m_resultrow),
+            m_sqltype(event.m_sqltype),
             m_errstr(event.m_errstr),
             m_sqlstr(event.m_sqlstr),
             m_json(event.m_json)
@@ -34,6 +37,8 @@ class wxDatabaseEvent : public wxNotifyEvent
         inline void SetStatus(size_t status){m_status = status;};
         inline size_t GetResultRow(){return m_resultrow;};
         inline void SetResultRow(size_t result_row){m_resultrow = result_row;};
+        inline size_t GetSqlType(){return m_sqltype;};
+        inline void SetSqlType(size_t sqltype){m_sqltype = sqltype;};
         inline wxString GetErrorString(){return m_errstr;};
         inline void SetErrorString(wxString error_str){m_errstr = error_str;};
         inline wxString GetSqlString(){return m_sqlstr;};

@@ -28,21 +28,47 @@ class DatabaseController : public wxEvtHandler
         inline ManagerConfig* GetConfig(){return m_config;}
 };
 
+class AuthorityController : public wxEvtHandler
+{
+    private:
+        size_t          m_id;
+        wxString        m_name;
+        size_t          m_usergroupid;
+        wxString        m_usergroupname;
+
+    public:
+        AuthorityController();
+
+        void OnDatabaseEvent(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        void Clear(){m_id = 0; m_name = wxT(""); m_usergroupid = 0; m_usergroupname = wxT("");};
+
+        inline size_t GetUserId(){return m_id;};
+        inline wxString GetUserName(){return m_name;};
+        inline wxString GetUserGroupName(){return m_usergroupname;};
+};
+
 class UserController : public wxEvtHandler
 {
     private:
         UserInfoArray *m_userlist;
-        UserInfo      *m_currentuser;
+        //UserInfo      *m_currentuser;
 
     public:
         UserController();
         ~UserController();
 
-        void OnUserLogin(wxDatabaseEvent& event);
-        void OnGetUserList(wxDatabaseEvent& event);
-        void OnAddUser(wxDatabaseEvent& event);
-        void OnDeleteUser(wxDatabaseEvent& event);
-        void OnUpdateUser(wxDatabaseEvent& event);
+        //void OnUserLogin(wxDatabaseEvent& event);
+        //void OnGetUserList(wxDatabaseEvent& event);
+        //void OnAddUser(wxDatabaseEvent& event);
+        //void OnDeleteUser(wxDatabaseEvent& event);
+        //void OnUpdateUser(wxDatabaseEvent& event);
+
+        void OnDatabaseEvent(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
 
         size_t getItemNumber() {return m_userlist->GetCount();};
         UserInfoArray* GetList() {return m_userlist;};
@@ -57,7 +83,11 @@ class UserGroupController : public wxEvtHandler
         UserGroupController();
         ~UserGroupController();
 
-        void OnGetUserGroupList(wxDatabaseEvent& event);
+        //void OnGetUserGroupList(wxDatabaseEvent& event);
+
+        void OnDatabaseEvent(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
 
         size_t getItemNumber() {return m_usergrouplist->GetCount();};
         UserGroupInfoArray* GetList() {return m_usergrouplist;};

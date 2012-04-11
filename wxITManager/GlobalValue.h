@@ -14,10 +14,14 @@ const size_t EVENTSTATUS_REQUEST    = 0;
 const size_t EVENTSTATUS_SUCCESS    = 1;
 const size_t EVENTSTATUS_FAIL       = 2;
 
+const size_t SQLTYPE_QUERY          = 1;
+const size_t SQLTYPE_UPDATE         = 2;
+
 const size_t CONTROLLER_NULL        = 0;
 const size_t CONTROLLER_DATABASE    = 1;
-const size_t CONTROLLER_USER        = 2;
-const size_t CONTROLLER_USERGROUP   = 3;
+const size_t CONTROLLER_AUTH        = 2;
+const size_t CONTROLLER_USER        = 3;
+const size_t CONTROLLER_USERGROUP   = 4;
 
 const size_t DATABASE_SQLITE    = 0;
 const size_t DATABASE_MYSQL     = 1;

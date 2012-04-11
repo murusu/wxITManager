@@ -12,6 +12,7 @@ bool wxITManagerApp::OnInit(void)
     m_database      = NULL;
 
     m_dbcontroller          = NULL;
+    m_authcontroller        = NULL;
     m_usercontroller        = NULL;
     m_usergroupcontroller   = NULL;
 
@@ -49,6 +50,7 @@ int wxITManagerApp::OnExit()
     if(m_database)  delete m_database;
 
     if(m_dbcontroller) delete m_dbcontroller;
+    if(m_authcontroller) delete m_authcontroller;
     if(m_usercontroller) delete m_usercontroller;
     if(m_usergroupcontroller) delete m_usergroupcontroller;
     //if(m_mainframe)     delete m_mainframe;
@@ -121,6 +123,11 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
         case CONTROLLER_DATABASE:
             if(!m_dbcontroller) m_dbcontroller = new DatabaseController();
             handler = m_dbcontroller;
+            break;
+
+        case CONTROLLER_AUTH:
+            if(!m_authcontroller) m_authcontroller = new AuthorityController();
+            handler = m_authcontroller;
             break;
 
         case CONTROLLER_USER:

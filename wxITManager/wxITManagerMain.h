@@ -18,6 +18,7 @@ class LoginFrame;
 class ManagerConfig;
 class Database;
 class DatabaseController;
+class AuthorityController;
 class UserController;
 class UserGroupController;
 
@@ -32,6 +33,7 @@ class wxITManagerApp: public wxApp
         Database            *m_database;
 
         DatabaseController  *m_dbcontroller;
+        AuthorityController *m_authcontroller;
         UserController      *m_usercontroller;
         UserGroupController *m_usergroupcontroller;
 
@@ -48,6 +50,8 @@ class wxITManagerApp: public wxApp
 
         ManagerConfig* GetConfig();
         Database* GetDatabase();
+
+        inline MainFrame* GetMainFrame(){return m_mainframe;};
 };
 
 

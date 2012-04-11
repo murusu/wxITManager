@@ -4,13 +4,18 @@ DECLARE_APP(wxITManagerApp)
 
 UserListCtrl::UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
-    this->Connect(wxEVT_DATABASE_GETUSERLIST, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
-    this->Connect(wxEVT_DATABASE_DELETEUSER, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
-    this->Connect(wxEVT_DATABASE_ADDUSER, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
-    this->Connect(wxEVT_DATABASE_UPDATEUSER, wxDatabaseEventHandler(UserListCtrl::OnReflashList));
+    this->Connect(wxEVT_DATABASE_GETUSERLIST, wxDatabaseEventHandler(UserListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETEUSER, wxDatabaseEventHandler(UserListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_ADDUSER, wxDatabaseEventHandler(UserListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_UPDATEUSER, wxDatabaseEventHandler(UserListCtrl::OnRefreshList));
 }
 
-void UserListCtrl::OnReflashList( wxDatabaseEvent& event)
+void UserListCtrl::OnRefreshList( wxDatabaseEvent& event)
+{
+    RefreshList();
+}
+
+void UserListCtrl::RefreshList()
 {
     SetItemCount(((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->getItemNumber());
     Refresh();
@@ -40,10 +45,15 @@ wxString UserListCtrl::OnGetItemText(long item, long column) const
 
 UserGroupListCtrl::UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
-    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(UserGroupListCtrl::OnReflashList));
+    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(UserGroupListCtrl::OnRefreshList));
 }
 
-void UserGroupListCtrl::OnReflashList( wxDatabaseEvent& event)
+void UserGroupListCtrl::OnRefreshList( wxDatabaseEvent& event)
+{
+    RefreshList();
+}
+
+void UserGroupListCtrl::RefreshList()
 {
     SetItemCount(((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->getItemNumber());
     Refresh();
@@ -84,13 +94,13 @@ void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
     EnableFrame(false);
     m_staticText_Status->SetLabel(_("Loging in......"));
 
-    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USER);
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_AUTH);
 
     wxJSONValue param_json;
-    param_json[wxT("user_name")] = m_comboBox_username->GetValue();
-    param_json[wxT("password")]  = m_textCtrl_password->GetValue();//MiscFunction::MD5(m_textCtrl_password->GetValue());
+    param_json[0] = m_comboBox_username->GetValue();
+    param_json[1] = m_textCtrl_password->GetValue();//MiscFunction::MD5(m_textCtrl_password->GetValue());
 
-    wxDatabaseEvent database_event(wxEVT_DATABASE_USERLOGIN, CONTROLLER_USER);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_USERLOGIN, CONTROLLER_AUTH);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
     database_event.SetEventObject(this);
     database_event.SetJsonData(param_json);
@@ -113,13 +123,22 @@ void LoginFrame::OnLoginRespone(wxDatabaseEvent& event)
 
     if(event.GetStatus() == EVENTSTATUS_SUCCESS)
     {
-        m_comboBox_username->SetValue(wxT(""));
-        m_staticText_Status->SetLabel(wxT(""));
-        wxGetApp().DoLogin();
+        size_t id = ((AuthorityController *)(wxGetApp().GetController(CONTROLLER_AUTH)))->GetUserId();
+
+        if(id)
+        {
+            m_comboBox_username->SetValue(wxT(""));
+            m_staticText_Status->SetLabel(wxT(""));
+            wxGetApp().DoLogin();
+        }
+        else
+        {
+            m_staticText_Status->SetLabel(_("User Name Or Password Incorrect!"));
+        }
     }
     else
     {
-        m_staticText_Status->SetLabel(_("Login Fail!"));
+        m_staticText_Status->SetLabel(_("Database Error!Please Check The Database Setting!"));
     }
 }
 
@@ -530,7 +549,7 @@ void MainFrame::OnButtonSettingDelete( wxCommandEvent& event )
     handler->AddPendingEvent(database_event);
 }
 
-void MainFrame::OnButtonSettingReflash( wxCommandEvent& event )
+void MainFrame::OnButtonSettingRefresh( wxCommandEvent& event )
 {
     size_t       controller_id = CONTROLLER_NULL;
     wxListCtrl  *listctrl = NULL;
@@ -626,7 +645,7 @@ void UserDialog::OnButtonSaveClick( wxCommandEvent& event )
     request_json[0] = m_textCtrl_username->GetValue();
     request_json[1] = m_textCtrl_userpassword->GetValue();
     request_json[2] = ((wxIDClientData *)(m_choice_usergroup->GetClientObject(m_choice_usergroup->GetCurrentSelection())))->GetID();
-    wxEventType event_type          = wxEVT_DATABASE_ADDUSER;
+    wxEventType event_type = wxEVT_DATABASE_ADDUSER;
     if(m_id) event_type = wxEVT_DATABASE_UPDATEUSER;
 
     wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USER);
@@ -661,8 +680,6 @@ void UserDialog::OnUserInfoUpdate( wxDatabaseEvent& event)
         m_textCtrl_username->SetValue(wxT(""));
         m_textCtrl_userpassword->SetValue(wxT(""));
         m_choice_usergroup->SetSelection(0);
-
-
     }
     else
     {

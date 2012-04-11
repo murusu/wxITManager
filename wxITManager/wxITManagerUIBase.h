@@ -187,7 +187,7 @@ class MainFrameBase : public wxFrame
 		wxPanel* m_panel_settingbutton;
 		wxButton* m_button_settingadd;
 		wxButton* m_button_settingdelete;
-		wxButton* m_button_settingreflash;
+		wxButton* m_button_settingrefresh;
 		wxPanel* m_panel_settinglist;
 		wxPanel* m_panel_user;
 		UserListCtrl* m_listCtrl_user;
@@ -204,7 +204,7 @@ class MainFrameBase : public wxFrame
 		virtual void OnMenuAboutSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSettingAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSettingDelete( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnButtonSettingReflash( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonSettingRefresh( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnListKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void SortUserList( wxListEvent& event ) { event.Skip(); }
 		virtual void ShowPopupMenu( wxListEvent& event ) { event.Skip(); }

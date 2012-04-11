@@ -528,8 +528,8 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_button_settingdelete = new wxButton( m_panel_settingbutton, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer132->Add( m_button_settingdelete, 0, wxALL, 5 );
 	
-	m_button_settingreflash = new wxButton( m_panel_settingbutton, wxID_ANY, _("Reflash"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer132->Add( m_button_settingreflash, 0, wxALL, 5 );
+	m_button_settingrefresh = new wxButton( m_panel_settingbutton, wxID_ANY, _("Refresh"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer132->Add( m_button_settingrefresh, 0, wxALL, 5 );
 	
 	m_panel_settingbutton->SetSizer( bSizer132 );
 	m_panel_settingbutton->Layout();
@@ -596,7 +596,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
 	m_button_settingadd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
 	m_button_settingdelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
-	m_button_settingreflash->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingReflash ), NULL, this );
+	m_button_settingrefresh->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingRefresh ), NULL, this );
 	m_listCtrl_user->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
 	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserList ), NULL, this );
 	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
@@ -622,7 +622,7 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
 	m_button_settingadd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
 	m_button_settingdelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
-	m_button_settingreflash->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingReflash ), NULL, this );
+	m_button_settingrefresh->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingRefresh ), NULL, this );
 	m_listCtrl_user->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
 	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserList ), NULL, this );
 	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );

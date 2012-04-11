@@ -24,7 +24,8 @@ class UserListCtrl : public wxListCtrl
     public:
         UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
-        void OnReflashList( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
         wxString OnGetItemText(long item, long column) const;
 };
 
@@ -33,7 +34,8 @@ class UserGroupListCtrl : public wxListCtrl
     public:
         UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
-        void OnReflashList( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
         wxString OnGetItemText(long item, long column) const;
 };
 
@@ -107,13 +109,16 @@ class MainFrame : public MainFrameBase
 
 		void OnButtonSettingAdd( wxCommandEvent& event );
 		void OnButtonSettingDelete( wxCommandEvent& event );
-		void OnButtonSettingReflash( wxCommandEvent& event );
+		void OnButtonSettingRefresh( wxCommandEvent& event );
 
         void OnUserItemActivated( wxListEvent& event );
 
 		void OnListSizeChange( wxSizeEvent& event );
 
 		void DoListSize();
+
+		inline UserListCtrl* GetUserListctrl(){return m_listCtrl_user;};
+		inline UserGroupListCtrl* GetUserGroupListctrl(){return m_listCtrl_usergroup;};
 };
 
 class UserDialog : public UserDialogBase

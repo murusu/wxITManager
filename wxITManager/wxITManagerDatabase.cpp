@@ -34,7 +34,7 @@ void Database::OnRequest(wxDatabaseEvent& event)
 
     if(InitDBByConfig())
     {
-        DatabaseProcessThread *database_thread = new DatabaseProcessThread(event.GetEventObject(), event.GetId(), this, event.GetSqlString(), event.GetEventType());
+        DatabaseProcessThread *database_thread = new DatabaseProcessThread(event.GetEventObject(), event.GetId(), this, event.GetSqlString(), event.GetEventType(), event.GetSqlType());
 
         if(database_thread->Create() == wxTHREAD_NO_ERROR)
         {
@@ -76,13 +76,12 @@ wxString DatabaseSqlite::GetDBTableInitStr()
 {
     wxString init_sql = wxT("");
 
-    init_sql += wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vaild bool);");
-    init_sql += wxT("CREATE TABLE `user_group`(id integer PRIMARY KEY, name varchar(30));");
-    init_sql += wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), WORKTEL varchar(40), MOBILETEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20));");
+    init_sql += wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vaild bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `user_group`(id integer PRIMARY KEY, name varchar(30), vaild bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), WORKTEL varchar(40), MOBILETEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20), vaild bool DEFAULT 1);");
 
-    init_sql += wxT("INSERT INTO 'user' VALUES (NULL, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 1);");
-    init_sql += wxT("INSERT INTO 'user_group' VALUES (NULL, 'administrator');");
-    //init_sql += wxT("INSERT INTO 'vcard' VALUES (NULL, `admin`, ``, ``, ``, ``, ``, `3.0`);");
+    init_sql += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('admin','admin',1);");
+    init_sql += wxT("INSERT INTO 'user_group' ('name') VALUES ('administrator');");
 
     return init_sql;
 }

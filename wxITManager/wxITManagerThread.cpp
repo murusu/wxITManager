@@ -6,13 +6,14 @@ IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
 */
 DECLARE_APP(wxITManagerApp)
 
-DatabaseProcessThread::DatabaseProcessThread(wxObject* sender, size_t controller_id, Database *database, wxString sql, wxEventType type) : wxThread()
+DatabaseProcessThread::DatabaseProcessThread(wxObject* sender, size_t controller_id, Database *database, wxString sql, wxEventType event_type, size_t sql_type) : wxThread()
 {
     m_sender        = sender;
     m_controller    = wxGetApp().GetController(controller_id);
     m_database      = database;
     m_sql           = sql;
-    m_type          = type;
+    m_eventtype     = event_type;
+    m_sqltype       = sql_type;
 }
 
 void DatabaseProcessThread::OnExit()
@@ -26,25 +27,13 @@ void *DatabaseProcessThread::Entry()
     wxString error_str  = wxT("");
     wxJSONValue result_json;
 
-/*
-    size_t event_id = 0;
-    if(m_type == wxEVT_DATABASE_UPDATEREQUEST)
-    {
-        event_id = wxEVT_DATABASE_UPDATESUCCESS;
-    }
-    else
-    {
-        event_id = wxEVT_DATABASE_QUERYSUCCESS;
-    }
-*/
     try
     {
-        if((m_type == wxEVT_DATABASE_CREATEDATABSE) || (m_type == wxEVT_DATABASE_DELETEUSER) || (m_type == wxEVT_DATABASE_ADDUSER) || (m_type == wxEVT_DATABASE_UPDATEUSER))
+        if(m_sqltype == SQLTYPE_UPDATE)
         {
             result_row = m_database->ExecuteUpdate(m_sql);
         }
-
-        if ((m_type == wxEVT_DATABASE_TESTDATABSE) || (m_type == wxEVT_DATABASE_GETUSERLIST) || (m_type == wxEVT_DATABASE_GETUSERGROUPLIST))
+        if(m_sqltype == SQLTYPE_QUERY)
         {
             result_json = m_database->ExecuteQuery(m_sql);
         }
@@ -55,7 +44,7 @@ void *DatabaseProcessThread::Entry()
         status = EVENTSTATUS_FAIL;
     }
 
-    wxDatabaseEvent event(m_type);
+    wxDatabaseEvent event(m_eventtype);
     event.SetEventObject(m_sender);
     event.SetStatus(status);
     event.SetResultRow(result_row);
