@@ -396,10 +396,18 @@ void UserController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         sql_str += wxT("UPDATE 'user' SET 'name' = '");
         sql_str += request_data[0].AsString();
-        sql_str += wxT("', 'password' = '");
-        sql_str += request_data[1].AsString();
+
+        if(!(request_data[1].AsString().IsEmpty()))
+        {
+            sql_str += wxT("', 'password' = '");
+            sql_str += request_data[1].AsString();
+        }
+
         sql_str += wxT("', 'group_id' = ");
         sql_str += request_data[2].AsString();
+        sql_str += wxT(" WHERE 'id' = ");
+        sql_str += request_data[3].AsString();
+
 
         controller_event.SetSqlString(sql_str);
         controller_event.SetSqlType(SQLTYPE_UPDATE);

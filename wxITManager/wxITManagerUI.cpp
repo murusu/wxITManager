@@ -645,6 +645,10 @@ void UserDialog::OnButtonSaveClick( wxCommandEvent& event )
     request_json[0] = m_textCtrl_username->GetValue();
     request_json[1] = m_textCtrl_userpassword->GetValue();
     request_json[2] = ((wxIDClientData *)(m_choice_usergroup->GetClientObject(m_choice_usergroup->GetCurrentSelection())))->GetID();
+
+    UserInfo user_info = ((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->GetList()->Item(m_id - 1);
+    request_json[3] = user_info.m_id;
+
     wxEventType event_type = wxEVT_DATABASE_ADDUSER;
     if(m_id) event_type = wxEVT_DATABASE_UPDATEUSER;
 
