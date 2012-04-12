@@ -7,18 +7,6 @@
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
 
-class wxIDClientData : public wxClientData
-{
-    private:
-        size_t m_id;
-
-    public:
-        wxIDClientData(size_t id) : wxClientData() {m_id = id;};
-
-        size_t GetID(){return m_id;};
-};
-
-
 class UserListCtrl : public wxListCtrl
 {
     public:
@@ -124,7 +112,9 @@ class MainFrame : public MainFrameBase
 class UserDialog : public UserDialogBase
 {
     private:
-        size_t m_id;
+        size_t          m_id;
+        //ChoiceIDArray  *m_choiceidarray;
+        //wxArrayInt      m_choiceidarray;
 
 	public:
 		UserDialog(wxWindow* parent, size_t id = 0);
@@ -135,6 +125,8 @@ class UserDialog : public UserDialogBase
 		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
 		void OnButtonSaveClick( wxCommandEvent& event );
 		void OnButtonAddUserGroupClick( wxCommandEvent& event );
+
+		void RefreshUserGroupChoice();
 
 		void OnUserInfoUpdate( wxDatabaseEvent& event);
 };
