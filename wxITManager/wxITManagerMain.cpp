@@ -13,33 +13,20 @@ bool wxITManagerApp::OnInit(void)
 
     m_dbcontroller          = NULL;
     m_authcontroller        = NULL;
+
     m_usercontroller        = NULL;
     m_usergroupcontroller   = NULL;
 
+    m_vcardcontroller       = NULL;
+    m_vcardgroupcontroller  = NULL;
+    m_companycontroller     = NULL;
+    m_companytypecontroller = NULL;
+
     SetupLocale();
-
-    //m_config = new ManagerConfig();
-    //m_dbcontroller = new DatabaseController();
-    //if(!m_config->InitConfig()) return false;
-    //Database* mydatabase = DatabaseFactory::CreateDatabase(DATABASE_SQLITE);
-    //mydatabase->InitDatabase(m_config);
-    //mydatabase->SetupTable();
-
-    //delete mydatabase;
 
     m_loginframe = new LoginFrame(NULL);
     m_loginframe->Show(true);
 
-
-/*
-wxSQLite3Database::InitializeSQLite();
-wxSQLite3Database db;
-db.Open(wxT("test.db"));
-db.ExecuteUpdate("create table emp(empno integer primary key, empname char(20), salary double);create table test(testno integer primary key, empname char(20), salary double);");
-wxString insertCmd(wxT("insert into emp values (null,'Franz Beckenbauer', 2000.10);insert into emp values (null,'test test', 2011.11);"));
-db.ExecuteUpdate(insertCmd);
-db.Close();
-*/
     return true;
 }
 
@@ -51,10 +38,15 @@ int wxITManagerApp::OnExit()
 
     if(m_dbcontroller) delete m_dbcontroller;
     if(m_authcontroller) delete m_authcontroller;
+
     if(m_usercontroller) delete m_usercontroller;
     if(m_usergroupcontroller) delete m_usergroupcontroller;
-    //if(m_mainframe)     delete m_mainframe;
-    //if(m_loginframe)    delete m_loginframe;
+
+    if(m_vcardcontroller) delete m_vcardcontroller;
+    if(m_vcardgroupcontroller) delete m_vcardgroupcontroller;
+    if(m_companycontroller) delete m_companycontroller;
+    if(m_companytypecontroller) delete m_companytypecontroller;
+
     return 0;
 }
 
@@ -138,6 +130,26 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
         case CONTROLLER_USERGROUP:
             if(!m_usergroupcontroller) m_usergroupcontroller = new UserGroupController();
             handler = m_usergroupcontroller;
+            break;
+
+        case CONTROLLER_VCARD:
+            if(!m_vcardcontroller) m_vcardcontroller = new VcardController();
+            handler = m_vcardcontroller;
+            break;
+
+        case CONTROLLER_VCARDROUP:
+            if(!m_vcardgroupcontroller) m_vcardgroupcontroller = new VcardGroupController();
+            handler = m_vcardgroupcontroller;
+            break;
+
+        case CONTROLLER_COMPANY:
+            if(!m_companycontroller) m_companycontroller = new CompanyController();
+            handler = m_companycontroller;
+            break;
+
+        case CONTROLLER_COMPANYTYPE:
+            if(!m_companytypecontroller) m_companytypecontroller = new CompanyTypeController();
+            handler = m_companytypecontroller;
             break;
     }
 

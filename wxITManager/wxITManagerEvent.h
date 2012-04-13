@@ -52,15 +52,6 @@ class wxDatabaseEvent : public wxNotifyEvent
 typedef void (wxEvtHandler::*wxDatabaseEventFunction) (wxDatabaseEvent&);
 
 BEGIN_DECLARE_EVENT_TYPES()
-/*
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEREQUEST, 100)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATESUCCESS, 101)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEERROR, 102)
-
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYREQUEST, 103)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYSUCCESS, 104)
-    DECLARE_EVENT_TYPE(wxEVT_DATABASE_QUERYERROR, 105)
-*/
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_CREATEDATABSE, 106)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_TESTDATABSE, 107)
 
@@ -76,35 +67,28 @@ BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEUSERGROUP, 115)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEUSERGROUP, 116)
 
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETVCARDLIST, 117)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDVCARD, 118)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEVCARD, 119)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEVCARD, 120)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETVCARDGROUPLIST, 121)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDVCARDGROUP, 122)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETEVCARDGROUP, 123)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATEVCARDGROUP, 124)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETCOMPANYLIST, 125)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDCOMPANY, 126)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETECOMPANY, 127)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATECOMPANY, 128)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETCOMPANYTYPELIST, 129)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDCOMPANYTYPE, 130)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETECOMPANYTYPE, 131)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATECOMPANYTYPE, 132)
+
 
 END_DECLARE_EVENT_TYPES()
-/*
-#define EVT_DATABASE_UPDATEREQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_UPDATEREQUEST, 0, -1, (wxObjectEventFunction) \
-    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
-    (wxObject *) NULL ),
-#define EVT_DATABASE_UPDATESUCCESS(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_UPDATESUCCESS, 0, -1, (wxObjectEventFunction) \
-    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
-    (wxObject *) NULL ),
-#define EVT_DATABASE_UPDATEERROR(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_UPDATEERROR, 0, -1, (wxObjectEventFunction) \
-    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
-    (wxObject *) NULL ),
-
-#define EVT_DATABASE_QUERYREQUEST(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_QUERYEQUEST, 0, -1, (wxObjectEventFunction) \
-    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
-    (wxObject *) NULL ),
-#define EVT_DATABASE_QUERYSUCCESS(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_QUERYSUCCESS, 0, -1, (wxObjectEventFunction) \
-    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
-    (wxObject *) NULL ),
-#define EVT_DATABASE_QUERYERROR(fn) DECLARE_EVENT_TABLE_ENTRY( \
-    wxEVT_DATABASE_QUERYERROR, 0, -1, (wxObjectEventFunction) \
-    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
-    (wxObject *) NULL ),
-*/
 #define EVT_DATABASE_CREATEDATABSE(fn) DECLARE_EVENT_TABLE_ENTRY( \
     wxEVT_DATABASE_CREATEDATABSE, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
@@ -145,6 +129,74 @@ END_DECLARE_EVENT_TYPES()
     (wxObject *) NULL ),
 #define EVT_DATABASE_UPDATEUSERGROUP(fn) DECLARE_EVENT_TABLE_ENTRY( \
     wxEVT_DATABASE_UPDATEUSERGROUP, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+
+#define EVT_DATABASE_GETVCARDLIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETVCARDLIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDVCARD(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDVCARD, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETEVCARD(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETEVCARD, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATEVCARD(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATEVCARD, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+
+#define EVT_DATABASE_GETVCARDGROUPLIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETVCARDGROUPLIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDVCARDGROUP(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDVCARDGROUP, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETEVCARDGROUP(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETEVCARDGROUP, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATEVCARDGROUP(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATEVCARDGROUP, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+
+#define EVT_DATABASE_GETCOMPANYLIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETCOMPANYLIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDCOMPANY(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDCOMPANY, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETECOMPANY(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETECOMPANY, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATECOMPANY(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATECOMPANY, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+
+#define EVT_DATABASE_GETCOMPANYTYPELIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETCOMPANYTYPELIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDCOMPANYTYPE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDCOMPANYTYPE, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETECOMPANYTYPE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETECOMPANYTYPE, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATECOMPANYTYPE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATECOMPANYTYPE, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
 

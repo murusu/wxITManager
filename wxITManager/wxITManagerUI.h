@@ -1,6 +1,8 @@
 #ifndef WXITMANAGERUI_H_INCLUDED
 #define WXITMANAGERUI_H_INCLUDED
 
+#include <wx/msgdlg.h>
+
 #include "wxITManagerMain.h"
 #include "wxITManagerUIBase.h"
 
@@ -12,6 +14,7 @@ class UserListCtrl : public wxListCtrl
     public:
         UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
+        void OnListChange( wxDatabaseEvent& event);
         void OnRefreshList( wxDatabaseEvent& event);
         void RefreshList();
         wxString OnGetItemText(long item, long column) const;
@@ -22,6 +25,51 @@ class UserGroupListCtrl : public wxListCtrl
     public:
         UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class VcardListCtrl : public wxListCtrl
+{
+    public:
+        VcardListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class VcardGroupListCtrl : public wxListCtrl
+{
+    public:
+        VcardGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class CompanyListCtrl : public wxListCtrl
+{
+    public:
+        CompanyListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class CompanyTypeListCtrl : public wxListCtrl
+{
+    public:
+        CompanyTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
         void OnRefreshList( wxDatabaseEvent& event);
         void RefreshList();
         wxString OnGetItemText(long item, long column) const;
@@ -99,7 +147,7 @@ class MainFrame : public MainFrameBase
 		void OnButtonSettingDelete( wxCommandEvent& event );
 		void OnButtonSettingRefresh( wxCommandEvent& event );
 
-        void OnUserItemActivated( wxListEvent& event );
+        void OnSettingItemActivated( wxListEvent& event );
 
 		void OnListSizeChange( wxSizeEvent& event );
 
@@ -113,12 +161,9 @@ class UserDialog : public UserDialogBase
 {
     private:
         size_t          m_id;
-        //ChoiceIDArray  *m_choiceidarray;
-        //wxArrayInt      m_choiceidarray;
 
 	public:
-		UserDialog(wxWindow* parent, size_t id = 0);
-		~UserDialog(){m_choice_usergroup->Clear();};
+		UserDialog(wxWindow* parent, size_t id = NULL_ID);
 
 		void EnableDialog(bool flag);
 
@@ -133,10 +178,18 @@ class UserDialog : public UserDialogBase
 
 class UserGroupDialog : public UserGroupDialogBase
 {
+    private:
+        size_t          m_id;
+
 	public:
-		UserGroupDialog(wxWindow* parent):UserGroupDialogBase(parent){};
+		UserGroupDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
 
 		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnUserGroupInfoUpdate( wxDatabaseEvent& event);
 };
 
 #endif // WXITMANAGERUI_H_INCLUDED

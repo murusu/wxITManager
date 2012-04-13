@@ -10,8 +10,12 @@
 
 #include <wx/intl.h>
 
+class CompanyListCtrl;
+class CompanyTypeListCtrl;
 class UserGroupListCtrl;
 class UserListCtrl;
+class VcardGroupListCtrl;
+class VcardListCtrl;
 
 #include <wx/string.h>
 #include <wx/stattext.h>
@@ -193,6 +197,14 @@ class MainFrameBase : public wxFrame
 		UserListCtrl* m_listCtrl_user;
 		wxPanel* m_panel_usergroup;
 		UserGroupListCtrl* m_listCtrl_usergroup;
+		wxPanel* m_panel_vcard;
+		VcardListCtrl* m_listCtrl_vcard;
+		wxPanel* m_panel_vcardgroup;
+		VcardGroupListCtrl* m_listCtrl_vcardgroup;
+		wxPanel* m_panel_company;
+		CompanyListCtrl* m_listCtrl_company;
+		wxPanel* m_panel_companytype;
+		CompanyTypeListCtrl* m_listCtrl_companytype;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnMainFrameClose( wxCloseEvent& event ) { event.Skip(); }
@@ -208,10 +220,9 @@ class MainFrameBase : public wxFrame
 		virtual void OnListKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void SortUserList( wxListEvent& event ) { event.Skip(); }
 		virtual void ShowPopupMenu( wxListEvent& event ) { event.Skip(); }
-		virtual void OnUserItemActivated( wxListEvent& event ) { event.Skip(); }
+		virtual void OnSettingItemActivated( wxListEvent& event ) { event.Skip(); }
 		virtual void OnListSizeChange( wxSizeEvent& event ) { event.Skip(); }
 		virtual void SortUserGroupList( wxListEvent& event ) { event.Skip(); }
-		virtual void OnUserGroupItemActivated( wxListEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -230,7 +241,7 @@ class UserGroupDialogBase : public wxDialog
 	
 	protected:
 		wxStaticText* m_staticText19;
-		wxTextCtrl* m_textCtrl10;
+		wxTextCtrl* m_textCtrl_groupname;
 		wxStaticText* m_staticTextStatus;
 		wxButton* m_button_save;
 		wxButton* m_button_close;

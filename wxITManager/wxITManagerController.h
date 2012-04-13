@@ -8,7 +8,25 @@
 class Database;
 class ManagerConfig;
 
-class DatabaseController : public wxEvtHandler
+class Controller : public wxEvtHandler
+{
+    public:
+        void OnDatabaseEvent(wxDatabaseEvent& event)
+        {
+            if(event.GetStatus() == EVENTSTATUS_REQUEST)
+            {
+                OnDatabaseRequest(event);
+            }
+            else
+            {
+                OnDatabaseResponse(event);
+            }
+        };
+        virtual void OnDatabaseRequest(wxDatabaseEvent& event){};
+        virtual void OnDatabaseResponse(wxDatabaseEvent& event){};
+};
+
+class DatabaseController : public Controller
 {
     private:
         Database        *m_database;
@@ -21,14 +39,14 @@ class DatabaseController : public wxEvtHandler
         DatabaseController();
         ~DatabaseController();
 
-        void OnDatabaseEvent(wxDatabaseEvent& event);
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
         inline ManagerConfig* GetConfig(){return m_config;}
 };
 
-class AuthorityController : public wxEvtHandler
+class AuthorityController : public Controller
 {
     private:
         size_t          m_id;
@@ -39,7 +57,7 @@ class AuthorityController : public wxEvtHandler
     public:
         AuthorityController();
 
-        void OnDatabaseEvent(wxDatabaseEvent& event);
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -50,23 +68,16 @@ class AuthorityController : public wxEvtHandler
         inline wxString GetUserGroupName(){return m_usergroupname;};
 };
 
-class UserController : public wxEvtHandler
+class UserController : public Controller
 {
     private:
         UserInfoArray *m_userlist;
-        //UserInfo      *m_currentuser;
 
     public:
         UserController();
         ~UserController();
 
-        //void OnUserLogin(wxDatabaseEvent& event);
-        //void OnGetUserList(wxDatabaseEvent& event);
-        //void OnAddUser(wxDatabaseEvent& event);
-        //void OnDeleteUser(wxDatabaseEvent& event);
-        //void OnUpdateUser(wxDatabaseEvent& event);
-
-        void OnDatabaseEvent(wxDatabaseEvent& event);
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -74,7 +85,7 @@ class UserController : public wxEvtHandler
         UserInfoArray* GetList() {return m_userlist;};
 };
 
-class UserGroupController : public wxEvtHandler
+class UserGroupController : public Controller
 {
     private:
         UserGroupInfoArray *m_usergrouplist;
@@ -83,14 +94,80 @@ class UserGroupController : public wxEvtHandler
         UserGroupController();
         ~UserGroupController();
 
-        //void OnGetUserGroupList(wxDatabaseEvent& event);
-
-        void OnDatabaseEvent(wxDatabaseEvent& event);
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
         size_t getItemNumber() {return m_usergrouplist->GetCount();};
         UserGroupInfoArray* GetList() {return m_usergrouplist;};
+};
+
+class VcardController : public Controller
+{
+    private:
+        VcardInfoArray *m_vcardlist;
+
+    public:
+        VcardController();
+        ~VcardController();
+
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_vcardlist->GetCount();};
+        VcardInfoArray* GetList() {return m_vcardlist;};
+};
+
+class VcardGroupController : public Controller
+{
+    private:
+        VcardGroupInfoArray *m_vcardgrouplist;
+
+    public:
+        VcardGroupController();
+        ~VcardGroupController();
+
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_vcardgrouplist->GetCount();};
+        VcardGroupInfoArray* GetList() {return m_vcardgrouplist;};
+};
+
+class CompanyController : public Controller
+{
+    private:
+        CompanyInfoArray *m_companylist;
+
+    public:
+        CompanyController();
+        ~CompanyController();
+
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_companylist->GetCount();};
+        CompanyInfoArray* GetList() {return m_companylist;};
+};
+
+class CompanyTypeController : public Controller
+{
+    private:
+        CompanyTypeInfoArray *m_companytypelist;
+
+    public:
+        CompanyTypeController();
+        ~CompanyTypeController();
+
+        //void OnDatabaseEvent(wxDatabaseEvent& event);
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_companytypelist->GetCount();};
+        CompanyTypeInfoArray* GetList() {return m_companytypelist;};
 };
 
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

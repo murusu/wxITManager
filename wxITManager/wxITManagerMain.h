@@ -32,10 +32,16 @@ class wxITManagerApp: public wxApp
         ManagerConfig       *m_config;
         Database            *m_database;
 
-        DatabaseController  *m_dbcontroller;
-        AuthorityController *m_authcontroller;
-        UserController      *m_usercontroller;
-        UserGroupController *m_usergroupcontroller;
+        DatabaseController      *m_dbcontroller;
+        AuthorityController     *m_authcontroller;
+
+        UserController          *m_usercontroller;
+        UserGroupController     *m_usergroupcontroller;
+
+        VcardController         *m_vcardcontroller;
+        VcardGroupController    *m_vcardgroupcontroller;
+        CompanyController       *m_companycontroller;
+        CompanyTypeController   *m_companytypecontroller;
 
     public:
         bool    OnInit(void);

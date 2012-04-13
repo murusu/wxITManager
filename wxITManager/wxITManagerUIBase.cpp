@@ -570,6 +570,62 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer204->Fit( m_panel_usergroup );
 	bSizer21->Add( m_panel_usergroup, 1, wxEXPAND, 0 );
 	
+	m_panel_vcard = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_vcard->Hide();
+	
+	wxBoxSizer* bSizer127;
+	bSizer127 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_vcard = new VcardListCtrl( m_panel_vcard, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	bSizer127->Add( m_listCtrl_vcard, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_vcard->SetSizer( bSizer127 );
+	m_panel_vcard->Layout();
+	bSizer127->Fit( m_panel_vcard );
+	bSizer21->Add( m_panel_vcard, 0, wxEXPAND, 5 );
+	
+	m_panel_vcardgroup = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_vcardgroup->Hide();
+	
+	wxBoxSizer* bSizer128;
+	bSizer128 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_vcardgroup = new VcardGroupListCtrl( m_panel_vcardgroup, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	bSizer128->Add( m_listCtrl_vcardgroup, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_vcardgroup->SetSizer( bSizer128 );
+	m_panel_vcardgroup->Layout();
+	bSizer128->Fit( m_panel_vcardgroup );
+	bSizer21->Add( m_panel_vcardgroup, 0, wxEXPAND, 5 );
+	
+	m_panel_company = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_company->Hide();
+	
+	wxBoxSizer* bSizer1291;
+	bSizer1291 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_company = new CompanyListCtrl( m_panel_company, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	bSizer1291->Add( m_listCtrl_company, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_company->SetSizer( bSizer1291 );
+	m_panel_company->Layout();
+	bSizer1291->Fit( m_panel_company );
+	bSizer21->Add( m_panel_company, 0, wxEXPAND, 5 );
+	
+	m_panel_companytype = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_companytype->Hide();
+	
+	wxBoxSizer* bSizer130;
+	bSizer130 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_companytype = new CompanyTypeListCtrl( m_panel_companytype, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	bSizer130->Add( m_listCtrl_companytype, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_companytype->SetSizer( bSizer130 );
+	m_panel_companytype->Layout();
+	bSizer130->Fit( m_panel_companytype );
+	bSizer21->Add( m_panel_companytype, 0, wxEXPAND, 5 );
+	
 	m_panel_settinglist->SetSizer( bSizer21 );
 	m_panel_settinglist->Layout();
 	bSizer21->Fit( m_panel_settinglist );
@@ -600,13 +656,21 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_listCtrl_user->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
 	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserList ), NULL, this );
 	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
-	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserItemActivated ), NULL, this );
+	m_listCtrl_user->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_user->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_usergroup->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
 	m_listCtrl_usergroup->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserGroupList ), NULL, this );
 	m_listCtrl_usergroup->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
-	m_listCtrl_usergroup->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserGroupItemActivated ), NULL, this );
+	m_listCtrl_usergroup->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_usergroup->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_vcard->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_vcard->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_vcardgroup->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_vcardgroup->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_company->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_company->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_companytype->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_companytype->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 }
 
 MainFrameBase::~MainFrameBase()
@@ -626,13 +690,21 @@ MainFrameBase::~MainFrameBase()
 	m_listCtrl_user->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
 	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserList ), NULL, this );
 	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
-	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserItemActivated ), NULL, this );
+	m_listCtrl_user->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_user->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_usergroup->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( MainFrameBase::OnListKeyDown ), NULL, this );
 	m_listCtrl_usergroup->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( MainFrameBase::SortUserGroupList ), NULL, this );
 	m_listCtrl_usergroup->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( MainFrameBase::ShowPopupMenu ), NULL, this );
-	m_listCtrl_usergroup->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnUserGroupItemActivated ), NULL, this );
+	m_listCtrl_usergroup->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_usergroup->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_vcard->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_vcard->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_vcardgroup->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_vcardgroup->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_company->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_company->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_companytype->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_companytype->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	
 }
 
@@ -650,8 +722,8 @@ UserGroupDialogBase::UserGroupDialogBase( wxWindow* parent, wxWindowID id, const
 	m_staticText19->Wrap( -1 );
 	bSizer42->Add( m_staticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_textCtrl10 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), 0 );
-	bSizer42->Add( m_textCtrl10, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	m_textCtrl_groupname = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), 0 );
+	bSizer42->Add( m_textCtrl_groupname, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	bSizer34->Add( bSizer42, 1, wxEXPAND, 5 );
 	

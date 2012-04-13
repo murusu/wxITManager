@@ -17,11 +17,36 @@ Database::Database(ManagerConfig *database_config)
     this->Connect(wxEVT_DATABASE_CREATEDATABSE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_TESTDATABSE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_USERLOGIN, wxDatabaseEventHandler(Database::OnRequest));
+
     this->Connect(wxEVT_DATABASE_GETUSERLIST, wxDatabaseEventHandler(Database::OnRequest));
-    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_DELETEUSER, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_ADDUSER, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_UPDATEUSER, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETEUSERGROUP, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDUSERGROUP, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATEUSERGROUP, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETVCARDLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETEVCARD, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDVCARD, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATEVCARD, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETVCARDGROUPLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETEVCARDGROUP, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDVCARDGROUP, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATEVCARDGROUP, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETCOMPANYLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETECOMPANY, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDCOMPANY, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATECOMPANY, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETCOMPANYTYPELIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETECOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDCOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATECOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
 }
 
 Database::~Database()
@@ -76,9 +101,12 @@ wxString DatabaseSqlite::GetDBTableInitStr()
 {
     wxString init_sql = wxT("");
 
-    init_sql += wxT("CREATE TABLE `user`(id integer PRIMARY KEY, name varchar(30) UNIQUE, password varchar(50), group_id integer, vaild bool DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `user_group`(id integer PRIMARY KEY, name varchar(30), vaild bool DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `vcard`(id integer PRIMARY KEY, FN varchar(30), NICKNAME varchar(30), WORKTEL varchar(40), MOBILETEL varchar(40), EMAIL varchar(50), TITLE varchar(40), ORG varchar(50), VERSION varchar(20), vaild bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `user`(id INTEGER PRIMARY KEY, name VARCHAR UNIQUE, password VARCHAR, group_id INTEGER, vaild bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `user_group`(id INTEGER PRIMARY KEY, name VARCHAR, vaild bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `vcard`(id INTEGER PRIMARY KEY, fullname VARCHAR, nickname VARCHAR, work_phone varchar, mobie_phone varchar, email varchar, title varchar, company varchar, vaild bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `vcard_group`(id INTEGER PRIMARY KEY, name VARCHAR, vaild BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `company` (id INTEGER, name VARCHAR, companytype_id INTEGER, vaild BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `company_type` (id INTEGER, name VARCHAR, vaild BOOL DEFAULT 1);");
 
     init_sql += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('admin','admin',1);");
     init_sql += wxT("INSERT INTO 'user_group' ('name') VALUES ('administrator');");
