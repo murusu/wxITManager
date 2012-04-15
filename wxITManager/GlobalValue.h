@@ -1,6 +1,8 @@
 #ifndef GLOBALVALUE_H_INCLUDED
 #define GLOBALVALUE_H_INCLUDED
 
+const size_t DATABASE_VERSION       = 20120414;
+
 const char * const CONFIGFILE_NAME      = "config.xml";
 const char * const CONFIGFILE_ROOTNAME  = "wxITmanager_Config";
 
@@ -19,15 +21,19 @@ const size_t EVENTSTATUS_FAIL       = 2;
 const size_t SQLTYPE_QUERY          = 1;
 const size_t SQLTYPE_UPDATE         = 2;
 
-const size_t CONTROLLER_NULL        = 0;
-const size_t CONTROLLER_DATABASE    = 1;
-const size_t CONTROLLER_AUTH        = 2;
-const size_t CONTROLLER_USER        = 3;
-const size_t CONTROLLER_USERGROUP   = 4;
-const size_t CONTROLLER_VCARD       = 5;
-const size_t CONTROLLER_VCARDGROUP  = 6;
-const size_t CONTROLLER_COMPANY     = 7;
-const size_t CONTROLLER_COMPANYTYPE = 8;
+const size_t CONTROLLER_NULL            = 0;
+const size_t CONTROLLER_DATABASE        = 1;
+const size_t CONTROLLER_AUTH            = 2;
+const size_t CONTROLLER_USER            = 3;
+const size_t CONTROLLER_USERGROUP       = 4;
+const size_t CONTROLLER_VCARD           = 5;
+const size_t CONTROLLER_VCARDGROUP      = 6;
+const size_t CONTROLLER_COMPANY         = 7;
+const size_t CONTROLLER_COMPANYTYPE     = 8;
+const size_t CONTROLLER_RESOURCE        = 9;
+const size_t CONTROLLER_RESOURCETYPE    = 10;
+const size_t CONTROLLER_RESOURCESTATUS  = 11;
+const size_t CONTROLLER_RESOURCEFEETYPE = 12;
 
 const size_t DATABASE_SQLITE    = 0;
 const size_t DATABASE_MYSQL     = 1;

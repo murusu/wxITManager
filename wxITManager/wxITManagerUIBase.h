@@ -12,6 +12,10 @@
 
 class CompanyListCtrl;
 class CompanyTypeListCtrl;
+class ResourceFeeTypeListCtrl;
+class ResourceListCtrl;
+class ResourceStatusListCtrl;
+class ResourceTypeListCtrl;
 class UserGroupListCtrl;
 class UserListCtrl;
 class VcardGroupListCtrl;
@@ -55,9 +59,13 @@ class VcardListCtrl;
 #define wxID_MENUITEM_EXIT 1006
 #define wxID_MENUITEM_USER 1007
 #define wxID_MENUITEM_USERGROUP 1008
-#define wxID_MENUITEM_IMPORTDATA 1009
-#define wxID_MENUITEM_EXPORTDATA 1010
-#define wxID_MENUITEM_ABOUT 1011
+#define wxID_MENUITEM_VCARD 1009
+#define wxID_MENUITEM_VCARDGROUP 1010
+#define wxID_MENUITEM_COMPANY 1011
+#define wxID_MENUITEM_COMPANYTYPE 1012
+#define wxID_MENUITEM_IMPORTDATA 1013
+#define wxID_MENUITEM_EXPORTDATA 1014
+#define wxID_MENUITEM_ABOUT 1015
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class LoginFrameBase
@@ -205,6 +213,14 @@ class MainFrameBase : public wxFrame
 		CompanyListCtrl* m_listCtrl_company;
 		wxPanel* m_panel_companytype;
 		CompanyTypeListCtrl* m_listCtrl_companytype;
+		wxPanel* m_panel_resource;
+		ResourceListCtrl* m_listCtrl_resource;
+		wxPanel* m_panel_resourcetype;
+		ResourceTypeListCtrl* m_listCtrl_resourcetype;
+		wxPanel* m_panel_resourcestatus;
+		ResourceStatusListCtrl* m_listCtrl_resourcestatus;
+		wxPanel* m_panel_resourcefeetype;
+		ResourceFeeTypeListCtrl* m_listCtrl_resourcefeetype;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnMainFrameClose( wxCloseEvent& event ) { event.Skip(); }
@@ -329,15 +345,15 @@ class VcardDialogBase : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class LocationDialogBase
+/// Class VcardGroupDialogBase
 ///////////////////////////////////////////////////////////////////////////////
-class LocationDialogBase : public wxDialog 
+class VcardGroupDialogBase : public wxDialog 
 {
 	private:
 	
 	protected:
 		wxStaticText* m_staticText19;
-		wxTextCtrl* m_textCtrl_location;
+		wxTextCtrl* m_textCtrl_groupname;
 		wxStaticText* m_staticTextStatus;
 		wxButton* m_button_save;
 		wxButton* m_button_close;
@@ -349,8 +365,8 @@ class LocationDialogBase : public wxDialog
 	
 	public:
 		
-		LocationDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Location"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 415,110 ), long style = wxDEFAULT_DIALOG_STYLE );
-		~LocationDialogBase();
+		VcardGroupDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Vcard Group"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 415,110 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~VcardGroupDialogBase();
 	
 };
 
@@ -372,6 +388,7 @@ class CompanyDialogBase : public wxDialog
 		wxButton* m_button_close;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnButtonAddCompanyTypeClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonCloseClick( wxCommandEvent& event ) { event.Skip(); }
 		
@@ -406,6 +423,32 @@ class CompanyTypeDialogBase : public wxDialog
 		
 		CompanyTypeDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Company Type"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 415,110 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~CompanyTypeDialogBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LocationDialogBase
+///////////////////////////////////////////////////////////////////////////////
+class LocationDialogBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText19;
+		wxTextCtrl* m_textCtrl_location;
+		wxStaticText* m_staticTextStatus;
+		wxButton* m_button_save;
+		wxButton* m_button_close;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonCloseClick( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		LocationDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Location"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 415,110 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~LocationDialogBase();
 	
 };
 

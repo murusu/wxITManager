@@ -59,19 +59,7 @@ DatabaseController::~DatabaseController()
     if(m_locker) delete m_locker;
     if(m_mutex)  delete m_mutex;
 }
-/*
-void DatabaseController::OnDatabaseEvent(wxDatabaseEvent& event)
-{
-    if(event.GetStatus() == EVENTSTATUS_REQUEST)
-    {
-        OnDatabaseRequest(event);
-    }
-    else
-    {
-        OnDatabaseResponse(event);
-    }
-}
-*/
+
 void DatabaseController::OnDatabaseResponse(wxDatabaseEvent& event)
 {
     if(m_locker) delete m_locker;
@@ -133,19 +121,6 @@ AuthorityController::AuthorityController()
 
     this->Connect(wxEVT_DATABASE_USERLOGIN, wxDatabaseEventHandler(AuthorityController::OnDatabaseEvent));
 }
-/*
-void AuthorityController::OnDatabaseEvent(wxDatabaseEvent& event)
-{
-    if(event.GetStatus() == EVENTSTATUS_REQUEST)
-    {
-        OnDatabaseRequest(event);
-    }
-    else
-    {
-        OnDatabaseResponse(event);
-    }
-}
-*/
 
 void AuthorityController::OnDatabaseRequest(wxDatabaseEvent& event)
 {
@@ -195,8 +170,6 @@ void AuthorityController::OnDatabaseResponse(wxDatabaseEvent& event)
     ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
 }
 
-
-
 UserController::UserController()
 {
     //m_currentuser   = NULL;
@@ -214,19 +187,7 @@ UserController::~UserController()
 
     if(m_userlist) delete m_userlist;
 }
-/*
-void UserController::OnDatabaseEvent(wxDatabaseEvent& event)
-{
-    if(event.GetStatus() == EVENTSTATUS_REQUEST)
-    {
-        OnDatabaseRequest(event);
-    }
-    else
-    {
-        OnDatabaseResponse(event);
-    }
-}
-*/
+
 void UserController::OnDatabaseRequest(wxDatabaseEvent& event)
 {
     wxEventType event_type = event.GetEventType();
@@ -341,19 +302,7 @@ UserGroupController::~UserGroupController()
 
     if(m_usergrouplist) delete m_usergrouplist;
 }
-/*
-void UserGroupController::OnDatabaseEvent(wxDatabaseEvent& event)
-{
-    if(event.GetStatus() == EVENTSTATUS_REQUEST)
-    {
-        OnDatabaseRequest(event);
-    }
-    else
-    {
-        OnDatabaseResponse(event);
-    }
-}
-*/
+
 void UserGroupController::OnDatabaseRequest(wxDatabaseEvent& event)
 {
     wxEventType event_type = event.GetEventType();
@@ -553,7 +502,7 @@ void VcardController::OnDatabaseResponse(wxDatabaseEvent& event)
         wxJSONValue result_data = event.GetJsonData();
         for ( int i = 0; i < result_data.Size(); i++ )
         {
-            m_usergrouplist->Add(VcardInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString(), result_data[i][2].AsString(), result_data[i][3].AsString(), result_data[i][4].AsString(), result_data[i][5].AsString(), result_data[i][6].AsString(), result_data[i][7].AsString()));
+            m_vcardlist->Add(VcardInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString(), result_data[i][2].AsString(), result_data[i][3].AsString(), result_data[i][4].AsString(), result_data[i][5].AsString(), result_data[i][6].AsString(), result_data[i][7].AsString()));
         }
     }
 
@@ -705,7 +654,7 @@ void CompanyController::OnDatabaseRequest(wxDatabaseEvent& event)
         wxString sql_str = wxT("");
         wxJSONValue request_data = event.GetJsonData();
 
-        sql_str += wxT("INSERT INTO 'company' ('name','group_id') VALUES ('");
+        sql_str += wxT("INSERT INTO 'company' ('name','companytype_id') VALUES ('");
         sql_str += request_data[0].AsString();
         sql_str += wxT("',");
         sql_str += request_data[1].AsString();

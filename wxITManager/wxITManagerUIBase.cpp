@@ -444,19 +444,19 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_separator2 = m_menu3->AppendSeparator();
 	
 	wxMenuItem* m_menuItem6;
-	m_menuItem6 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Vcard") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem6 = new wxMenuItem( m_menu3, wxID_MENUITEM_VCARD, wxString( _("Vcard") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem6 );
 	
 	wxMenuItem* m_menuItem8;
-	m_menuItem8 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Vcard Group") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem8 = new wxMenuItem( m_menu3, wxID_MENUITEM_VCARDGROUP, wxString( _("Vcard Group") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem8 );
 	
 	wxMenuItem* m_menuItem7;
-	m_menuItem7 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Company") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem7 = new wxMenuItem( m_menu3, wxID_MENUITEM_COMPANY, wxString( _("Company") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem7 );
 	
 	wxMenuItem* m_menuItem11;
-	m_menuItem11 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Company Type") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem11 = new wxMenuItem( m_menu3, wxID_MENUITEM_COMPANYTYPE, wxString( _("Company Type") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem11 );
 	
 	wxMenuItem* m_separator3;
@@ -577,12 +577,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer127 = new wxBoxSizer( wxVERTICAL );
 	
 	m_listCtrl_vcard = new VcardListCtrl( m_panel_vcard, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_vcard->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
 	bSizer127->Add( m_listCtrl_vcard, 0, wxALL|wxEXPAND, 5 );
 	
 	m_panel_vcard->SetSizer( bSizer127 );
 	m_panel_vcard->Layout();
 	bSizer127->Fit( m_panel_vcard );
-	bSizer21->Add( m_panel_vcard, 0, wxEXPAND, 5 );
+	bSizer21->Add( m_panel_vcard, 1, wxEXPAND, 5 );
 	
 	m_panel_vcardgroup = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel_vcardgroup->Hide();
@@ -591,12 +593,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer128 = new wxBoxSizer( wxVERTICAL );
 	
 	m_listCtrl_vcardgroup = new VcardGroupListCtrl( m_panel_vcardgroup, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_vcardgroup->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
 	bSizer128->Add( m_listCtrl_vcardgroup, 0, wxALL|wxEXPAND, 5 );
 	
 	m_panel_vcardgroup->SetSizer( bSizer128 );
 	m_panel_vcardgroup->Layout();
 	bSizer128->Fit( m_panel_vcardgroup );
-	bSizer21->Add( m_panel_vcardgroup, 0, wxEXPAND, 5 );
+	bSizer21->Add( m_panel_vcardgroup, 1, wxEXPAND, 5 );
 	
 	m_panel_company = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel_company->Hide();
@@ -605,12 +609,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer1291 = new wxBoxSizer( wxVERTICAL );
 	
 	m_listCtrl_company = new CompanyListCtrl( m_panel_company, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_company->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
 	bSizer1291->Add( m_listCtrl_company, 0, wxALL|wxEXPAND, 5 );
 	
 	m_panel_company->SetSizer( bSizer1291 );
 	m_panel_company->Layout();
 	bSizer1291->Fit( m_panel_company );
-	bSizer21->Add( m_panel_company, 0, wxEXPAND, 5 );
+	bSizer21->Add( m_panel_company, 1, wxEXPAND, 5 );
 	
 	m_panel_companytype = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel_companytype->Hide();
@@ -619,12 +625,79 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer130 = new wxBoxSizer( wxVERTICAL );
 	
 	m_listCtrl_companytype = new CompanyTypeListCtrl( m_panel_companytype, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_companytype->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
 	bSizer130->Add( m_listCtrl_companytype, 0, wxALL|wxEXPAND, 5 );
 	
 	m_panel_companytype->SetSizer( bSizer130 );
 	m_panel_companytype->Layout();
 	bSizer130->Fit( m_panel_companytype );
-	bSizer21->Add( m_panel_companytype, 0, wxEXPAND, 5 );
+	bSizer21->Add( m_panel_companytype, 1, wxEXPAND, 5 );
+	
+	m_panel_resource = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_resource->Hide();
+	
+	wxBoxSizer* bSizer136;
+	bSizer136 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_resource = new ResourceListCtrl( m_panel_resource, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_resource->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
+	bSizer136->Add( m_listCtrl_resource, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_resource->SetSizer( bSizer136 );
+	m_panel_resource->Layout();
+	bSizer136->Fit( m_panel_resource );
+	bSizer21->Add( m_panel_resource, 1, wxEXPAND, 5 );
+	
+	m_panel_resourcetype = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_resourcetype->Hide();
+	
+	wxBoxSizer* bSizer137;
+	bSizer137 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_resourcetype = new ResourceTypeListCtrl( m_panel_resourcetype, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_resourcetype->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
+	bSizer137->Add( m_listCtrl_resourcetype, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_resourcetype->SetSizer( bSizer137 );
+	m_panel_resourcetype->Layout();
+	bSizer137->Fit( m_panel_resourcetype );
+	bSizer21->Add( m_panel_resourcetype, 1, wxEXPAND, 5 );
+	
+	m_panel_resourcestatus = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_resourcestatus->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	m_panel_resourcestatus->Hide();
+	
+	wxBoxSizer* bSizer138;
+	bSizer138 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_resourcestatus = new ResourceStatusListCtrl( m_panel_resourcestatus, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_resourcestatus->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
+	bSizer138->Add( m_listCtrl_resourcestatus, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_resourcestatus->SetSizer( bSizer138 );
+	m_panel_resourcestatus->Layout();
+	bSizer138->Fit( m_panel_resourcestatus );
+	bSizer21->Add( m_panel_resourcestatus, 1, wxEXPAND, 5 );
+	
+	m_panel_resourcefeetype = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_resourcefeetype->Hide();
+	
+	wxBoxSizer* bSizer139;
+	bSizer139 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_resourcefeetype = new ResourceFeeTypeListCtrl( m_panel_resourcefeetype, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_resourcefeetype->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
+	bSizer139->Add( m_listCtrl_resourcefeetype, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_resourcefeetype->SetSizer( bSizer139 );
+	m_panel_resourcefeetype->Layout();
+	bSizer139->Fit( m_panel_resourcefeetype );
+	bSizer21->Add( m_panel_resourcefeetype, 1, wxEXPAND, 5 );
 	
 	m_panel_settinglist->SetSizer( bSizer21 );
 	m_panel_settinglist->Layout();
@@ -647,6 +720,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
 	this->Connect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_VCARD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_VCARDGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_COMPANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_COMPANYTYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Connect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Connect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
@@ -671,6 +748,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_listCtrl_company->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_companytype->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_companytype->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resource->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resource->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resourcetype->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resourcetype->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resourcestatus->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resourcestatus->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resourcefeetype->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resourcefeetype->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 }
 
 MainFrameBase::~MainFrameBase()
@@ -681,6 +766,10 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
 	this->Disconnect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_VCARD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_VCARDGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_COMPANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_COMPANYTYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
@@ -705,6 +794,14 @@ MainFrameBase::~MainFrameBase()
 	m_listCtrl_company->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_companytype->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_companytype->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resource->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resource->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resourcetype->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resourcetype->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resourcestatus->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resourcestatus->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_resourcefeetype->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_resourcefeetype->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	
 }
 
@@ -999,7 +1096,7 @@ VcardDialogBase::~VcardDialogBase()
 	
 }
 
-LocationDialogBase::LocationDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+VcardGroupDialogBase::VcardGroupDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
@@ -1009,12 +1106,12 @@ LocationDialogBase::LocationDialogBase( wxWindow* parent, wxWindowID id, const w
 	wxBoxSizer* bSizer42;
 	bSizer42 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText19 = new wxStaticText( this, wxID_ANY, _("Location Name:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText19 = new wxStaticText( this, wxID_ANY, _("User Group Name:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText19->Wrap( -1 );
 	bSizer42->Add( m_staticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_textCtrl_location = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), 0 );
-	bSizer42->Add( m_textCtrl_location, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	m_textCtrl_groupname = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), 0 );
+	bSizer42->Add( m_textCtrl_groupname, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	bSizer34->Add( bSizer42, 1, wxEXPAND, 5 );
 	
@@ -1049,15 +1146,15 @@ LocationDialogBase::LocationDialogBase( wxWindow* parent, wxWindowID id, const w
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonSaveClick ), NULL, this );
-	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonCloseClick ), NULL, this );
+	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VcardGroupDialogBase::OnButtonSaveClick ), NULL, this );
+	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VcardGroupDialogBase::OnButtonCloseClick ), NULL, this );
 }
 
-LocationDialogBase::~LocationDialogBase()
+VcardGroupDialogBase::~VcardGroupDialogBase()
 {
 	// Disconnect Events
-	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonSaveClick ), NULL, this );
-	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonCloseClick ), NULL, this );
+	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VcardGroupDialogBase::OnButtonSaveClick ), NULL, this );
+	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VcardGroupDialogBase::OnButtonCloseClick ), NULL, this );
 	
 }
 
@@ -1130,6 +1227,7 @@ CompanyDialogBase::CompanyDialogBase( wxWindow* parent, wxWindowID id, const wxS
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	m_button_addcompanytype->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyDialogBase::OnButtonAddCompanyTypeClick ), NULL, this );
 	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyDialogBase::OnButtonCloseClick ), NULL, this );
 }
@@ -1137,6 +1235,7 @@ CompanyDialogBase::CompanyDialogBase( wxWindow* parent, wxWindowID id, const wxS
 CompanyDialogBase::~CompanyDialogBase()
 {
 	// Disconnect Events
+	m_button_addcompanytype->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyDialogBase::OnButtonAddCompanyTypeClick ), NULL, this );
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyDialogBase::OnButtonCloseClick ), NULL, this );
 	
@@ -1201,6 +1300,68 @@ CompanyTypeDialogBase::~CompanyTypeDialogBase()
 	// Disconnect Events
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyTypeDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CompanyTypeDialogBase::OnButtonCloseClick ), NULL, this );
+	
+}
+
+LocationDialogBase::LocationDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer34;
+	bSizer34 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer42;
+	bSizer42 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText19 = new wxStaticText( this, wxID_ANY, _("Location Name:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText19->Wrap( -1 );
+	bSizer42->Add( m_staticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_textCtrl_location = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), 0 );
+	bSizer42->Add( m_textCtrl_location, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	bSizer34->Add( bSizer42, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer28;
+	bSizer28 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer29;
+	bSizer29 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticTextStatus = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticTextStatus->Wrap( -1 );
+	bSizer29->Add( m_staticTextStatus, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	bSizer28->Add( bSizer29, 1, wxALIGN_LEFT|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer26;
+	bSizer26 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_button_save = new wxButton( this, wxID_ANY, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer26->Add( m_button_save, 0, wxALL, 5 );
+	
+	m_button_close = new wxButton( this, wxID_ANY, _("Close"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer26->Add( m_button_close, 0, wxALL, 5 );
+	
+	bSizer28->Add( bSizer26, 0, wxALIGN_RIGHT, 5 );
+	
+	bSizer34->Add( bSizer28, 0, wxEXPAND, 5 );
+	
+	this->SetSizer( bSizer34 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonSaveClick ), NULL, this );
+	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonCloseClick ), NULL, this );
+}
+
+LocationDialogBase::~LocationDialogBase()
+{
+	// Disconnect Events
+	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonSaveClick ), NULL, this );
+	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LocationDialogBase::OnButtonCloseClick ), NULL, this );
 	
 }
 

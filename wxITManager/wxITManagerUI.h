@@ -155,6 +155,11 @@ class MainFrame : public MainFrameBase
 
 		inline UserListCtrl* GetUserListctrl(){return m_listCtrl_user;};
 		inline UserGroupListCtrl* GetUserGroupListctrl(){return m_listCtrl_usergroup;};
+
+		inline VcardListCtrl* GetVcardListctrl(){return m_listCtrl_vcard;};
+		inline VcardGroupListCtrl* GetVcardGroupListctrl(){return m_listCtrl_vcardgroup;};
+		inline CompanyListCtrl* GetCompanyListctrl(){return m_listCtrl_company;};
+		inline CompanyTypeListCtrl* GetCompanyTypeListctrl(){return m_listCtrl_companytype;};
 };
 
 class UserDialog : public UserDialogBase
@@ -190,6 +195,73 @@ class UserGroupDialog : public UserGroupDialogBase
 		void OnButtonSaveClick( wxCommandEvent& event );
 
 		void OnUserGroupInfoUpdate( wxDatabaseEvent& event);
+};
+
+class VcardDialog : public VcardDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		VcardDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnVcardInfoUpdate( wxDatabaseEvent& event);
+};
+
+class VcardGroupDialog : public VcardGroupDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		VcardGroupDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnVcardGroupInfoUpdate( wxDatabaseEvent& event);
+};
+
+class CompanyDialog : public CompanyDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		CompanyDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+		void OnButtonAddCompanyTypeClick( wxCommandEvent& event );
+
+		void RefreshCompanyTypeChoice();
+
+		void OnCompanyInfoUpdate( wxDatabaseEvent& event);
+};
+
+class CompanyTypeDialog : public CompanyTypeDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		CompanyTypeDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnCompanyTypeInfoUpdate( wxDatabaseEvent& event);
 };
 
 #endif // WXITMANAGERUI_H_INCLUDED

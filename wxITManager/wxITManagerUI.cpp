@@ -97,6 +97,7 @@ wxString UserGroupListCtrl::OnGetItemText(long item, long column) const
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 VcardListCtrl::VcardListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
     this->Connect(wxEVT_DATABASE_GETVCARDLIST, wxDatabaseEventHandler(VcardListCtrl::OnRefreshList));
@@ -134,7 +135,23 @@ wxString VcardListCtrl::OnGetItemText(long item, long column) const
     switch(column)
     {
         case 0:
-            ItemText = list->Item(item).m_name;
+            ItemText = list->Item(item).m_fullname;
+            break;
+
+        case 1:
+            ItemText = list->Item(item).m_nickname;
+            break;
+
+        case 2:
+            ItemText = list->Item(item).m_workphone;
+            break;
+
+        case 3:
+            ItemText = list->Item(item).m_email;
+            break;
+
+        case 4:
+            ItemText = list->Item(item).m_company;
             break;
     }
 
@@ -142,6 +159,7 @@ wxString VcardListCtrl::OnGetItemText(long item, long column) const
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 VcardGroupListCtrl::VcardGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
     this->Connect(wxEVT_DATABASE_GETVCARDGROUPLIST, wxDatabaseEventHandler(VcardGroupListCtrl::OnRefreshList));
@@ -187,44 +205,49 @@ wxString VcardGroupListCtrl::OnGetItemText(long item, long column) const
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-UserGroupListCtrl::UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+
+CompanyListCtrl::CompanyListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
-    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(UserGroupListCtrl::OnRefreshList));
-    this->Connect(wxEVT_DATABASE_DELETEUSERGROUP, wxDatabaseEventHandler(UserGroupListCtrl::OnListChange));
-    this->Connect(wxEVT_DATABASE_ADDUSERGROUP, wxDatabaseEventHandler(UserGroupListCtrl::OnListChange));
-    this->Connect(wxEVT_DATABASE_UPDATEUSERGROUP, wxDatabaseEventHandler(UserGroupListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_GETCOMPANYLIST, wxDatabaseEventHandler(CompanyListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETECOMPANY, wxDatabaseEventHandler(CompanyListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDCOMPANY, wxDatabaseEventHandler(CompanyListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATECOMPANY, wxDatabaseEventHandler(CompanyListCtrl::OnListChange));
 }
 
-void UserGroupListCtrl::OnListChange( wxDatabaseEvent& event)
+void CompanyListCtrl::OnListChange( wxDatabaseEvent& event)
 {
     RefreshList();
 }
 
-void UserGroupListCtrl::OnRefreshList( wxDatabaseEvent& event)
+void CompanyListCtrl::OnRefreshList( wxDatabaseEvent& event)
 {
-    SetItemCount(((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->getItemNumber());
+    SetItemCount(((CompanyController *)(wxGetApp().GetController(CONTROLLER_COMPANY)))->getItemNumber());
     Refresh();
 }
 
-void UserGroupListCtrl::RefreshList()
+void CompanyListCtrl::RefreshList()
 {
-    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USERGROUP);
-    wxDatabaseEvent database_event(wxEVT_DATABASE_GETUSERGROUPLIST, CONTROLLER_USERGROUP);
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_COMPANY);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETCOMPANYLIST, CONTROLLER_COMPANY);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
     database_event.SetEventObject(this);
     handler->AddPendingEvent(database_event);
 }
 
-wxString UserGroupListCtrl::OnGetItemText(long item, long column) const
+wxString CompanyListCtrl::OnGetItemText(long item, long column) const
 {
     wxString ItemText = wxT("");
 
-    UserGroupInfoArray* list = ((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->GetList();
+    CompanyInfoArray* list = ((CompanyController *)(wxGetApp().GetController(CONTROLLER_COMPANY)))->GetList();
 
     switch(column)
     {
         case 0:
             ItemText = list->Item(item).m_name;
+            break;
+
+        case 1:
+            ItemText = list->Item(item).m_companytypename;
             break;
     }
 
@@ -232,39 +255,40 @@ wxString UserGroupListCtrl::OnGetItemText(long item, long column) const
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-UserGroupListCtrl::UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+
+CompanyTypeListCtrl::CompanyTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
-    this->Connect(wxEVT_DATABASE_GETUSERGROUPLIST, wxDatabaseEventHandler(UserGroupListCtrl::OnRefreshList));
-    this->Connect(wxEVT_DATABASE_DELETEUSERGROUP, wxDatabaseEventHandler(UserGroupListCtrl::OnListChange));
-    this->Connect(wxEVT_DATABASE_ADDUSERGROUP, wxDatabaseEventHandler(UserGroupListCtrl::OnListChange));
-    this->Connect(wxEVT_DATABASE_UPDATEUSERGROUP, wxDatabaseEventHandler(UserGroupListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_GETCOMPANYTYPELIST, wxDatabaseEventHandler(CompanyTypeListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETECOMPANYTYPE, wxDatabaseEventHandler(CompanyTypeListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDCOMPANYTYPE, wxDatabaseEventHandler(CompanyTypeListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATECOMPANYTYPE, wxDatabaseEventHandler(CompanyTypeListCtrl::OnListChange));
 }
 
-void UserGroupListCtrl::OnListChange( wxDatabaseEvent& event)
+void CompanyTypeListCtrl::OnListChange( wxDatabaseEvent& event)
 {
     RefreshList();
 }
 
-void UserGroupListCtrl::OnRefreshList( wxDatabaseEvent& event)
+void CompanyTypeListCtrl::OnRefreshList( wxDatabaseEvent& event)
 {
-    SetItemCount(((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->getItemNumber());
+    SetItemCount(((CompanyTypeController *)(wxGetApp().GetController(CONTROLLER_COMPANYTYPE)))->getItemNumber());
     Refresh();
 }
 
-void UserGroupListCtrl::RefreshList()
+void CompanyTypeListCtrl::RefreshList()
 {
-    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_USERGROUP);
-    wxDatabaseEvent database_event(wxEVT_DATABASE_GETUSERGROUPLIST, CONTROLLER_USERGROUP);
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_COMPANYTYPE);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETCOMPANYTYPELIST, CONTROLLER_COMPANYTYPE);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
     database_event.SetEventObject(this);
     handler->AddPendingEvent(database_event);
 }
 
-wxString UserGroupListCtrl::OnGetItemText(long item, long column) const
+wxString CompanyTypeListCtrl::OnGetItemText(long item, long column) const
 {
     wxString ItemText = wxT("");
 
-    UserGroupInfoArray* list = ((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->GetList();
+    CompanyTypeInfoArray* list = ((CompanyTypeController *)(wxGetApp().GetController(CONTROLLER_COMPANYTYPE)))->GetList();
 
     switch(column)
     {
@@ -635,6 +659,19 @@ MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
 
     m_listCtrl_usergroup->InsertColumn(0,_("Group Name"),wxLIST_FORMAT_LEFT,200);
 
+    m_listCtrl_vcard->InsertColumn(0,_("Full Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_vcard->InsertColumn(1,_("Nick Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_vcard->InsertColumn(2,_("Work Phone"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_vcard->InsertColumn(3,_("Email"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_vcard->InsertColumn(4,_("Company"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_vcardgroup->InsertColumn(0,_("Group Name"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_company->InsertColumn(0,_("Company Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_company->InsertColumn(1,_("Company Type"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_companytype->InsertColumn(0,_("Type Name"),wxLIST_FORMAT_LEFT,200);
+
     DoListSize();
 }
 
@@ -666,6 +703,11 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     m_panel_user->Show(false);
     m_panel_usergroup->Show(false);
 
+    m_panel_vcard->Show(false);
+    m_panel_vcardgroup->Show(false);
+    m_panel_company->Show(false);
+    m_panel_companytype->Show(false);
+
     switch(event.GetId())
     {
         case wxID_MENUITEM_USER:
@@ -674,6 +716,22 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
 
         case wxID_MENUITEM_USERGROUP:
             select_panel = m_panel_usergroup;
+            break;
+
+        case wxID_MENUITEM_VCARD:
+            select_panel = m_panel_vcard;
+            break;
+
+        case wxID_MENUITEM_VCARDGROUP:
+            select_panel = m_panel_vcardgroup;
+            break;
+
+        case wxID_MENUITEM_COMPANY:
+            select_panel = m_panel_company;
+            break;
+
+        case wxID_MENUITEM_COMPANYTYPE:
+            select_panel = m_panel_companytype;
             break;
     }
 
@@ -700,6 +758,30 @@ void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )
     {
         dialog   = new UserGroupDialog(this);
         listctrl = m_listCtrl_usergroup;
+    }
+
+    if(m_panel_vcard->IsShown())
+    {
+        dialog   = new VcardDialog(this);
+        listctrl = m_listCtrl_vcard;
+    }
+
+    if(m_panel_vcardgroup->IsShown())
+    {
+        dialog   = new VcardGroupDialog(this);
+        listctrl = m_listCtrl_vcardgroup;
+    }
+
+    if(m_panel_company->IsShown())
+    {
+        dialog   = new CompanyDialog(this);
+        listctrl = m_listCtrl_company;
+    }
+
+    if(m_panel_companytype->IsShown())
+    {
+        dialog   = new CompanyTypeDialog(this);
+        listctrl = m_listCtrl_companytype;
     }
 
     dialog->ShowModal();
@@ -730,6 +812,34 @@ void MainFrame::OnButtonSettingDelete( wxCommandEvent& event )
         event_type = wxEVT_DATABASE_DELETEUSERGROUP;
     }
 
+    if(m_panel_vcard->IsShown())
+    {
+        controller_id = CONTROLLER_VCARD;
+        listctrl = m_listCtrl_vcard;
+        event_type = wxEVT_DATABASE_DELETEVCARD;
+    }
+
+    if(m_panel_vcardgroup->IsShown())
+    {
+        controller_id = CONTROLLER_VCARDGROUP;
+        listctrl = m_listCtrl_vcardgroup;
+        event_type = wxEVT_DATABASE_DELETEVCARDGROUP;
+    }
+
+    if(m_panel_company->IsShown())
+    {
+        controller_id = CONTROLLER_COMPANY;
+        listctrl = m_listCtrl_company;
+        event_type = wxEVT_DATABASE_DELETECOMPANY;
+    }
+
+    if(m_panel_companytype->IsShown())
+    {
+        controller_id = CONTROLLER_COMPANYTYPE;
+        listctrl = m_listCtrl_companytype;
+        event_type = wxEVT_DATABASE_DELETECOMPANYTYPE;
+    }
+
     size_t item = -1;
     size_t index = 0;
     wxJSONValue delete_json;
@@ -741,6 +851,11 @@ void MainFrame::OnButtonSettingDelete( wxCommandEvent& event )
 
         if(m_panel_user->IsShown()) delete_json[index] = ((UserController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
         if(m_panel_usergroup->IsShown()) delete_json[index] = ((UserGroupController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+
+        if(m_panel_vcard->IsShown()) delete_json[index] = ((VcardController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+        if(m_panel_vcardgroup->IsShown()) delete_json[index] = ((VcardGroupController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+        if(m_panel_company->IsShown()) delete_json[index] = ((CompanyController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+        if(m_panel_companytype->IsShown()) delete_json[index] = ((CompanyTypeController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
 
         index++;
     }
@@ -757,6 +872,11 @@ void MainFrame::OnButtonSettingRefresh( wxCommandEvent& event )
 {
     if(m_panel_user->IsShown()) m_listCtrl_user->RefreshList();
     if(m_panel_usergroup->IsShown()) m_listCtrl_usergroup->RefreshList();
+
+    if(m_panel_vcard->IsShown()) m_listCtrl_vcard->RefreshList();
+    if(m_panel_vcardgroup->IsShown()) m_listCtrl_vcardgroup->RefreshList();
+    if(m_panel_company->IsShown()) m_listCtrl_company->RefreshList();
+    if(m_panel_companytype->IsShown()) m_listCtrl_companytype->RefreshList();
 }
 
 void MainFrame::OnSettingItemActivated( wxListEvent& event )
@@ -776,6 +896,30 @@ void MainFrame::OnSettingItemActivated( wxListEvent& event )
         listctrl = m_listCtrl_usergroup;
     }
 
+    if(m_panel_vcard->IsShown())
+    {
+        dialog = new VcardDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_vcard;
+    }
+
+    if(m_panel_vcardgroup->IsShown())
+    {
+        dialog = new VcardGroupDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_vcardgroup;
+    }
+
+    if(m_panel_company->IsShown())
+    {
+        dialog = new CompanyDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_company;
+    }
+
+    if(m_panel_companytype->IsShown())
+    {
+        dialog = new CompanyTypeDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_companytype;
+    }
+
     dialog->ShowModal();
     listctrl->Refresh();
 
@@ -791,9 +935,17 @@ void MainFrame::OnListSizeChange( wxSizeEvent& event )
 void MainFrame::DoListSize()
 {
     wxSize size = GetClientSize();
+
     m_listCtrl_user->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
     m_listCtrl_usergroup->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+
+    m_listCtrl_vcard->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+    m_listCtrl_vcardgroup->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+    m_listCtrl_company->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+    m_listCtrl_companytype->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
 }
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 UserDialog::UserDialog(wxWindow* parent, size_t id):UserDialogBase(parent)
 {
@@ -806,8 +958,6 @@ UserDialog::UserDialog(wxWindow* parent, size_t id):UserDialogBase(parent)
         UserInfo user_info = ((UserController *)(wxGetApp().GetController(CONTROLLER_USER)))->GetList()->Item(m_id);
 
         m_textCtrl_username->SetValue(user_info.m_name);
-
-        m_choice_usergroup->SetSelection(m_choice_usergroup->FindString(user_info.m_usergroupname));
 
         for(size_t index = 0; index < m_choice_usergroup->GetCount(); index++)
         {
@@ -871,10 +1021,15 @@ void UserDialog::OnButtonAddUserGroupClick( wxCommandEvent& event )
 {
     UserGroupDialog *dialog = new UserGroupDialog(this);
     dialog->ShowModal();
+
+    delete dialog;
+    RefreshUserGroupChoice();
 }
 
 void UserDialog::RefreshUserGroupChoice()
 {
+    m_choice_usergroup->Clear();
+
     UserGroupInfoArray* usergroup_array = ((UserGroupController *)(wxGetApp().GetController(CONTROLLER_USERGROUP)))->GetList();
     for(size_t index = 0; index < usergroup_array->GetCount(); index++)
     {
@@ -1001,6 +1156,420 @@ void UserGroupDialog::OnUserGroupInfoUpdate( wxDatabaseEvent& event)
         else
         {
             m_staticTextStatus->SetLabel(_("Fail To Update User Group Info"));
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+VcardDialog::VcardDialog(wxWindow* parent, size_t id):VcardDialogBase(parent)
+{
+    m_id = id;
+
+    if(m_id != NULL_ID)
+    {
+        VcardInfo vcard_info = ((VcardController *)(wxGetApp().GetController(CONTROLLER_VCARD)))->GetList()->Item(m_id);
+
+        m_textCtrl_fullname->SetValue(vcard_info.m_fullname);
+        m_textCtrl_nickname->SetValue(vcard_info.m_nickname);
+        m_textCtrl_workphone->SetValue(vcard_info.m_workphone);
+        m_textCtrl_mobiephone->SetValue(vcard_info.m_mobiephone);
+        m_textCtrl_email->SetValue(vcard_info.m_email);
+        m_textCtrl_title->SetValue(vcard_info.m_title);
+        m_textCtrl_company->SetValue(vcard_info.m_company);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDVCARD, wxDatabaseEventHandler(VcardDialog::OnVcardInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATEVCARD, wxDatabaseEventHandler(VcardDialog::OnVcardInfoUpdate));
+}
+
+void VcardDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_fullname->Enable(flag);
+    m_textCtrl_nickname->Enable(flag);
+    m_textCtrl_workphone->Enable(flag);
+    m_textCtrl_mobiephone->Enable(flag);
+    m_textCtrl_email->Enable(flag);
+    m_textCtrl_title->Enable(flag);
+    m_textCtrl_company->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void VcardDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_fullname->GetValue().IsEmpty() || m_textCtrl_nickname->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Full Name And Nick Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_fullname->GetValue();
+    request_json[1] = m_textCtrl_nickname->GetValue();
+    request_json[2] = m_textCtrl_workphone->GetValue();
+    request_json[3] = m_textCtrl_mobiephone->GetValue();
+    request_json[4] = m_textCtrl_email->GetValue();
+    request_json[5] = m_textCtrl_title->GetValue();
+    request_json[6] = m_textCtrl_company->GetValue();
+
+    if(m_id != NULL_ID)
+    {
+        VcardInfo vcard_info = ((VcardController *)(wxGetApp().GetController(CONTROLLER_VCARD)))->GetList()->Item(m_id);
+        request_json[7] = vcard_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDVCARD;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATEVCARD;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_VCARD);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_VCARD);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void VcardDialog::OnVcardInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDVCARD)
+        {
+            m_staticTextStatus->SetLabel(_("Add Vcard Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Vcard Successfully"));
+        }
+
+        m_textCtrl_fullname->SetValue(wxT(""));
+        m_textCtrl_nickname->SetValue(wxT(""));
+        m_textCtrl_workphone->SetValue(wxT(""));
+        m_textCtrl_mobiephone->SetValue(wxT(""));
+        m_textCtrl_email->SetValue(wxT(""));
+        m_textCtrl_title->SetValue(wxT(""));
+        m_textCtrl_company->SetValue(wxT(""));
+
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetVcardListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDVCARD)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Vcard"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Vcard Info"));
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+VcardGroupDialog::VcardGroupDialog(wxWindow* parent, size_t id):VcardGroupDialogBase(parent)
+{
+    m_id = id;
+
+    if(m_id != NULL_ID)
+    {
+        VcardGroupInfo vcardgroup_info = ((VcardGroupController *)(wxGetApp().GetController(CONTROLLER_VCARDGROUP)))->GetList()->Item(m_id);
+
+        m_textCtrl_groupname->SetValue(vcardgroup_info.m_name);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDVCARDGROUP, wxDatabaseEventHandler(VcardGroupDialog::OnVcardGroupInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATEVCARDGROUP, wxDatabaseEventHandler(VcardGroupDialog::OnVcardGroupInfoUpdate));
+}
+
+void VcardGroupDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_groupname->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void VcardGroupDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_groupname->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Group Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_groupname->GetValue();
+
+    if(m_id != NULL_ID)
+    {
+        VcardGroupInfo vcardgroup_info = ((VcardGroupController *)(wxGetApp().GetController(CONTROLLER_VCARDGROUP)))->GetList()->Item(m_id);
+        request_json[1] = vcardgroup_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDVCARDGROUP;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATEVCARDGROUP;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_VCARDGROUP);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_VCARDGROUP);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void VcardGroupDialog::OnVcardGroupInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDVCARDGROUP)
+        {
+            m_staticTextStatus->SetLabel(_("Add Vcard Group Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Vcard Group Successfully"));
+        }
+
+        m_textCtrl_groupname->SetValue(wxT(""));
+
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetVcardGroupListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDVCARDGROUP)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Vcard Group"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Vcard Group"));
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+CompanyDialog::CompanyDialog(wxWindow* parent, size_t id):CompanyDialogBase(parent)
+{
+    m_id = id;
+
+    RefreshCompanyTypeChoice();
+
+    if(m_id != NULL_ID)
+    {
+        CompanyInfo company_info = ((CompanyController *)(wxGetApp().GetController(CONTROLLER_COMPANY)))->GetList()->Item(m_id);
+
+        m_textCtrl_companyname->SetValue(company_info.m_name);
+
+        for(size_t index = 0; index < m_choice_companytype->GetCount(); index++)
+        {
+            if(*(size_t *)(m_choice_companytype->GetClientData(index)) == company_info.m_companytypeid)
+                m_choice_companytype->SetSelection(index);
+        }
+    }
+    else
+    {
+        m_choice_companytype->SetSelection(0);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDCOMPANY, wxDatabaseEventHandler(CompanyDialog::OnCompanyInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATECOMPANY, wxDatabaseEventHandler(CompanyDialog::OnCompanyInfoUpdate));
+}
+
+void CompanyDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_companyname->Enable(flag);
+    m_choice_companytype->Enable(flag);
+    m_button_addcompanytype->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void CompanyDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_companyname->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Company Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_companyname->GetValue();
+    request_json[1] = *(size_t *)(m_choice_companytype->GetClientData(m_choice_companytype->GetSelection()));//m_choiceidarray.Item(m_choice_usergroup->GetSelection());
+
+    if(m_id != NULL_ID)
+    {
+        CompanyInfo company_info = ((CompanyController *)(wxGetApp().GetController(CONTROLLER_COMPANY)))->GetList()->Item(m_id);
+        request_json[2] = company_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDCOMPANY;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATECOMPANY;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_COMPANY);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_COMPANY);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void CompanyDialog::OnButtonAddCompanyTypeClick( wxCommandEvent& event )
+{
+    CompanyTypeDialog *dialog = new CompanyTypeDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+    RefreshCompanyTypeChoice();
+}
+
+void CompanyDialog::RefreshCompanyTypeChoice()
+{
+    m_choice_companytype->Clear();
+
+    CompanyTypeInfoArray* companytype_array = ((CompanyTypeController *)(wxGetApp().GetController(CONTROLLER_COMPANYTYPE)))->GetList();
+    for(size_t index = 0; index < companytype_array->GetCount(); index++)
+    {
+        m_choice_companytype->Append(companytype_array->Item(index).m_name, &(companytype_array->Item(index).m_id));
+    }
+}
+
+void CompanyDialog::OnCompanyInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDCOMPANY)
+        {
+            m_staticTextStatus->SetLabel(_("Add Company Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Company Info Successfully"));
+        }
+
+        m_textCtrl_companyname->SetValue(wxT(""));
+        m_choice_companytype->SetSelection(0);
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetCompanyListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDCOMPANY)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Company"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Company Info"));
+        }
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+CompanyTypeDialog::CompanyTypeDialog(wxWindow* parent, size_t id):CompanyTypeDialogBase(parent)
+{
+    m_id = id;
+
+    if(m_id != NULL_ID)
+    {
+        CompanyTypeInfo companytype_info = ((CompanyTypeController *)(wxGetApp().GetController(CONTROLLER_COMPANYTYPE)))->GetList()->Item(m_id);
+
+        m_textCtrl_companytype->SetValue(companytype_info.m_name);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDCOMPANYTYPE, wxDatabaseEventHandler(CompanyTypeDialog::OnCompanyTypeInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATECOMPANYTYPE, wxDatabaseEventHandler(CompanyTypeDialog::OnCompanyTypeInfoUpdate));
+}
+
+void CompanyTypeDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_companytype->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void CompanyTypeDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_companytype->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Company Type Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_companytype->GetValue();
+
+    if(m_id != NULL_ID)
+    {
+        CompanyTypeInfo companytype_info = ((CompanyTypeController *)(wxGetApp().GetController(CONTROLLER_COMPANYTYPE)))->GetList()->Item(m_id);
+        request_json[1] = companytype_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDCOMPANYTYPE;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATECOMPANYTYPE;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_COMPANYTYPE);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_COMPANYTYPE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void CompanyTypeDialog::OnCompanyTypeInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDCOMPANYTYPE)
+        {
+            m_staticTextStatus->SetLabel(_("Add Company Type Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Company Type Info Successfully"));
+        }
+
+        m_textCtrl_companytype->SetValue(wxT(""));
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetCompanyTypeListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDCOMPANYTYPE)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Company Type"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Company Type Info"));
         }
     }
 }

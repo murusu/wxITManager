@@ -101,15 +101,17 @@ wxString DatabaseSqlite::GetDBTableInitStr()
 {
     wxString init_sql = wxT("");
 
-    init_sql += wxT("CREATE TABLE `user`(id INTEGER PRIMARY KEY, name VARCHAR UNIQUE, password VARCHAR, group_id INTEGER, vaild bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `datbase_info` (id INTEGER PRIMARY KEY, name VARCHAR, value INTEGER);");
+    init_sql += wxT("CREATE TABLE `user`(id INTEGER PRIMARY KEY, name VARCHAR, password VARCHAR, group_id INTEGER, vaild bool DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `user_group`(id INTEGER PRIMARY KEY, name VARCHAR, vaild bool DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `vcard`(id INTEGER PRIMARY KEY, fullname VARCHAR, nickname VARCHAR, work_phone varchar, mobie_phone varchar, email varchar, title varchar, company varchar, vaild bool DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `vcard_group`(id INTEGER PRIMARY KEY, name VARCHAR, vaild BOOL DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `company` (id INTEGER, name VARCHAR, companytype_id INTEGER, vaild BOOL DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `company_type` (id INTEGER, name VARCHAR, vaild BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `company` (id INTEGER PRIMARY KEY, name VARCHAR, companytype_id INTEGER, vaild BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `company_type` (id INTEGER PRIMARY KEY, name VARCHAR, vaild BOOL DEFAULT 1);");
 
     init_sql += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('admin','admin',1);");
     init_sql += wxT("INSERT INTO 'user_group' ('name') VALUES ('administrator');");
+    init_sql += wxT("INSERT INTO 'datbase_info' ('name', value) VALUES ('version', ") + wxString::Format(wxT("%d"), DATABASE_VERSION) + wxT(");");
 
     return init_sql;
 }

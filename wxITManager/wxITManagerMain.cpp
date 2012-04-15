@@ -137,7 +137,7 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
             handler = m_vcardcontroller;
             break;
 
-        case CONTROLLER_VCARDROUP:
+        case CONTROLLER_VCARDGROUP:
             if(!m_vcardgroupcontroller) m_vcardgroupcontroller = new VcardGroupController();
             handler = m_vcardgroupcontroller;
             break;

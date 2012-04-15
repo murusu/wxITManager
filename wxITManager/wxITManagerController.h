@@ -39,7 +39,6 @@ class DatabaseController : public Controller
         DatabaseController();
         ~DatabaseController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -57,7 +56,6 @@ class AuthorityController : public Controller
     public:
         AuthorityController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -77,7 +75,6 @@ class UserController : public Controller
         UserController();
         ~UserController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -94,7 +91,6 @@ class UserGroupController : public Controller
         UserGroupController();
         ~UserGroupController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -111,7 +107,6 @@ class VcardController : public Controller
         VcardController();
         ~VcardController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -128,7 +123,6 @@ class VcardGroupController : public Controller
         VcardGroupController();
         ~VcardGroupController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -145,7 +139,6 @@ class CompanyController : public Controller
         CompanyController();
         ~CompanyController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
@@ -162,12 +155,75 @@ class CompanyTypeController : public Controller
         CompanyTypeController();
         ~CompanyTypeController();
 
-        //void OnDatabaseEvent(wxDatabaseEvent& event);
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
         size_t getItemNumber() {return m_companytypelist->GetCount();};
         CompanyTypeInfoArray* GetList() {return m_companytypelist;};
+};
+
+class ResourceController : public Controller
+{
+    private:
+        ResourceInfoArray *m_resourcelist;
+
+    public:
+        ResourceController();
+        ~ResourceController();
+
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_resourcelist->GetCount();};
+        ResourceInfoArray* GetList() {return m_resourcelist;};
+};
+
+class ResourceTypeController : public Controller
+{
+    private:
+        ResourceTypeInfoArray *m_resourcetypelist;
+
+    public:
+        ResourceTypeController();
+        ~ResourceTypeController();
+
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_resourcetypelist->GetCount();};
+        ResourceTypeInfoArray* GetList() {return m_resourcetypelist;};
+};
+
+class ResourceStatusController : public Controller
+{
+    private:
+        ResourceStatuInfoArray *m_resourcestatuslist;
+
+    public:
+        ResourceStatuController();
+        ~ResourceStatuController();
+
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_resourcestatuslist->GetCount();};
+        ResourceStatuInfoArray* GetList() {return m_resourcestatuslist;};
+};
+
+class ResourceFeeTypeController : public Controller
+{
+    private:
+        ResourceFeeTypeInfoArray *m_resourcefeetypelist;
+
+    public:
+        ResourceFeeTypeController();
+        ~ResourceFeeTypeController();
+
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_resourcefeetypelist->GetCount();};
+        ResourceFeeTypeInfoArray* GetList() {return m_resourcefeetypelist;};
 };
 
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

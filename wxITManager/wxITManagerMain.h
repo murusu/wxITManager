@@ -21,6 +21,10 @@ class DatabaseController;
 class AuthorityController;
 class UserController;
 class UserGroupController;
+class VcardController;
+class VcardGroupController;
+class CompanyController;
+class CompanyTypeController;
 
 class wxITManagerApp: public wxApp
 {

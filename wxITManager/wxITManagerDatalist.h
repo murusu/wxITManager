@@ -73,7 +73,7 @@ class CompanyInfo
         size_t          m_companytypeid;
         wxString        m_companytypename;
 
-        CompanyInfo(size_t company_id, const wxString& company_name, size_t companytype_id, const wxString& companytype_name){m_id = company_id; m_name = company_name; m_companytypeid = companytype_id; m_companytypename = companytype_name};
+        CompanyInfo(size_t company_id, const wxString& company_name, size_t companytype_id, const wxString& companytype_name){m_id = company_id; m_name = company_name; m_companytypeid = companytype_id; m_companytypename = companytype_name;};
 };
 
 class CompanyTypeInfo
