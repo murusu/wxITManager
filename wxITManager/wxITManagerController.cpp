@@ -36,6 +36,26 @@ DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDCOMPANYTYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETECOMPANYTYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATECOMPANYTYPE)
 
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCELIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCE)
+
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCETYPELIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCETYPE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCETYPE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCETYPE)
+
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCESTATUSLIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCESTATUS)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCESTATUS)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCESTATUS)
+
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCEFEETYPELIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEFEETYPE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEFEETYPE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEFEETYPE)
+
 
 IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
 
@@ -134,7 +154,7 @@ void AuthorityController::OnDatabaseRequest(wxDatabaseEvent& event)
         wxString sql_str = wxT("");
         wxJSONValue request_data = event.GetJsonData();
 
-        sql_str += wxT("SELECT a.id, a.name, a.group_id, b.name as group_name FROM 'user' a JOIN 'user_group' b ON a.group_id = b.id WHERE a.vaild = 1 AND a.name = '");
+        sql_str += wxT("SELECT a.id, a.name, a.group_id, b.name as group_name FROM 'user' a JOIN 'user_group' b ON a.group_id = b.id WHERE a.valid = 1 AND a.name = '");
         sql_str += request_data[0].AsString();
         sql_str += wxT("' AND a.password ='");
         sql_str += request_data[1].AsString();
@@ -170,6 +190,8 @@ void AuthorityController::OnDatabaseResponse(wxDatabaseEvent& event)
     ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
 }
 
+///////////////////////////////////////////////////////////////////////////////////
+
 UserController::UserController()
 {
     //m_currentuser   = NULL;
@@ -197,7 +219,7 @@ void UserController::OnDatabaseRequest(wxDatabaseEvent& event)
 
     if(event_type == wxEVT_DATABASE_GETUSERLIST)
     {
-        controller_event.SetSqlString(wxT("SELECT a.id, a.name, a.group_id, b.name as group_name FROM 'user' a JOIN 'user_group' b ON a.group_id = b.id WHERE a.vaild = 1;"));
+        controller_event.SetSqlString(wxT("SELECT a.id, a.name, a.group_id, b.name as group_name FROM 'user' a JOIN 'user_group' b ON a.group_id = b.id WHERE a.valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
@@ -225,7 +247,7 @@ void UserController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'user' SET 'vaild' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'user' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -312,7 +334,7 @@ void UserGroupController::OnDatabaseRequest(wxDatabaseEvent& event)
 
     if(event_type == wxEVT_DATABASE_GETUSERGROUPLIST)
     {
-        controller_event.SetSqlString(wxT("SELECT id, name FROM 'user_group' WHERE vaild = 1;"));
+        controller_event.SetSqlString(wxT("SELECT id, name FROM 'user_group' WHERE valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
@@ -336,7 +358,7 @@ void UserGroupController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'user_group' SET 'vaild' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'user_group' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -415,7 +437,7 @@ void VcardController::OnDatabaseRequest(wxDatabaseEvent& event)
 
     if(event_type == wxEVT_DATABASE_GETVCARDLIST)
     {
-        controller_event.SetSqlString(wxT("SELECT id, fullname, nickname, work_phone, mobie_phone, email, title, company FROM 'vcard' WHERE vaild = 1;"));
+        controller_event.SetSqlString(wxT("SELECT id, fullname, nickname, work_phone, mobie_phone, email, title, company FROM 'vcard' WHERE valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
@@ -451,7 +473,7 @@ void VcardController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'vcard' SET 'vaild' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'vcard' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -542,7 +564,7 @@ void VcardGroupController::OnDatabaseRequest(wxDatabaseEvent& event)
 
     if(event_type == wxEVT_DATABASE_GETVCARDGROUPLIST)
     {
-        controller_event.SetSqlString(wxT("SELECT id, name FROM 'vcard_group' WHERE vaild = 1;"));
+        controller_event.SetSqlString(wxT("SELECT id, name FROM 'vcard_group' WHERE valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
@@ -566,7 +588,7 @@ void VcardGroupController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'vcard_group' SET 'vaild' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'vcard_group' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -645,7 +667,7 @@ void CompanyController::OnDatabaseRequest(wxDatabaseEvent& event)
 
     if(event_type == wxEVT_DATABASE_GETCOMPANYLIST)
     {
-        controller_event.SetSqlString(wxT("SELECT a.id, a.name, a.companytype_id, b.name as companytype_name FROM 'company' a JOIN 'company_type' b ON a.companytype_id = b.id WHERE a.vaild = 1;"));
+        controller_event.SetSqlString(wxT("SELECT a.id, a.name, a.companytype_id, b.name as companytype_name FROM 'company' a JOIN 'company_type' b ON a.companytype_id = b.id WHERE a.valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
@@ -671,7 +693,7 @@ void CompanyController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'company' SET 'vaild' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'company' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -751,7 +773,7 @@ void CompanyTypeController::OnDatabaseRequest(wxDatabaseEvent& event)
 
     if(event_type == wxEVT_DATABASE_GETCOMPANYTYPELIST)
     {
-        controller_event.SetSqlString(wxT("SELECT id, name FROM 'company_type' WHERE vaild = 1;"));
+        controller_event.SetSqlString(wxT("SELECT id, name FROM 'company_type' WHERE valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
@@ -775,7 +797,7 @@ void CompanyTypeController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'company_type' SET 'vaild' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'company_type' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -815,6 +837,461 @@ void CompanyTypeController::OnDatabaseResponse(wxDatabaseEvent& event)
         for ( int i = 0; i < result_data.Size(); i++ )
         {
             m_companytypelist->Add(CompanyTypeInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString()));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+ResourceController::ResourceController()
+{
+    //m_currentuser   = NULL;
+    m_resourcelist      = new ResourceInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCELIST, wxDatabaseEventHandler(ResourceController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCE, wxDatabaseEventHandler(ResourceController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCE, wxDatabaseEventHandler(ResourceController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCE, wxDatabaseEventHandler(ResourceController::OnDatabaseEvent));
+}
+
+ResourceController::~ResourceController()
+{
+    m_resourcelist->Clear();
+
+    if(m_resourcelist) delete m_resourcelist;
+}
+
+void ResourceController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETRESOURCELIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT a.id, a.name, a.resourcetype_id, b.name as resourcetype_name, a.pattern, a.weight FROM 'resource' a JOIN 'resource_type' b ON a.resourcetype_id = b.id WHERE a.valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDRESOURCE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'resource' ('name','resourcetype_id','pattern','weight') VALUES ('");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("',");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT(",'");
+        sql_str += request_data[2].AsString();
+        sql_str += wxT("',");
+        sql_str += request_data[3].AsString();
+        sql_str += wxT(")");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETERESOURCE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'resource' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'resource' SET name = '");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("',");
+
+        if(!(request_data[1].AsString().IsEmpty()))
+        {
+            sql_str += wxT("resourcetype_id = ");
+            sql_str += request_data[1].AsString();
+            sql_str += wxT(",");
+        }
+
+        sql_str += wxT("pattern = '");
+        sql_str += request_data[2].AsString();
+        sql_str += wxT("'");
+
+        if(!(request_data[3].AsString().IsEmpty()))
+        {
+            sql_str += wxT(",weight = ");
+            sql_str += request_data[3].AsString();
+        }
+
+        sql_str += wxT(" WHERE id = ");
+        sql_str += request_data[4].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void ResourceController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCELIST)
+    {
+        m_resourcelist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_resourcelist->Add(ResourceInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString(), wxAtoi(result_data[i][2].AsString()), result_data[i][3].AsString(), result_data[i][4].AsString(), wxAtoi(result_data[i][5].AsString())));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+ResourceTypeController::ResourceTypeController()
+{
+    m_resourcetypelist = new ResourceTypeInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCETYPELIST, wxDatabaseEventHandler(ResourceTypeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCETYPE, wxDatabaseEventHandler(ResourceTypeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCETYPE, wxDatabaseEventHandler(ResourceTypeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCETYPE, wxDatabaseEventHandler(ResourceTypeController::OnDatabaseEvent));
+}
+
+ResourceTypeController::~ResourceTypeController()
+{
+    m_resourcetypelist->Clear();
+
+    if(m_resourcetypelist) delete m_resourcetypelist;
+}
+
+void ResourceTypeController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETRESOURCETYPELIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT id, name FROM 'resource_type' WHERE valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDRESOURCETYPE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'resource_type' ('name') VALUES ('");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("')");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETERESOURCETYPE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'resource_type' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCETYPE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'resource_type' SET name = '");
+        sql_str += request_data[0].AsString();
+
+        sql_str += wxT("' WHERE id = ");
+        sql_str += request_data[1].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void ResourceTypeController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCETYPELIST)
+    {
+        m_resourcetypelist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_resourcetypelist->Add(ResourceTypeInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString()));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+ResourceStatusController::ResourceStatusController()
+{
+    m_resourcestatuslist = new ResourceStatusInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCESTATUSLIST, wxDatabaseEventHandler(ResourceStatusController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusController::OnDatabaseEvent));
+}
+
+ResourceStatusController::~ResourceStatusController()
+{
+    m_resourcestatuslist->Clear();
+
+    if(m_resourcestatuslist) delete m_resourcestatuslist;
+}
+
+void ResourceStatusController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETRESOURCESTATUSLIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT id, name, available FROM 'resource_status' WHERE valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDRESOURCESTATUS)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'resource_status' ('name', available) VALUES ('");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("',");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT(")");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETERESOURCESTATUS)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'resource_status' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCESTATUS)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'resource_status' SET name = '");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("'");
+
+        if(!(request_data[1].AsString().IsEmpty()))
+        {
+            sql_str += wxT(",available = ");
+            sql_str += request_data[1].AsString();
+        }
+
+        sql_str += wxT(" WHERE id = ");
+        sql_str += request_data[2].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void ResourceStatusController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCESTATUSLIST)
+    {
+        m_resourcestatuslist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_resourcestatuslist->Add(ResourceStatusInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString(), wxAtoi(result_data[i][2].AsString())));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+ResourceFeeTypeController::ResourceFeeTypeController()
+{
+    m_resourcefeetypelist = new ResourceFeeTypeInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceFeeTypeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeController::OnDatabaseEvent));
+}
+
+ResourceFeeTypeController::~ResourceFeeTypeController()
+{
+    m_resourcefeetypelist->Clear();
+
+    if(m_resourcefeetypelist) delete m_resourcefeetypelist;
+}
+
+void ResourceFeeTypeController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETRESOURCEFEETYPELIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT id, name, have_expiration FROM 'resource_feetype' WHERE valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDRESOURCEFEETYPE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'resource_feetype' ('name', have_expiration) VALUES ('");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("',");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT(")");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETERESOURCEFEETYPE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'resource_feetype' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCEFEETYPE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'resource_feetype' SET name = '");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("'");
+
+        if(!(request_data[1].AsString().IsEmpty()))
+        {
+            sql_str += wxT(",have_expiration = ");
+            sql_str += request_data[1].AsString();
+        }
+
+        sql_str += wxT(" WHERE id = ");
+        sql_str += request_data[2].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void ResourceFeeTypeController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCEFEETYPELIST)
+    {
+        m_resourcefeetypelist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_resourcefeetypelist->Add(ResourceFeeTypeInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString(), wxAtoi(result_data[i][2].AsString())));
         }
     }
 

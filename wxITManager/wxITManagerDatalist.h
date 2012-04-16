@@ -13,6 +13,11 @@ class VcardGroupInfo;
 class CompanyInfo;
 class CompanyTypeInfo;
 
+class ResourceInfo;
+class ResourceTypeInfo;
+class ResourceStatusInfo;
+class ResourceFeeTypeInfo;
+
 WX_DECLARE_OBJARRAY(UserInfo, UserInfoArray);
 WX_DECLARE_OBJARRAY(UserGroupInfo, UserGroupInfoArray);
 
@@ -20,6 +25,11 @@ WX_DECLARE_OBJARRAY(VcardInfo, VcardInfoArray);
 WX_DECLARE_OBJARRAY(VcardGroupInfo, VcardGroupInfoArray);
 WX_DECLARE_OBJARRAY(CompanyInfo, CompanyInfoArray);
 WX_DECLARE_OBJARRAY(CompanyTypeInfo, CompanyTypeInfoArray);
+
+WX_DECLARE_OBJARRAY(ResourceInfo, ResourceInfoArray);
+WX_DECLARE_OBJARRAY(ResourceTypeInfo, ResourceTypeInfoArray);
+WX_DECLARE_OBJARRAY(ResourceStatusInfo, ResourceStatusInfoArray);
+WX_DECLARE_OBJARRAY(ResourceFeeTypeInfo, ResourceFeeTypeInfoArray);
 
 class UserInfo
 {
@@ -85,5 +95,46 @@ class CompanyTypeInfo
         CompanyTypeInfo(size_t companytype_id, const wxString& companytype_name){m_id = companytype_id; m_name = companytype_name;};
 };
 
+class ResourceInfo
+{
+    public:
+        size_t          m_id;
+        wxString        m_name;
+        size_t          m_resourcetypeid;
+        wxString        m_resourcetypename;
+        wxString        m_pattern;
+        size_t          m_weight;
+
+        ResourceInfo(size_t resource_id, const wxString& resource_name, size_t resourcetype_id, const wxString& resourcetype_name, const wxString& pattern, size_t weight){m_id = resource_id; m_name = resource_name; m_resourcetypeid = resourcetype_id; m_resourcetypename = resourcetype_name; m_pattern = pattern; m_weight = weight;};
+};
+
+class ResourceTypeInfo
+{
+    public:
+        size_t          m_id;
+        wxString        m_name;
+
+        ResourceTypeInfo(size_t resourcetype_id, const wxString& resourcetype_name){m_id = resourcetype_id; m_name = resourcetype_name;};
+};
+
+class ResourceStatusInfo
+{
+    public:
+        size_t          m_id;
+        wxString        m_name;
+        bool            m_available;
+
+        ResourceStatusInfo(size_t resourcestatus_id, const wxString& resourcestatus_name, bool available){m_id = resourcestatus_id; m_name = resourcestatus_name; m_available = available;};
+};
+
+class ResourceFeeTypeInfo
+{
+    public:
+        size_t          m_id;
+        wxString        m_name;
+        bool            m_haveexpiration;
+
+        ResourceFeeTypeInfo(size_t resourcefeetype_id, const wxString& resourcefeetype_name, bool have_expiration){m_id = resourcefeetype_id; m_name = resourcefeetype_name; m_haveexpiration = have_expiration;};
+};
 
 #endif // WXITMANAGERDATALIST_H_INCLUDED

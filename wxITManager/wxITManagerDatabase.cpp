@@ -47,6 +47,26 @@ Database::Database(ManagerConfig *database_config)
     this->Connect(wxEVT_DATABASE_DELETECOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_ADDCOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_UPDATECOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCELIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCE, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCETYPELIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCETYPE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCETYPE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCETYPE, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCESTATUSLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCESTATUS, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCESTATUS, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCESTATUS, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
 }
 
 Database::~Database()
@@ -102,12 +122,16 @@ wxString DatabaseSqlite::GetDBTableInitStr()
     wxString init_sql = wxT("");
 
     init_sql += wxT("CREATE TABLE `datbase_info` (id INTEGER PRIMARY KEY, name VARCHAR, value INTEGER);");
-    init_sql += wxT("CREATE TABLE `user`(id INTEGER PRIMARY KEY, name VARCHAR, password VARCHAR, group_id INTEGER, vaild bool DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `user_group`(id INTEGER PRIMARY KEY, name VARCHAR, vaild bool DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `vcard`(id INTEGER PRIMARY KEY, fullname VARCHAR, nickname VARCHAR, work_phone varchar, mobie_phone varchar, email varchar, title varchar, company varchar, vaild bool DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `vcard_group`(id INTEGER PRIMARY KEY, name VARCHAR, vaild BOOL DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `company` (id INTEGER PRIMARY KEY, name VARCHAR, companytype_id INTEGER, vaild BOOL DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `company_type` (id INTEGER PRIMARY KEY, name VARCHAR, vaild BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `user`(id INTEGER PRIMARY KEY, name VARCHAR, password VARCHAR, group_id INTEGER, valid bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `user_group`(id INTEGER PRIMARY KEY, name VARCHAR, valid bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `vcard`(id INTEGER PRIMARY KEY, fullname VARCHAR, nickname VARCHAR, work_phone varchar, mobie_phone varchar, email varchar, title varchar, company varchar, valid bool DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `vcard_group`(id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `company` (id INTEGER PRIMARY KEY, name VARCHAR, companytype_id INTEGER, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `company_type` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `resource` (id INTEGER PRIMARY KEY, name VARCHAR, resourcetype_id INTEGER, pattern VARCHAR, weight INTEGER, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `resource_type` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `resource_status` (id INTEGER PRIMARY KEY, name VARCHAR, available BOOL DEFAULT 1, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `resource_feetype` (id INTEGER PRIMARY KEY, name VARCHAR, have_expiration BOOL DEFAULT 0, valid BOOL DEFAULT 1);");
 
     init_sql += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('admin','admin',1);");
     init_sql += wxT("INSERT INTO 'user_group' ('name') VALUES ('administrator');");

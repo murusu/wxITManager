@@ -8,6 +8,11 @@ WX_DEFINE_OBJARRAY(VcardGroupInfoArray);
 WX_DEFINE_OBJARRAY(CompanyInfoArray);
 WX_DEFINE_OBJARRAY(CompanyTypeInfoArray);
 
+WX_DEFINE_OBJARRAY(ResourceInfoArray);
+WX_DEFINE_OBJARRAY(ResourceTypeInfoArray);
+WX_DEFINE_OBJARRAY(ResourceStatusInfoArray);
+WX_DEFINE_OBJARRAY(ResourceFeeTypeInfoArray);
+
 
 
 

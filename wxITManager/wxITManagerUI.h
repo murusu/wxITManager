@@ -75,6 +75,52 @@ class CompanyTypeListCtrl : public wxListCtrl
         wxString OnGetItemText(long item, long column) const;
 };
 
+class ResourceListCtrl : public wxListCtrl
+{
+    public:
+        ResourceListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class ResourceTypeListCtrl : public wxListCtrl
+{
+    public:
+        ResourceTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class ResourceStatusListCtrl : public wxListCtrl
+{
+    public:
+        ResourceStatusListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class ResourceFeeTypeListCtrl : public wxListCtrl
+{
+    public:
+        ResourceFeeTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 class LoginFrame : public LoginFrameBase
 {
     protected:
@@ -160,6 +206,11 @@ class MainFrame : public MainFrameBase
 		inline VcardGroupListCtrl* GetVcardGroupListctrl(){return m_listCtrl_vcardgroup;};
 		inline CompanyListCtrl* GetCompanyListctrl(){return m_listCtrl_company;};
 		inline CompanyTypeListCtrl* GetCompanyTypeListctrl(){return m_listCtrl_companytype;};
+
+		inline ResourceListCtrl* GetResourceListctrl(){return m_listCtrl_resource;};
+		inline ResourceTypeListCtrl* GetResourceTypeListctrl(){return m_listCtrl_resourcetype;};
+		inline ResourceStatusListCtrl* GetResourceStatusListctrl(){return m_listCtrl_resourcestatus;};
+		inline ResourceFeeTypeListCtrl* GetResourceFeeTypeListctrl(){return m_listCtrl_resourcefeetype;};
 };
 
 class UserDialog : public UserDialogBase
@@ -262,6 +313,73 @@ class CompanyTypeDialog : public CompanyTypeDialogBase
 		void OnButtonSaveClick( wxCommandEvent& event );
 
 		void OnCompanyTypeInfoUpdate( wxDatabaseEvent& event);
+};
+
+class ResourceDialog : public ResourceDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		ResourceDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+		void OnButtonAddResourceTypeClick( wxCommandEvent& event );
+
+		void RefreshResourceTypeChoice();
+
+		void OnResourceInfoUpdate( wxDatabaseEvent& event);
+};
+
+class ResourceTypeDialog : public ResourceTypeDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		ResourceTypeDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnResourceTypeInfoUpdate( wxDatabaseEvent& event);
+};
+
+class ResourceStatusDialog : public ResourceStatusDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		ResourceStatusDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnResourceStatusInfoUpdate( wxDatabaseEvent& event);
+};
+
+class ResourceFeeTypeDialog : public ResourceFeeTypeDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		ResourceFeeTypeDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnResourceFeeTypeInfoUpdate( wxDatabaseEvent& event);
 };
 
 #endif // WXITMANAGERUI_H_INCLUDED

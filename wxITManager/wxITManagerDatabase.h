@@ -24,8 +24,6 @@ class Database : public wxEvtHandler
         virtual wxJSONValue ExecuteQuery(wxString sql_string) {return 0;};
 
         void OnRequest(wxDatabaseEvent& event);
-        //void OnQueryRequest(wxDatabaseEvent& event);
-        //void OnDatabaseTest(wxDatabaseEvent& event);
 };
 
 class DatabaseSqlite : public Database

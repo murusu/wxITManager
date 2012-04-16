@@ -197,17 +197,17 @@ class ResourceTypeController : public Controller
 class ResourceStatusController : public Controller
 {
     private:
-        ResourceStatuInfoArray *m_resourcestatuslist;
+        ResourceStatusInfoArray *m_resourcestatuslist;
 
     public:
-        ResourceStatuController();
-        ~ResourceStatuController();
+        ResourceStatusController();
+        ~ResourceStatusController();
 
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
         size_t getItemNumber() {return m_resourcestatuslist->GetCount();};
-        ResourceStatuInfoArray* GetList() {return m_resourcestatuslist;};
+        ResourceStatusInfoArray* GetList() {return m_resourcestatuslist;};
 };
 
 class ResourceFeeTypeController : public Controller

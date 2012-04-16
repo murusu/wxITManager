@@ -22,6 +22,11 @@ bool wxITManagerApp::OnInit(void)
     m_companycontroller     = NULL;
     m_companytypecontroller = NULL;
 
+    m_resourcecontroller        = NULL;
+    m_resourcetypecontroller    = NULL;
+    m_resourcestatuscontroller  = NULL;
+    m_resourcefeetypecontroller = NULL;
+
     SetupLocale();
 
     m_loginframe = new LoginFrame(NULL);
@@ -46,6 +51,11 @@ int wxITManagerApp::OnExit()
     if(m_vcardgroupcontroller) delete m_vcardgroupcontroller;
     if(m_companycontroller) delete m_companycontroller;
     if(m_companytypecontroller) delete m_companytypecontroller;
+
+    if(m_resourcecontroller) delete m_resourcecontroller;
+    if(m_resourcetypecontroller) delete m_resourcetypecontroller;
+    if(m_resourcestatuscontroller) delete m_resourcestatuscontroller;
+    if(m_resourcefeetypecontroller) delete m_resourcefeetypecontroller;
 
     return 0;
 }
@@ -150,6 +160,27 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
         case CONTROLLER_COMPANYTYPE:
             if(!m_companytypecontroller) m_companytypecontroller = new CompanyTypeController();
             handler = m_companytypecontroller;
+            break;
+
+
+        case CONTROLLER_RESOURCE:
+            if(!m_resourcecontroller) m_resourcecontroller = new ResourceController();
+            handler = m_resourcecontroller;
+            break;
+
+        case CONTROLLER_RESOURCETYPE:
+            if(!m_resourcetypecontroller) m_resourcetypecontroller = new ResourceTypeController();
+            handler = m_resourcetypecontroller;
+            break;
+
+        case CONTROLLER_RESOURCESTATUS:
+            if(!m_resourcestatuscontroller) m_resourcestatuscontroller = new ResourceStatusController();
+            handler = m_resourcestatuscontroller;
+            break;
+
+        case CONTROLLER_RESOURCEFEETYPE:
+            if(!m_resourcefeetypecontroller) m_resourcefeetypecontroller = new ResourceFeeTypeController();
+            handler = m_resourcefeetypecontroller;
             break;
     }
 

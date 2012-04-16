@@ -3401,16 +3401,16 @@
                     </object>
                 </object>
             </object>
-            <object class="wxBoxSizer" expanded="0">
+            <object class="wxBoxSizer" expanded="1">
                 <property name="minimum_size"></property>
                 <property name="name">bSizer20</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>
-                <object class="sizeritem" expanded="0">
+                <object class="sizeritem" expanded="1">
                     <property name="border">0</property>
                     <property name="flag">wxEXPAND</property>
                     <property name="proportion">1</property>
-                    <object class="wxPanel" expanded="0">
+                    <object class="wxPanel" expanded="1">
                         <property name="bg"></property>
                         <property name="context_help"></property>
                         <property name="context_menu">1</property>
@@ -3457,7 +3457,7 @@
                         <event name="OnSetFocus"></event>
                         <event name="OnSize"></event>
                         <event name="OnUpdateUI"></event>
-                        <object class="wxBoxSizer" expanded="0">
+                        <object class="wxBoxSizer" expanded="1">
                             <property name="minimum_size"></property>
                             <property name="name">bSizer129</property>
                             <property name="orient">wxVERTICAL</property>
@@ -3692,7 +3692,7 @@
                                     </object>
                                 </object>
                             </object>
-                            <object class="sizeritem" expanded="0">
+                            <object class="sizeritem" expanded="1">
                                 <property name="border">5</property>
                                 <property name="flag">wxEXPAND</property>
                                 <property name="proportion">1</property>
@@ -9442,7 +9442,7 @@
                                 <property name="window_extra_style"></property>
                                 <property name="window_name"></property>
                                 <property name="window_style"></property>
-                                <event name="OnButtonClick"></event>
+                                <event name="OnButtonClick">OnButtonAddResourceTypeClick</event>
                                 <event name="OnChar"></event>
                                 <event name="OnEnterWindow"></event>
                                 <event name="OnEraseBackground"></event>
@@ -10324,7 +10324,7 @@
                 </object>
             </object>
         </object>
-        <object class="Dialog" expanded="0">
+        <object class="Dialog" expanded="1">
             <property name="bg"></property>
             <property name="center">wxBOTH</property>
             <property name="context_help"></property>

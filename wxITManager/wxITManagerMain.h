@@ -26,6 +26,11 @@ class VcardGroupController;
 class CompanyController;
 class CompanyTypeController;
 
+class ResourceController;
+class ResourceTypeController;
+class ResourceStatusController;
+class ResourceFeeTypeController;
+
 class wxITManagerApp: public wxApp
 {
     private:
@@ -36,16 +41,21 @@ class wxITManagerApp: public wxApp
         ManagerConfig       *m_config;
         Database            *m_database;
 
-        DatabaseController      *m_dbcontroller;
-        AuthorityController     *m_authcontroller;
+        DatabaseController          *m_dbcontroller;
+        AuthorityController         *m_authcontroller;
 
-        UserController          *m_usercontroller;
-        UserGroupController     *m_usergroupcontroller;
+        UserController              *m_usercontroller;
+        UserGroupController         *m_usergroupcontroller;
 
-        VcardController         *m_vcardcontroller;
-        VcardGroupController    *m_vcardgroupcontroller;
-        CompanyController       *m_companycontroller;
-        CompanyTypeController   *m_companytypecontroller;
+        VcardController             *m_vcardcontroller;
+        VcardGroupController        *m_vcardgroupcontroller;
+        CompanyController           *m_companycontroller;
+        CompanyTypeController       *m_companytypecontroller;
+
+        ResourceController          *m_resourcecontroller;
+        ResourceTypeController      *m_resourcetypecontroller;
+        ResourceStatusController    *m_resourcestatuscontroller;
+        ResourceFeeTypeController   *m_resourcefeetypecontroller;
 
     public:
         bool    OnInit(void);

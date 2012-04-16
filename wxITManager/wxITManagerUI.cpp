@@ -300,6 +300,220 @@ wxString CompanyTypeListCtrl::OnGetItemText(long item, long column) const
     return ItemText;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceListCtrl::ResourceListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    this->Connect(wxEVT_DATABASE_GETRESOURCELIST, wxDatabaseEventHandler(ResourceListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCE, wxDatabaseEventHandler(ResourceListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCE, wxDatabaseEventHandler(ResourceListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCE, wxDatabaseEventHandler(ResourceListCtrl::OnListChange));
+}
+
+void ResourceListCtrl::OnListChange( wxDatabaseEvent& event)
+{
+    RefreshList();
+}
+
+void ResourceListCtrl::OnRefreshList( wxDatabaseEvent& event)
+{
+    SetItemCount(((ResourceController *)(wxGetApp().GetController(CONTROLLER_RESOURCE)))->getItemNumber());
+    Refresh();
+}
+
+void ResourceListCtrl::RefreshList()
+{
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCE);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETRESOURCELIST, CONTROLLER_RESOURCE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    handler->AddPendingEvent(database_event);
+}
+
+wxString ResourceListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+
+    ResourceInfoArray* list = ((ResourceController *)(wxGetApp().GetController(CONTROLLER_RESOURCE)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_name;
+            break;
+
+        case 1:
+            ItemText = list->Item(item).m_resourcetypename;
+            break;
+
+        case 2:
+            ItemText = list->Item(item).m_pattern;
+            break;
+    }
+
+    return ItemText;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceTypeListCtrl::ResourceTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    this->Connect(wxEVT_DATABASE_GETRESOURCETYPELIST, wxDatabaseEventHandler(ResourceTypeListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCETYPE, wxDatabaseEventHandler(ResourceTypeListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCETYPE, wxDatabaseEventHandler(ResourceTypeListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCETYPE, wxDatabaseEventHandler(ResourceTypeListCtrl::OnListChange));
+}
+
+void ResourceTypeListCtrl::OnListChange( wxDatabaseEvent& event)
+{
+    RefreshList();
+}
+
+void ResourceTypeListCtrl::OnRefreshList( wxDatabaseEvent& event)
+{
+    SetItemCount(((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->getItemNumber());
+    Refresh();
+}
+
+void ResourceTypeListCtrl::RefreshList()
+{
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCETYPE);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETRESOURCETYPELIST, CONTROLLER_RESOURCETYPE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    handler->AddPendingEvent(database_event);
+}
+
+wxString ResourceTypeListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+
+    ResourceTypeInfoArray* list = ((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_name;
+            break;
+    }
+
+    return ItemText;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceStatusListCtrl::ResourceStatusListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    this->Connect(wxEVT_DATABASE_GETRESOURCESTATUSLIST, wxDatabaseEventHandler(ResourceStatusListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusListCtrl::OnListChange));
+}
+
+void ResourceStatusListCtrl::OnListChange( wxDatabaseEvent& event)
+{
+    RefreshList();
+}
+
+void ResourceStatusListCtrl::OnRefreshList( wxDatabaseEvent& event)
+{
+    SetItemCount(((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->getItemNumber());
+    Refresh();
+}
+
+void ResourceStatusListCtrl::RefreshList()
+{
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCESTATUS);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETRESOURCESTATUSLIST, CONTROLLER_RESOURCESTATUS);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    handler->AddPendingEvent(database_event);
+}
+
+wxString ResourceStatusListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+
+    ResourceStatusInfoArray* list = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_name;
+            break;
+
+        case 1:
+            if(list->Item(item).m_available)
+            {
+                ItemText = _("Yes");
+            }
+            else
+            {
+                ItemText = _("No");
+            }
+            break;
+    }
+
+    return ItemText;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceFeeTypeListCtrl::ResourceFeeTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceFeeTypeListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeListCtrl::OnListChange));
+}
+
+void ResourceFeeTypeListCtrl::OnListChange( wxDatabaseEvent& event)
+{
+    RefreshList();
+}
+
+void ResourceFeeTypeListCtrl::OnRefreshList( wxDatabaseEvent& event)
+{
+    SetItemCount(((ResourceFeeTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE)))->getItemNumber());
+    Refresh();
+}
+
+void ResourceFeeTypeListCtrl::RefreshList()
+{
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, CONTROLLER_RESOURCEFEETYPE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    handler->AddPendingEvent(database_event);
+}
+
+wxString ResourceFeeTypeListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+
+    ResourceFeeTypeInfoArray* list = ((ResourceFeeTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_name;
+            break;
+
+        case 1:
+            if(list->Item(item).m_haveexpiration)
+            {
+                ItemText = _("Yes");
+            }
+            else
+            {
+                ItemText = _("No");
+            }
+            break;
+    }
+
+    return ItemText;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 LoginFrame::LoginFrame(wxFrame *frame) : LoginFrameBase(frame)
@@ -1573,3 +1787,306 @@ void CompanyTypeDialog::OnCompanyTypeInfoUpdate( wxDatabaseEvent& event)
         }
     }
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+ResourceDialog::ResourceDialog(wxWindow* parent, size_t id):ResourceDialogBase(parent)
+{
+    m_id = id;
+
+    RefreshResourceTypeChoice();
+
+    if(m_id != NULL_ID)
+    {
+        ResourceInfo resource_info = ((ResourceController *)(wxGetApp().GetController(CONTROLLER_RESOURCE)))->GetList()->Item(m_id);
+
+        m_textCtrl_resourcename->SetValue(resource_info.m_name);
+
+        for(size_t index = 0; index < m_choice_resourcetype->GetCount(); index++)
+        {
+            if(*(size_t *)(m_choice_resourcetype->GetClientData(index)) == resource_info.m_resourcetypeid)
+                m_choice_resourcetype->SetSelection(index);
+        }
+    }
+    else
+    {
+        m_choice_resourcetype->SetSelection(0);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDRESOURCE, wxDatabaseEventHandler(ResourceDialog::OnResourceInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCE, wxDatabaseEventHandler(ResourceDialog::OnResourceInfoUpdate));
+}
+
+void ResourceDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_resourcename->Enable(flag);
+    m_choice_resourcetype->Enable(flag);
+    m_button_addresourcetype->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void ResourceDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_resourcename->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Resource Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_resourcename->GetValue();
+    request_json[1] = *(size_t *)(m_choice_resourcetype->GetClientData(m_choice_resourcetype->GetSelection()));
+    request_json[2] = m_textCtrl_pattern->GetValue();
+    request_json[3] = m_textCtrl_weight->GetValue();
+
+    if(m_id != NULL_ID)
+    {
+        ResourceInfo resource_info = ((ResourceController *)(wxGetApp().GetController(CONTROLLER_RESOURCE)))->GetList()->Item(m_id);
+        request_json[4] = resource_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDRESOURCE;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATERESOURCE;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCE);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_RESOURCE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void ResourceDialog::OnButtonAddResourceTypeClick( wxCommandEvent& event )
+{
+    ResourceTypeDialog *dialog = new ResourceTypeDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+    RefreshResourceTypeChoice();
+}
+
+void ResourceDialog::RefreshResourceTypeChoice()
+{
+    m_choice_resourcetype->Clear();
+
+    ResourceTypeInfoArray* resourcetype_array = ((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->GetList();
+    for(size_t index = 0; index < resourcetype_array->GetCount(); index++)
+    {
+        m_choice_resourcetype->Append(resourcetype_array->Item(index).m_name, &(resourcetype_array->Item(index).m_id));
+    }
+}
+
+void ResourceDialog::OnResourceInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCE)
+        {
+            m_staticTextStatus->SetLabel(_("Add Resource Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Resource Info Successfully"));
+        }
+
+        m_textCtrl_resourcename->SetValue(wxT(""));
+        m_choice_resourcetype->SetSelection(0);
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetResourceListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCE)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Resource"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Resource Info"));
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+ResourceTypeDialog::ResourceTypeDialog(wxWindow* parent, size_t id):ResourceTypeDialogBase(parent)
+{
+    m_id = id;
+
+    if(m_id != NULL_ID)
+    {
+        ResourceTypeInfo resourcetype_info = ((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->GetList()->Item(m_id);
+
+        m_textCtrl_resourcetype->SetValue(resourcetype_info.m_name);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDRESOURCETYPE, wxDatabaseEventHandler(ResourceTypeDialog::OnResourceTypeInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCETYPE, wxDatabaseEventHandler(ResourceTypeDialog::OnResourceTypeInfoUpdate));
+}
+
+void ResourceTypeDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_resourcetype->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void ResourceTypeDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_resourcetype->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Resource Type Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_resourcetype->GetValue();
+
+    if(m_id != NULL_ID)
+    {
+        ResourceTypeInfo resourcetype_info = ((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->GetList()->Item(m_id);
+        request_json[1] = resourcetype_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDRESOURCETYPE;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATERESOURCETYPE;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCETYPE);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_RESOURCETYPE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void ResourceTypeDialog::OnResourceTypeInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCETYPE)
+        {
+            m_staticTextStatus->SetLabel(_("Add Resource Type Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Resource Type Info Successfully"));
+        }
+
+        m_textCtrl_resourcetype->SetValue(wxT(""));
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetResourceTypeListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCETYPE)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Resource Type"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Resource Type Info"));
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceStatusDialog::ResourceStatusDialog(wxWindow* parent, size_t id):ResourceStatusDialogBase(parent)
+{
+    m_id = id;
+
+    if(m_id != NULL_ID)
+    {
+        ResourceStatusInfo resourcetype_info = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList()->Item(m_id);
+
+        m_textCtrl_resourcetype->SetValue(resourcetype_info.m_name);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDRESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusDialog::OnResourceStatusInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusDialog::OnResourceStatusInfoUpdate));
+}
+
+void ResourceStatusDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_resourcetype->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void ResourceStatusDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_resourcetype->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Resource Status Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_resourcetype->GetValue();
+
+    if(m_id != NULL_ID)
+    {
+        ResourceStatusInfo resourcetype_info = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList()->Item(m_id);
+        request_json[1] = resourcetype_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDRESOURCESTATUS;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATERESOURCESTATUS;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCESTATUS);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_RESOURCESTATUS);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void ResourceStatusDialog::OnResourceStatusInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCESTATUS)
+        {
+            m_staticTextStatus->SetLabel(_("Add Resource Status Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Resource Status Info Successfully"));
+        }
+
+        m_textCtrl_resourcetype->SetValue(wxT(""));
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetResourceStatusListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCESTATUS)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Resource Status"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Resource Status Info"));
+        }
+    }
+}
+
