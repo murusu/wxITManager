@@ -463,19 +463,19 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_separator3 = m_menu3->AppendSeparator();
 	
 	wxMenuItem* m_menuItem17;
-	m_menuItem17 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Resource") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem17 = new wxMenuItem( m_menu3, wxID_MENUITEM_RESOURCE, wxString( _("Resource") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem17 );
 	
 	wxMenuItem* m_menuItem10;
-	m_menuItem10 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Resource Type") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem10 = new wxMenuItem( m_menu3, wxID_MENUITEM_RESOURCETYPE, wxString( _("Resource Type") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem10 );
 	
 	wxMenuItem* m_menuItem14;
-	m_menuItem14 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Resource Status") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem14 = new wxMenuItem( m_menu3, wxID_MENUITEM_RESOURCESTATUS, wxString( _("Resource Status") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem14 );
 	
 	wxMenuItem* m_menuItem15;
-	m_menuItem15 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Resource Fee Type") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem15 = new wxMenuItem( m_menu3, wxID_MENUITEM_RESOURCEFEETYPE, wxString( _("Resource Fee Type") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem15 );
 	
 	m_menubar->Append( m_menu3, _("Settings") ); 
@@ -724,6 +724,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxID_MENUITEM_VCARDGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_COMPANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_COMPANYTYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_RESOURCE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_RESOURCETYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_RESOURCESTATUS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_RESOURCEFEETYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Connect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Connect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
@@ -770,6 +774,10 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_MENUITEM_VCARDGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_COMPANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_COMPANYTYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_RESOURCE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_RESOURCETYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_RESOURCESTATUS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_RESOURCEFEETYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
@@ -1458,6 +1466,7 @@ ResourceDialogBase::ResourceDialogBase( wxWindow* parent, wxWindowID id, const w
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	m_button_addresourcetype->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDialogBase::OnButtonAddResourceTypeClick ), NULL, this );
 	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDialogBase::OnButtonCloseClick ), NULL, this );
 }
@@ -1465,6 +1474,7 @@ ResourceDialogBase::ResourceDialogBase( wxWindow* parent, wxWindowID id, const w
 ResourceDialogBase::~ResourceDialogBase()
 {
 	// Disconnect Events
+	m_button_addresourcetype->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDialogBase::OnButtonAddResourceTypeClick ), NULL, this );
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDialogBase::OnButtonCloseClick ), NULL, this );
 	
@@ -1557,6 +1567,7 @@ ResourceStatusDialogBase::ResourceStatusDialogBase( wxWindow* parent, wxWindowID
 	bSizer171 = new wxBoxSizer( wxHORIZONTAL );
 	
 	m_checkBox_available = new wxCheckBox( this, wxID_ANY, _("Available Status?"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBox_available->SetValue(true); 
 	bSizer171->Add( m_checkBox_available, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	bSizer34->Add( bSizer171, 1, wxEXPAND, 5 );

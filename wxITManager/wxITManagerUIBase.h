@@ -63,9 +63,13 @@ class VcardListCtrl;
 #define wxID_MENUITEM_VCARDGROUP 1010
 #define wxID_MENUITEM_COMPANY 1011
 #define wxID_MENUITEM_COMPANYTYPE 1012
-#define wxID_MENUITEM_IMPORTDATA 1013
-#define wxID_MENUITEM_EXPORTDATA 1014
-#define wxID_MENUITEM_ABOUT 1015
+#define wxID_MENUITEM_RESOURCE 1013
+#define wxID_MENUITEM_RESOURCETYPE 1014
+#define wxID_MENUITEM_RESOURCESTATUS 1015
+#define wxID_MENUITEM_RESOURCEFEETYPE 1016
+#define wxID_MENUITEM_IMPORTDATA 1017
+#define wxID_MENUITEM_EXPORTDATA 1018
+#define wxID_MENUITEM_ABOUT 1019
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class LoginFrameBase
@@ -474,6 +478,7 @@ class ResourceDialogBase : public wxDialog
 		wxButton* m_button_close;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnButtonAddResourceTypeClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonCloseClick( wxCommandEvent& event ) { event.Skip(); }
 		

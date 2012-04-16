@@ -709,7 +709,7 @@ void CompanyController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         sql_str += wxT("UPDATE 'company' SET name = '");
         sql_str += request_data[0].AsString();
-        sql_str += wxT("', group_id = ");
+        sql_str += wxT("', companytype_id = ");
         sql_str += request_data[1].AsString();
         sql_str += wxT(" WHERE id = ");
         sql_str += request_data[2].AsString();

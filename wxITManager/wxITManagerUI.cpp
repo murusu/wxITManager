@@ -349,6 +349,10 @@ wxString ResourceListCtrl::OnGetItemText(long item, long column) const
         case 2:
             ItemText = list->Item(item).m_pattern;
             break;
+
+        case 3:
+            ItemText = wxString::Format(wxT("%d"),list->Item(item).m_weight);
+            break;
     }
 
     return ItemText;
@@ -884,7 +888,20 @@ MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
     m_listCtrl_company->InsertColumn(0,_("Company Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_company->InsertColumn(1,_("Company Type"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_companytype->InsertColumn(0,_("Type Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_companytype->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_resource->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resource->InsertColumn(1,_("Resource Type"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resource->InsertColumn(2,_("Pattern"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resource->InsertColumn(3,_("Weight"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_resourcetype->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_resourcestatus->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resourcestatus->InsertColumn(1,_("Available Status"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_resourcefeetype->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resourcefeetype->InsertColumn(1,_("Have Expiration"),wxLIST_FORMAT_LEFT,200);
 
     DoListSize();
 }
@@ -922,6 +939,11 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     m_panel_company->Show(false);
     m_panel_companytype->Show(false);
 
+    m_panel_resource->Show(false);
+    m_panel_resourcetype->Show(false);
+    m_panel_resourcestatus->Show(false);
+    m_panel_resourcefeetype->Show(false);
+
     switch(event.GetId())
     {
         case wxID_MENUITEM_USER:
@@ -946,6 +968,22 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
 
         case wxID_MENUITEM_COMPANYTYPE:
             select_panel = m_panel_companytype;
+            break;
+
+        case wxID_MENUITEM_RESOURCE:
+            select_panel = m_panel_resource;
+            break;
+
+        case wxID_MENUITEM_RESOURCETYPE:
+            select_panel = m_panel_resourcetype;
+            break;
+
+        case wxID_MENUITEM_RESOURCESTATUS:
+            select_panel = m_panel_resourcestatus;
+            break;
+
+        case wxID_MENUITEM_RESOURCEFEETYPE:
+            select_panel = m_panel_resourcefeetype;
             break;
     }
 
@@ -996,6 +1034,30 @@ void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )
     {
         dialog   = new CompanyTypeDialog(this);
         listctrl = m_listCtrl_companytype;
+    }
+
+    if(m_panel_resource->IsShown())
+    {
+        dialog   = new ResourceDialog(this);
+        listctrl = m_listCtrl_resource;
+    }
+
+    if(m_panel_resourcetype->IsShown())
+    {
+        dialog   = new ResourceTypeDialog(this);
+        listctrl = m_listCtrl_resourcetype;
+    }
+
+    if(m_panel_resourcestatus->IsShown())
+    {
+        dialog   = new ResourceStatusDialog(this);
+        listctrl = m_listCtrl_resourcestatus;
+    }
+
+    if(m_panel_resourcefeetype->IsShown())
+    {
+        dialog   = new ResourceFeeTypeDialog(this);
+        listctrl = m_listCtrl_resourcefeetype;
     }
 
     dialog->ShowModal();
@@ -1054,6 +1116,34 @@ void MainFrame::OnButtonSettingDelete( wxCommandEvent& event )
         event_type = wxEVT_DATABASE_DELETECOMPANYTYPE;
     }
 
+    if(m_panel_resource->IsShown())
+    {
+        controller_id = CONTROLLER_RESOURCE;
+        listctrl = m_listCtrl_resource;
+        event_type = wxEVT_DATABASE_DELETERESOURCE;
+    }
+
+    if(m_panel_resourcetype->IsShown())
+    {
+        controller_id = CONTROLLER_RESOURCETYPE;
+        listctrl = m_listCtrl_resourcetype;
+        event_type = wxEVT_DATABASE_DELETERESOURCETYPE;
+    }
+
+    if(m_panel_resourcestatus->IsShown())
+    {
+        controller_id = CONTROLLER_RESOURCESTATUS;
+        listctrl = m_listCtrl_resourcestatus;
+        event_type = wxEVT_DATABASE_DELETERESOURCESTATUS;
+    }
+
+    if(m_panel_resourcefeetype->IsShown())
+    {
+        controller_id = CONTROLLER_RESOURCEFEETYPE;
+        listctrl = m_listCtrl_resourcefeetype;
+        event_type = wxEVT_DATABASE_DELETERESOURCEFEETYPE;
+    }
+
     size_t item = -1;
     size_t index = 0;
     wxJSONValue delete_json;
@@ -1070,6 +1160,11 @@ void MainFrame::OnButtonSettingDelete( wxCommandEvent& event )
         if(m_panel_vcardgroup->IsShown()) delete_json[index] = ((VcardGroupController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
         if(m_panel_company->IsShown()) delete_json[index] = ((CompanyController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
         if(m_panel_companytype->IsShown()) delete_json[index] = ((CompanyTypeController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+
+        if(m_panel_resource->IsShown()) delete_json[index] = ((ResourceController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+        if(m_panel_resourcetype->IsShown()) delete_json[index] = ((ResourceTypeController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+        if(m_panel_resourcestatus->IsShown()) delete_json[index] = ((ResourceStatusController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
+        if(m_panel_resourcefeetype->IsShown()) delete_json[index] = ((ResourceFeeTypeController *)(wxGetApp().GetController(controller_id)))->GetList()->Item(item).m_id;
 
         index++;
     }
@@ -1091,6 +1186,11 @@ void MainFrame::OnButtonSettingRefresh( wxCommandEvent& event )
     if(m_panel_vcardgroup->IsShown()) m_listCtrl_vcardgroup->RefreshList();
     if(m_panel_company->IsShown()) m_listCtrl_company->RefreshList();
     if(m_panel_companytype->IsShown()) m_listCtrl_companytype->RefreshList();
+
+    if(m_panel_resource->IsShown()) m_listCtrl_resource->RefreshList();
+    if(m_panel_resourcetype->IsShown()) m_listCtrl_resourcetype->RefreshList();
+    if(m_panel_resourcestatus->IsShown()) m_listCtrl_resourcestatus->RefreshList();
+    if(m_panel_resourcefeetype->IsShown()) m_listCtrl_resourcefeetype->RefreshList();
 }
 
 void MainFrame::OnSettingItemActivated( wxListEvent& event )
@@ -1134,6 +1234,27 @@ void MainFrame::OnSettingItemActivated( wxListEvent& event )
         listctrl = m_listCtrl_companytype;
     }
 
+    if(m_panel_resource->IsShown())
+    {
+        dialog = new ResourceDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_resource;
+    }
+    if(m_panel_resourcetype->IsShown())
+    {
+        dialog = new ResourceTypeDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_resourcetype;
+    }
+    if(m_panel_resourcestatus->IsShown())
+    {
+        dialog = new ResourceStatusDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_resourcestatus;
+    }
+    if(m_panel_resourcefeetype->IsShown())
+    {
+        dialog = new ResourceFeeTypeDialog(this, event.GetIndex());
+        listctrl = m_listCtrl_resourcefeetype;
+    }
+
     dialog->ShowModal();
     listctrl->Refresh();
 
@@ -1157,6 +1278,11 @@ void MainFrame::DoListSize()
     m_listCtrl_vcardgroup->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
     m_listCtrl_company->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
     m_listCtrl_companytype->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+
+    m_listCtrl_resource->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+    m_listCtrl_resourcetype->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+    m_listCtrl_resourcestatus->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+    m_listCtrl_resourcefeetype->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -1238,6 +1364,7 @@ void UserDialog::OnButtonAddUserGroupClick( wxCommandEvent& event )
 
     delete dialog;
     RefreshUserGroupChoice();
+    m_choice_usergroup->SetSelection(0);
 }
 
 void UserDialog::RefreshUserGroupChoice()
@@ -1653,6 +1780,7 @@ void CompanyDialog::OnButtonAddCompanyTypeClick( wxCommandEvent& event )
 
     delete dialog;
     RefreshCompanyTypeChoice();
+    m_choice_companytype->SetSelection(0);
 }
 
 void CompanyDialog::RefreshCompanyTypeChoice()
@@ -1801,6 +1929,8 @@ ResourceDialog::ResourceDialog(wxWindow* parent, size_t id):ResourceDialogBase(p
         ResourceInfo resource_info = ((ResourceController *)(wxGetApp().GetController(CONTROLLER_RESOURCE)))->GetList()->Item(m_id);
 
         m_textCtrl_resourcename->SetValue(resource_info.m_name);
+        m_textCtrl_pattern->SetValue(resource_info.m_pattern);
+        m_textCtrl_weight->SetValue(wxString::Format(wxT("%d"),resource_info.m_weight));
 
         for(size_t index = 0; index < m_choice_resourcetype->GetCount(); index++)
         {
@@ -1867,6 +1997,7 @@ void ResourceDialog::OnButtonAddResourceTypeClick( wxCommandEvent& event )
 
     delete dialog;
     RefreshResourceTypeChoice();
+    m_choice_resourcetype->SetSelection(0);
 }
 
 void ResourceDialog::RefreshResourceTypeChoice()
@@ -1896,6 +2027,8 @@ void ResourceDialog::OnResourceInfoUpdate( wxDatabaseEvent& event)
         }
 
         m_textCtrl_resourcename->SetValue(wxT(""));
+        m_textCtrl_pattern->SetValue(wxT(""));
+        m_textCtrl_weight->SetValue(wxT(""));
         m_choice_resourcetype->SetSelection(0);
         m_id = NULL_ID;
 
@@ -1924,7 +2057,7 @@ ResourceTypeDialog::ResourceTypeDialog(wxWindow* parent, size_t id):ResourceType
     {
         ResourceTypeInfo resourcetype_info = ((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->GetList()->Item(m_id);
 
-        m_textCtrl_resourcetype->SetValue(resourcetype_info.m_name);
+        m_textCtrl_typename->SetValue(resourcetype_info.m_name);
     }
 
     this->Connect(wxEVT_DATABASE_ADDRESOURCETYPE, wxDatabaseEventHandler(ResourceTypeDialog::OnResourceTypeInfoUpdate));
@@ -1933,14 +2066,14 @@ ResourceTypeDialog::ResourceTypeDialog(wxWindow* parent, size_t id):ResourceType
 
 void ResourceTypeDialog::EnableDialog(bool flag)
 {
-    m_textCtrl_resourcetype->Enable(flag);
+    m_textCtrl_typename->Enable(flag);
     m_button_save->Enable(flag);
     m_button_close->Enable(flag);
 }
 
 void ResourceTypeDialog::OnButtonSaveClick( wxCommandEvent& event )
 {
-    if(m_textCtrl_resourcetype->GetValue().IsEmpty())
+    if(m_textCtrl_typename->GetValue().IsEmpty())
     {
         m_staticTextStatus->SetLabel(_("Resource Type Name Cannot Be Empty!"));
         return;
@@ -1950,7 +2083,7 @@ void ResourceTypeDialog::OnButtonSaveClick( wxCommandEvent& event )
     EnableDialog(false);
 
     wxJSONValue request_json;
-    request_json[0] = m_textCtrl_resourcetype->GetValue();
+    request_json[0] = m_textCtrl_typename->GetValue();
 
     if(m_id != NULL_ID)
     {
@@ -1984,7 +2117,7 @@ void ResourceTypeDialog::OnResourceTypeInfoUpdate( wxDatabaseEvent& event)
             m_staticTextStatus->SetLabel(_("Update Resource Type Info Successfully"));
         }
 
-        m_textCtrl_resourcetype->SetValue(wxT(""));
+        m_textCtrl_typename->SetValue(wxT(""));
         m_id = NULL_ID;
 
         wxGetApp().GetMainFrame()->GetResourceTypeListctrl()->RefreshList();
@@ -2010,9 +2143,10 @@ ResourceStatusDialog::ResourceStatusDialog(wxWindow* parent, size_t id):Resource
 
     if(m_id != NULL_ID)
     {
-        ResourceStatusInfo resourcetype_info = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList()->Item(m_id);
+        ResourceStatusInfo resourcestatus_info = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList()->Item(m_id);
 
-        m_textCtrl_resourcetype->SetValue(resourcetype_info.m_name);
+        m_textCtrl_resourcestatus->SetValue(resourcestatus_info.m_name);
+        m_checkBox_available->SetValue(resourcestatus_info.m_available);
     }
 
     this->Connect(wxEVT_DATABASE_ADDRESOURCESTATUS, wxDatabaseEventHandler(ResourceStatusDialog::OnResourceStatusInfoUpdate));
@@ -2021,14 +2155,14 @@ ResourceStatusDialog::ResourceStatusDialog(wxWindow* parent, size_t id):Resource
 
 void ResourceStatusDialog::EnableDialog(bool flag)
 {
-    m_textCtrl_resourcetype->Enable(flag);
+    m_textCtrl_resourcestatus->Enable(flag);
     m_button_save->Enable(flag);
     m_button_close->Enable(flag);
 }
 
 void ResourceStatusDialog::OnButtonSaveClick( wxCommandEvent& event )
 {
-    if(m_textCtrl_resourcetype->GetValue().IsEmpty())
+    if(m_textCtrl_resourcestatus->GetValue().IsEmpty())
     {
         m_staticTextStatus->SetLabel(_("Resource Status Name Cannot Be Empty!"));
         return;
@@ -2038,12 +2172,13 @@ void ResourceStatusDialog::OnButtonSaveClick( wxCommandEvent& event )
     EnableDialog(false);
 
     wxJSONValue request_json;
-    request_json[0] = m_textCtrl_resourcetype->GetValue();
+    request_json[0] = m_textCtrl_resourcestatus->GetValue();
+    request_json[1] = m_checkBox_available->GetValue()?1:0;
 
     if(m_id != NULL_ID)
     {
-        ResourceStatusInfo resourcetype_info = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList()->Item(m_id);
-        request_json[1] = resourcetype_info.m_id;
+        ResourceStatusInfo resourcestatus_info = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList()->Item(m_id);
+        request_json[2] = resourcestatus_info.m_id;
     }
 
     wxEventType event_type = wxEVT_DATABASE_ADDRESOURCESTATUS;
@@ -2072,7 +2207,8 @@ void ResourceStatusDialog::OnResourceStatusInfoUpdate( wxDatabaseEvent& event)
             m_staticTextStatus->SetLabel(_("Update Resource Status Info Successfully"));
         }
 
-        m_textCtrl_resourcetype->SetValue(wxT(""));
+        m_textCtrl_resourcestatus->SetValue(wxT(""));
+        m_checkBox_available->SetValue(true);
         m_id = NULL_ID;
 
         wxGetApp().GetMainFrame()->GetResourceStatusListctrl()->RefreshList();
@@ -2090,3 +2226,93 @@ void ResourceStatusDialog::OnResourceStatusInfoUpdate( wxDatabaseEvent& event)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////
+
+ResourceFeeTypeDialog::ResourceFeeTypeDialog(wxWindow* parent, size_t id):ResourceFeeTypeDialogBase(parent)
+{
+    m_id = id;
+
+    if(m_id != NULL_ID)
+    {
+        ResourceFeeTypeInfo resourcefeetype_info = ((ResourceFeeTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE)))->GetList()->Item(m_id);
+
+        m_textCtrl_feetype->SetValue(resourcefeetype_info.m_name);
+        m_checkBox_expire->SetValue(resourcefeetype_info.m_haveexpiration);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeDialog::OnResourceFeeTypeInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeDialog::OnResourceFeeTypeInfoUpdate));
+}
+
+void ResourceFeeTypeDialog::EnableDialog(bool flag)
+{
+    m_textCtrl_feetype->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void ResourceFeeTypeDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    if(m_textCtrl_feetype->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Resource Fee Type Name Cannot Be Empty!"));
+        return;
+    }
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    request_json[0] = m_textCtrl_feetype->GetValue();
+    request_json[1] = m_checkBox_expire->GetValue()?1:0;
+
+    if(m_id != NULL_ID)
+    {
+        ResourceFeeTypeInfo resourcefeetype_info = ((ResourceFeeTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE)))->GetList()->Item(m_id);
+        request_json[2] = resourcefeetype_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDRESOURCEFEETYPE;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATERESOURCEFEETYPE;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_RESOURCEFEETYPE);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void ResourceFeeTypeDialog::OnResourceFeeTypeInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCEFEETYPE)
+        {
+            m_staticTextStatus->SetLabel(_("Add Resource Fee Type Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Resource Status Info Successfully"));
+        }
+
+        m_textCtrl_feetype->SetValue(wxT(""));
+        m_checkBox_expire->SetValue(false);
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetResourceFeeTypeListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCEFEETYPE)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Resource Fee Type"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Resource Fee Type Info"));
+        }
+    }
+}
