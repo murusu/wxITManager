@@ -1,9 +1,5 @@
 #include "wxITManagerThread.h"
-/*
-DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATE_SUCCESS)
-DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATE_ERROR)
-IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
-*/
+
 DECLARE_APP(wxITManagerApp)
 
 DatabaseProcessThread::DatabaseProcessThread(wxObject* sender, size_t controller_id, Database *database, wxString sql, wxEventType event_type, size_t sql_type) : wxThread()

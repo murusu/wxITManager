@@ -1,9 +1,6 @@
 #ifndef WXITMANAGERCONFIG_H_INCLUDED
 #define WXITMANAGERCONFIG_H_INCLUDED
 
-#include <wx/wx.h>
-#include <wx/xml/xml.h>
-
 #include "wxITManagerMain.h"
 
 class ManagerConfig

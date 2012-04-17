@@ -1,11 +1,6 @@
 #ifndef WXITMANAGERDATABASE_H_INCLUDED
 #define WXITMANAGERDATABASE_H_INCLUDED
 
-#include <wx/wx.h>
-#include <wx/event.h>
-#include "wx/wxsqlite3.h"
-
-
 #include "wxITManagerMain.h"
 
 class Database : public wxEvtHandler

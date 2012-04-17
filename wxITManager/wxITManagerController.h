@@ -2,8 +2,8 @@
 #define WXITMANAGERCONTROLLER_H_INCLUDED
 
 #include "wxITManagerMain.h"
-//#include "wxITManagerEvent.h"
-//#include "wxITManagerDatabase.h"
+
+WX_DEFINE_OBJARRAY(UserInfoArray);
 
 class Database;
 class ManagerConfig;
@@ -160,6 +160,22 @@ class CompanyTypeController : public Controller
 
         size_t getItemNumber() {return m_companytypelist->GetCount();};
         CompanyTypeInfoArray* GetList() {return m_companytypelist;};
+};
+
+class LocationController : public Controller
+{
+    private:
+        LocationInfoArray *m_locationlist;
+
+    public:
+        LocationController();
+        ~LocationController();
+
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_locationlist->GetCount();};
+        LocationInfoArray* GetList() {return m_locationlist;};
 };
 
 class ResourceController : public Controller

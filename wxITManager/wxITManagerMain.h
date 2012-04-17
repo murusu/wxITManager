@@ -2,16 +2,34 @@
 #define WXITMANAGERMAIN_H_INCLUDED
 
 #include <wx/wx.h>
+#include <wx/xml/xml.h>
+#include <wx/event.h>
+#include "wx/jsonreader.h"
+#include "wx/jsonwriter.h"
+#include <wx/dynarray.h>
+#include <wx/arrimpl.cpp>
+#include <wx/arrstr.h>
+#include <wx/thread.h>
+#include <wx/msgdlg.h>
+#include <wx/listctrl.h>
+
+#include "wx/wxsqlite3.h"
+
+#include "md5.h"
+
 
 #include "GlobalValue.h"
+#include "wxITManagerMisc.h"
 #include "wxITManagerEvent.h"
-#include "wxITManagerUI.h"
-#include "wxITManagerConfig.h"
 #include "wxITManagerDatalist.h"
 #include "wxITManagerController.h"
+#include "wxITManagerConfig.h"
 #include "wxITManagerDatabase.h"
 #include "wxITManagerThread.h"
-#include "wxITManagerMisc.h"
+#include "wxITManagerUIExtend.h"
+#include "wxITManagerUIBase.h"
+#include "wxITManagerUI.h"
+
 
 class MainFrame;
 class LoginFrame;
@@ -25,6 +43,7 @@ class VcardController;
 class VcardGroupController;
 class CompanyController;
 class CompanyTypeController;
+class LocationController;
 
 class ResourceController;
 class ResourceTypeController;
@@ -51,6 +70,7 @@ class wxITManagerApp: public wxApp
         VcardGroupController        *m_vcardgroupcontroller;
         CompanyController           *m_companycontroller;
         CompanyTypeController       *m_companytypecontroller;
+        LocationController          *m_locationcontroller;
 
         ResourceController          *m_resourcecontroller;
         ResourceTypeController      *m_resourcetypecontroller;

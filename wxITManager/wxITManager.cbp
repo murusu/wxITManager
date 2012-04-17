@@ -123,6 +123,8 @@
 		<Unit filename="wxITManagerUI.h" />
 		<Unit filename="wxITManagerUIBase.cpp" />
 		<Unit filename="wxITManagerUIBase.h" />
+		<Unit filename="wxITManagerUIExtend.cpp" />
+		<Unit filename="wxITManagerUIExtend.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

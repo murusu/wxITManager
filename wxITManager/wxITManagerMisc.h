@@ -3,9 +3,7 @@
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 
-#include <wx/wx.h>
-
-#include "md5.h"
+#include "wxITManagerMain.h"
 
 class MiscFunction
 {

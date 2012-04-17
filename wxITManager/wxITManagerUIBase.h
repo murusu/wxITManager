@@ -12,6 +12,7 @@
 
 class CompanyListCtrl;
 class CompanyTypeListCtrl;
+class LocationListCtrl;
 class ResourceFeeTypeListCtrl;
 class ResourceListCtrl;
 class ResourceStatusListCtrl;
@@ -63,13 +64,14 @@ class VcardListCtrl;
 #define wxID_MENUITEM_VCARDGROUP 1010
 #define wxID_MENUITEM_COMPANY 1011
 #define wxID_MENUITEM_COMPANYTYPE 1012
-#define wxID_MENUITEM_RESOURCE 1013
-#define wxID_MENUITEM_RESOURCETYPE 1014
-#define wxID_MENUITEM_RESOURCESTATUS 1015
-#define wxID_MENUITEM_RESOURCEFEETYPE 1016
-#define wxID_MENUITEM_IMPORTDATA 1017
-#define wxID_MENUITEM_EXPORTDATA 1018
-#define wxID_MENUITEM_ABOUT 1019
+#define wxID_MENUITEM_LOCATION 1013
+#define wxID_MENUITEM_RESOURCE 1014
+#define wxID_MENUITEM_RESOURCETYPE 1015
+#define wxID_MENUITEM_RESOURCESTATUS 1016
+#define wxID_MENUITEM_RESOURCEFEETYPE 1017
+#define wxID_MENUITEM_IMPORTDATA 1018
+#define wxID_MENUITEM_EXPORTDATA 1019
+#define wxID_MENUITEM_ABOUT 1020
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class LoginFrameBase
@@ -217,6 +219,8 @@ class MainFrameBase : public wxFrame
 		CompanyListCtrl* m_listCtrl_company;
 		wxPanel* m_panel_companytype;
 		CompanyTypeListCtrl* m_listCtrl_companytype;
+		wxPanel* m_panel_location;
+		LocationListCtrl* m_listCtrl_location;
 		wxPanel* m_panel_resource;
 		ResourceListCtrl* m_listCtrl_resource;
 		wxPanel* m_panel_resourcetype;

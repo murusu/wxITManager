@@ -850,6 +850,109 @@ void CompanyTypeController::OnDatabaseResponse(wxDatabaseEvent& event)
 
 /////////////////////////////////////////////////////////////////////////////////
 
+LocationController::LocationController()
+{
+    m_locationlist = new LocationInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETLOCATIONLIST, wxDatabaseEventHandler(LocationController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDLOCATION, wxDatabaseEventHandler(LocationController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETELOCATION, wxDatabaseEventHandler(LocationController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATELOCATION, wxDatabaseEventHandler(LocationController::OnDatabaseEvent));
+}
+
+LocationController::~LocationController()
+{
+    m_locationlist->Clear();
+
+    if(m_locationlist) delete m_locationlist;
+}
+
+void LocationController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETLOCATIONLIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT id, name FROM 'company_type' WHERE valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDLOCATION)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'company_type' ('name') VALUES ('");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("')");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETELOCATION)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'company_type' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATELOCATION)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'company_type' SET name = '");
+        sql_str += request_data[0].AsString();
+
+        sql_str += wxT("' WHERE id = ");
+        sql_str += request_data[1].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void LocationController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETLOCATIONLIST)
+    {
+        m_locationlist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_locationlist->Add(LocationInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString()));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
 ResourceController::ResourceController()
 {
     //m_currentuser   = NULL;

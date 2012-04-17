@@ -1,9 +1,7 @@
 #ifndef WXITMANAGERDATALIST_H_INCLUDED
 #define WXITMANAGERDATALIST_H_INCLUDED
 
-#include <wx/dynarray.h>
-#include <wx/arrimpl.cpp>
-#include <wx/arrstr.h>
+#include "wxITManagerMain.h"
 
 class UserInfo;
 class UserGroupInfo;
@@ -12,6 +10,7 @@ class VcardInfo;
 class VcardGroupInfo;
 class CompanyInfo;
 class CompanyTypeInfo;
+class LocationInfo;
 
 class ResourceInfo;
 class ResourceTypeInfo;
@@ -25,6 +24,7 @@ WX_DECLARE_OBJARRAY(VcardInfo, VcardInfoArray);
 WX_DECLARE_OBJARRAY(VcardGroupInfo, VcardGroupInfoArray);
 WX_DECLARE_OBJARRAY(CompanyInfo, CompanyInfoArray);
 WX_DECLARE_OBJARRAY(CompanyTypeInfo, CompanyTypeInfoArray);
+WX_DECLARE_OBJARRAY(LocationInfo, LocationInfoArray);
 
 WX_DECLARE_OBJARRAY(ResourceInfo, ResourceInfoArray);
 WX_DECLARE_OBJARRAY(ResourceTypeInfo, ResourceTypeInfoArray);
@@ -93,6 +93,15 @@ class CompanyTypeInfo
         wxString        m_name;
 
         CompanyTypeInfo(size_t companytype_id, const wxString& companytype_name){m_id = companytype_id; m_name = companytype_name;};
+};
+
+class LocationInfo
+{
+    public:
+        size_t          m_id;
+        wxString        m_name;
+
+        LocationInfo(size_t location_id, const wxString& location_name){m_id = location_id; m_name = location_name;};
 };
 
 class ResourceInfo

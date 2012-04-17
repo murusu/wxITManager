@@ -48,6 +48,11 @@ Database::Database(ManagerConfig *database_config)
     this->Connect(wxEVT_DATABASE_ADDCOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_UPDATECOMPANYTYPE, wxDatabaseEventHandler(Database::OnRequest));
 
+    this->Connect(wxEVT_DATABASE_GETLOCATIONLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETELOCATION, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDLOCATION, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATELOCATION, wxDatabaseEventHandler(Database::OnRequest));
+
     this->Connect(wxEVT_DATABASE_GETRESOURCELIST, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_DELETERESOURCE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_ADDRESOURCE, wxDatabaseEventHandler(Database::OnRequest));
@@ -128,6 +133,7 @@ wxString DatabaseSqlite::GetDBTableInitStr()
     init_sql += wxT("CREATE TABLE `vcard_group`(id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `company` (id INTEGER PRIMARY KEY, name VARCHAR, companytype_id INTEGER, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `company_type` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `location` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource` (id INTEGER PRIMARY KEY, name VARCHAR, resourcetype_id INTEGER, pattern VARCHAR, weight INTEGER, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_type` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_status` (id INTEGER PRIMARY KEY, name VARCHAR, available BOOL DEFAULT 1, valid BOOL DEFAULT 1);");

@@ -5,7 +5,7 @@
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#include "wxITManagerUI.h"
+#include "wxITManagerUIExtend.h"
 
 #include "wxITManagerUIBase.h"
 
@@ -459,6 +459,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_menuItem11 = new wxMenuItem( m_menu3, wxID_MENUITEM_COMPANYTYPE, wxString( _("Company Type") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem11 );
 	
+	wxMenuItem* m_menuItem201;
+	m_menuItem201 = new wxMenuItem( m_menu3, wxID_MENUITEM_LOCATION, wxString( _("Location") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu3->Append( m_menuItem201 );
+	
 	wxMenuItem* m_separator3;
 	m_separator3 = m_menu3->AppendSeparator();
 	
@@ -634,6 +638,22 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer130->Fit( m_panel_companytype );
 	bSizer21->Add( m_panel_companytype, 1, wxEXPAND, 5 );
 	
+	m_panel_location = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_location->Hide();
+	
+	wxBoxSizer* bSizer140;
+	bSizer140 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_location = new LocationListCtrl( m_panel_location, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_location->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
+	bSizer140->Add( m_listCtrl_location, 0, wxALL|wxEXPAND, 5 );
+	
+	m_panel_location->SetSizer( bSizer140 );
+	m_panel_location->Layout();
+	bSizer140->Fit( m_panel_location );
+	bSizer21->Add( m_panel_location, 1, wxEXPAND, 5 );
+	
 	m_panel_resource = new wxPanel( m_panel_settinglist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel_resource->Hide();
 	
@@ -724,6 +744,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxID_MENUITEM_VCARDGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_COMPANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_COMPANYTYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Connect( wxID_MENUITEM_LOCATION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_RESOURCE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_RESOURCETYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_RESOURCESTATUS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
@@ -752,6 +773,8 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_listCtrl_company->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_companytype->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_companytype->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_location->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_location->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_resource->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_resource->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_resourcetype->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
@@ -774,6 +797,7 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_MENUITEM_VCARDGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_COMPANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_COMPANYTYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
+	this->Disconnect( wxID_MENUITEM_LOCATION, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_RESOURCE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_RESOURCETYPE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_RESOURCESTATUS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
@@ -802,6 +826,8 @@ MainFrameBase::~MainFrameBase()
 	m_listCtrl_company->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_companytype->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_companytype->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_listCtrl_location->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
+	m_listCtrl_location->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_resource->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );
 	m_listCtrl_resource->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_listCtrl_resourcetype->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnSettingItemActivated ), NULL, this );

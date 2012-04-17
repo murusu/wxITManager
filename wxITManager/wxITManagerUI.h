@@ -1,123 +1,10 @@
 #ifndef WXITMANAGERUI_H_INCLUDED
 #define WXITMANAGERUI_H_INCLUDED
 
-#include <wx/msgdlg.h>
-
 #include "wxITManagerMain.h"
-#include "wxITManagerUIBase.h"
 
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
-
-class UserListCtrl : public wxListCtrl
-{
-    public:
-        UserListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class UserGroupListCtrl : public wxListCtrl
-{
-    public:
-        UserGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class VcardListCtrl : public wxListCtrl
-{
-    public:
-        VcardListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class VcardGroupListCtrl : public wxListCtrl
-{
-    public:
-        VcardGroupListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class CompanyListCtrl : public wxListCtrl
-{
-    public:
-        CompanyListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class CompanyTypeListCtrl : public wxListCtrl
-{
-    public:
-        CompanyTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class ResourceListCtrl : public wxListCtrl
-{
-    public:
-        ResourceListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class ResourceTypeListCtrl : public wxListCtrl
-{
-    public:
-        ResourceTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class ResourceStatusListCtrl : public wxListCtrl
-{
-    public:
-        ResourceStatusListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
-
-class ResourceFeeTypeListCtrl : public wxListCtrl
-{
-    public:
-        ResourceFeeTypeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
-
-        void OnListChange( wxDatabaseEvent& event);
-        void OnRefreshList( wxDatabaseEvent& event);
-        void RefreshList();
-        wxString OnGetItemText(long item, long column) const;
-};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -206,6 +93,7 @@ class MainFrame : public MainFrameBase
 		inline VcardGroupListCtrl* GetVcardGroupListctrl(){return m_listCtrl_vcardgroup;};
 		inline CompanyListCtrl* GetCompanyListctrl(){return m_listCtrl_company;};
 		inline CompanyTypeListCtrl* GetCompanyTypeListctrl(){return m_listCtrl_companytype;};
+		inline LocationListCtrl* GetLocationListctrl(){return m_listCtrl_location;};
 
 		inline ResourceListCtrl* GetResourceListctrl(){return m_listCtrl_resource;};
 		inline ResourceTypeListCtrl* GetResourceTypeListctrl(){return m_listCtrl_resourcetype;};
@@ -313,6 +201,22 @@ class CompanyTypeDialog : public CompanyTypeDialogBase
 		void OnButtonSaveClick( wxCommandEvent& event );
 
 		void OnCompanyTypeInfoUpdate( wxDatabaseEvent& event);
+};
+
+class LocationDialog : public LocationDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		LocationDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnLocationInfoUpdate( wxDatabaseEvent& event);
 };
 
 class ResourceDialog : public ResourceDialogBase

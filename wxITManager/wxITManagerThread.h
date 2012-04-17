@@ -1,8 +1,6 @@
 #ifndef WXITMANAGERTHREAD_H_INCLUDED
 #define WXITMANAGERTHREAD_H_INCLUDED
 
-#include <wx/thread.h>
-
 #include "wxITManagerMain.h"
 
 class Database;

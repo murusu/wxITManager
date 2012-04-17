@@ -21,6 +21,7 @@ bool wxITManagerApp::OnInit(void)
     m_vcardgroupcontroller  = NULL;
     m_companycontroller     = NULL;
     m_companytypecontroller = NULL;
+    m_locationcontroller    = NULL;
 
     m_resourcecontroller        = NULL;
     m_resourcetypecontroller    = NULL;
@@ -51,6 +52,7 @@ int wxITManagerApp::OnExit()
     if(m_vcardgroupcontroller) delete m_vcardgroupcontroller;
     if(m_companycontroller) delete m_companycontroller;
     if(m_companytypecontroller) delete m_companytypecontroller;
+    if(m_locationcontroller) delete m_locationcontroller;
 
     if(m_resourcecontroller) delete m_resourcecontroller;
     if(m_resourcetypecontroller) delete m_resourcetypecontroller;
@@ -162,6 +164,10 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
             handler = m_companytypecontroller;
             break;
 
+        case CONTROLLER_LOCATION:
+            if(!m_locationcontroller) m_locationcontroller = new LocationController();
+            handler = m_locationcontroller;
+            break;
 
         case CONTROLLER_RESOURCE:
             if(!m_resourcecontroller) m_resourcecontroller = new ResourceController();

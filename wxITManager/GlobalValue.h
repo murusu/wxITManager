@@ -30,10 +30,11 @@ const size_t CONTROLLER_VCARD           = 5;
 const size_t CONTROLLER_VCARDGROUP      = 6;
 const size_t CONTROLLER_COMPANY         = 7;
 const size_t CONTROLLER_COMPANYTYPE     = 8;
-const size_t CONTROLLER_RESOURCE        = 9;
-const size_t CONTROLLER_RESOURCETYPE    = 10;
-const size_t CONTROLLER_RESOURCESTATUS  = 11;
-const size_t CONTROLLER_RESOURCEFEETYPE = 12;
+const size_t CONTROLLER_LOCATION        = 9;
+const size_t CONTROLLER_RESOURCE        = 10;
+const size_t CONTROLLER_RESOURCETYPE    = 11;
+const size_t CONTROLLER_RESOURCESTATUS  = 12;
+const size_t CONTROLLER_RESOURCEFEETYPE = 13;
 
 const size_t DATABASE_SQLITE    = 0;
 const size_t DATABASE_MYSQL     = 1;
