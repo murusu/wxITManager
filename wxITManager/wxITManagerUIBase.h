@@ -13,6 +13,7 @@
 class CompanyListCtrl;
 class CompanyTypeListCtrl;
 class LocationListCtrl;
+class ResourceDepolyListCtrl;
 class ResourceFeeTypeListCtrl;
 class ResourceListCtrl;
 class ResourceStatusListCtrl;
@@ -44,6 +45,7 @@ class VcardListCtrl;
 #include <wx/image.h>
 #include <wx/icon.h>
 #include <wx/menu.h>
+#include <wx/statline.h>
 #include <wx/listctrl.h>
 #include <wx/notebook.h>
 #include <wx/datectrl.h>
@@ -201,6 +203,17 @@ class MainFrameBase : public wxFrame
 		wxMenu* m_menu7;
 		wxMenu* m_menu4;
 		wxMenu* m_menu2;
+		wxPanel* m_panel_depoly;
+		wxPanel* m_panel_depolymanagementbutton;
+		wxChoice* m_choice_serachtype;
+		wxChoice* m_choice_serachparam;
+		wxTextCtrl* m_textCtrl_searchparam;
+		wxButton* m_button_depolysearch;
+		wxStaticLine* m_staticline1;
+		wxButton* m_button_depolyadd;
+		wxButton* m_button_depolydelete;
+		wxPanel* m_panel25;
+		ResourceDepolyListCtrl* m_listCtrl_resourcedepoly;
 		wxPanel* m_panel_setting;
 		wxPanel* m_panel_settingbutton;
 		wxButton* m_button_settingadd;
@@ -229,6 +242,7 @@ class MainFrameBase : public wxFrame
 		ResourceStatusListCtrl* m_listCtrl_resourcestatus;
 		wxPanel* m_panel_resourcefeetype;
 		ResourceFeeTypeListCtrl* m_listCtrl_resourcefeetype;
+		wxPanel* m_panel_report;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnMainFrameClose( wxCloseEvent& event ) { event.Skip(); }
@@ -238,6 +252,8 @@ class MainFrameBase : public wxFrame
 		virtual void OnMenuImportdataSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExportdataSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuAboutSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDepolyItemActivated( wxListEvent& event ) { event.Skip(); }
+		virtual void OnListSizeChange( wxSizeEvent& event ) { event.Skip(); }
 		virtual void OnButtonSettingAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSettingDelete( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSettingRefresh( wxCommandEvent& event ) { event.Skip(); }
@@ -245,7 +261,6 @@ class MainFrameBase : public wxFrame
 		virtual void SortUserList( wxListEvent& event ) { event.Skip(); }
 		virtual void ShowPopupMenu( wxListEvent& event ) { event.Skip(); }
 		virtual void OnSettingItemActivated( wxListEvent& event ) { event.Skip(); }
-		virtual void OnListSizeChange( wxSizeEvent& event ) { event.Skip(); }
 		virtual void SortUserGroupList( wxListEvent& event ) { event.Skip(); }
 		
 	
@@ -558,6 +573,8 @@ class ResourceDeployDialogBase : public wxDialog
 		wxNotebook* m_notebook;
 		wxPanel* m_panel_base;
 		
+		wxStaticText* m_staticText66;
+		wxStaticText* m_staticText_systemcode;
 		wxStaticText* m_staticText28;
 		wxTextCtrl* m_textCtrl_code;
 		wxStaticText* m_staticText83;
@@ -594,7 +611,7 @@ class ResourceDeployDialogBase : public wxDialog
 	
 	public:
 		
-		ResourceDeployDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Resource Deploy"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 572,338 ), long style = wxDEFAULT_DIALOG_STYLE );
+		ResourceDeployDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Resource Deploy"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 572,352 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~ResourceDeployDialogBase();
 	
 };

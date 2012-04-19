@@ -3,8 +3,6 @@
 
 #include "wxITManagerMain.h"
 
-WX_DEFINE_OBJARRAY(UserInfoArray);
-
 class Database;
 class ManagerConfig;
 

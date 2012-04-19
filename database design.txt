@@ -10,7 +10,7 @@
 it资源（id，名称，it资源类别id，型号，权值，有效flag）
 it资源类别（id，名称, 有效flag）
 it资源配置状态（id，名称，可用flag，有效flag）
-it资源配置（id，编号，it资源id，it资源配置状态id, 地点id，vcardid，父it资源配置id，备注，有效flag）
+it资源配置（id，系统编号，编号，it资源id，it资源配置状态id, 地点id，vcardid，父it资源配置id，备注，有效flag）
 it资源费用（id，it资源配置id，it资源费用类型id，公司id，序列号，金额，购入时间，失效时间，有效flag）
 it资源费用类型（id，名称，永久有效flag，有效flag）
 it资源变更log（id，it资源配置id，userid，操作类型，操作内容，操作时间，有效flag）

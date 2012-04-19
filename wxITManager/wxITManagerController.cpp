@@ -36,6 +36,11 @@ DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDCOMPANYTYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETECOMPANYTYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATECOMPANYTYPE)
 
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETLOCATIONLIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDLOCATION)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETELOCATION)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATELOCATION)
+
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCELIST)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCE)
@@ -876,7 +881,7 @@ void LocationController::OnDatabaseRequest(wxDatabaseEvent& event)
 
     if(event_type == wxEVT_DATABASE_GETLOCATIONLIST)
     {
-        controller_event.SetSqlString(wxT("SELECT id, name FROM 'company_type' WHERE valid = 1;"));
+        controller_event.SetSqlString(wxT("SELECT id, name FROM 'location' WHERE valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
@@ -885,7 +890,7 @@ void LocationController::OnDatabaseRequest(wxDatabaseEvent& event)
         wxString sql_str = wxT("");
         wxJSONValue request_data = event.GetJsonData();
 
-        sql_str += wxT("INSERT INTO 'company_type' ('name') VALUES ('");
+        sql_str += wxT("INSERT INTO 'location' ('name') VALUES ('");
         sql_str += request_data[0].AsString();
         sql_str += wxT("')");
 
@@ -900,7 +905,7 @@ void LocationController::OnDatabaseRequest(wxDatabaseEvent& event)
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'company_type' SET 'valid' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'location' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -914,7 +919,7 @@ void LocationController::OnDatabaseRequest(wxDatabaseEvent& event)
         wxString sql_str = wxT("");
         wxJSONValue request_data = event.GetJsonData();
 
-        sql_str += wxT("UPDATE 'company_type' SET name = '");
+        sql_str += wxT("UPDATE 'location' SET name = '");
         sql_str += request_data[0].AsString();
 
         sql_str += wxT("' WHERE id = ");

@@ -1,7 +1,9 @@
 #ifndef WXITMANAGERDATALIST_H_INCLUDED
 #define WXITMANAGERDATALIST_H_INCLUDED
 
-#include "wxITManagerMain.h"
+#include <wx/dynarray.h>
+#include <wx/arrimpl.cpp>
+#include <wx/arrstr.h>
 
 class UserInfo;
 class UserGroupInfo;

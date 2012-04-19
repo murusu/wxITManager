@@ -358,34 +358,34 @@ MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
     m_listCtrl_user->InsertColumn(0,_("User Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_user->InsertColumn(1,_("User Group"),wxLIST_FORMAT_RIGHT,200);
 
-    m_listCtrl_usergroup->InsertColumn(0,_("Group Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_usergroup->InsertColumn(0,_("User Group Name"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_vcard->InsertColumn(0,_("Full Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_vcard->InsertColumn(0,_("Vcard Full Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_vcard->InsertColumn(1,_("Nick Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_vcard->InsertColumn(2,_("Work Phone"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_vcard->InsertColumn(3,_("Email"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_vcard->InsertColumn(4,_("Company"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_vcardgroup->InsertColumn(0,_("Group Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_vcardgroup->InsertColumn(0,_("Vcard Group Name"),wxLIST_FORMAT_LEFT,200);
 
     m_listCtrl_company->InsertColumn(0,_("Company Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_company->InsertColumn(1,_("Company Type"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_companytype->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_companytype->InsertColumn(0,_("Company Type Name"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_location->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_location->InsertColumn(0,_("Location Name"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_resource->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resource->InsertColumn(0,_("Resource Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_resource->InsertColumn(1,_("Resource Type"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_resource->InsertColumn(2,_("Pattern"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_resource->InsertColumn(3,_("Weight"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_resourcetype->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resourcetype->InsertColumn(0,_("Resource Type Name"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_resourcestatus->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resourcestatus->InsertColumn(0,_("Resource Status Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_resourcestatus->InsertColumn(1,_("Available Status"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_resourcefeetype->InsertColumn(0,_("Name"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resourcefeetype->InsertColumn(0,_("Resource Fee Type Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_resourcefeetype->InsertColumn(1,_("Have Expiration"),wxLIST_FORMAT_LEFT,200);
 
     DoListSize();

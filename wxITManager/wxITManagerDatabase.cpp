@@ -138,6 +138,7 @@ wxString DatabaseSqlite::GetDBTableInitStr()
     init_sql += wxT("CREATE TABLE `resource_type` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_status` (id INTEGER PRIMARY KEY, name VARCHAR, available BOOL DEFAULT 1, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_feetype` (id INTEGER PRIMARY KEY, name VARCHAR, have_expiration BOOL DEFAULT 0, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `resource_depoly` (id INTEGER PRIMARY KEY, system_code VARCHAR, code VARCHAR, resource_id INTEGER, resourcestatus_id INTEGER, location_id INTEGER, vcard_id INTEGER, parentdepoly_id INTEGER, remark VARCHAR, valid INTEGER);");
 
     init_sql += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('admin','admin',1);");
     init_sql += wxT("INSERT INTO 'user_group' ('name') VALUES ('administrator');");

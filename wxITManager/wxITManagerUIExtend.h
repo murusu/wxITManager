@@ -124,4 +124,15 @@ class ResourceFeeTypeListCtrl : public wxListCtrl
         wxString OnGetItemText(long item, long column) const;
 };
 
+class ResourceDepolyListCtrl : public wxListCtrl
+{
+    public:
+        ResourceDepolyListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        void OnListChange( wxDatabaseEvent& event);
+        void OnRefreshList( wxDatabaseEvent& event);
+        void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
 #endif // WXITMANAGERUIEXTEND_H_INCLUDED

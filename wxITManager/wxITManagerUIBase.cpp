@@ -518,7 +518,67 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer20;
 	bSizer20 = new wxBoxSizer( wxVERTICAL );
 	
+	m_panel_depoly = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer141;
+	bSizer141 = new wxBoxSizer( wxVERTICAL );
+	
+	m_panel_depolymanagementbutton = new wxPanel( m_panel_depoly, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer144;
+	bSizer144 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxString m_choice_serachtypeChoices[] = { _("All"), _("System Code"), _("Code"), _("Resource Name"), _("Resource Type"), _("Location"), _("Owner"), _("Status") };
+	int m_choice_serachtypeNChoices = sizeof( m_choice_serachtypeChoices ) / sizeof( wxString );
+	m_choice_serachtype = new wxChoice( m_panel_depolymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_serachtypeNChoices, m_choice_serachtypeChoices, 0 );
+	m_choice_serachtype->SetSelection( 0 );
+	bSizer144->Add( m_choice_serachtype, 0, wxALL, 5 );
+	
+	wxArrayString m_choice_serachparamChoices;
+	m_choice_serachparam = new wxChoice( m_panel_depolymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_serachparamChoices, 0 );
+	m_choice_serachparam->SetSelection( 0 );
+	bSizer144->Add( m_choice_serachparam, 0, wxALL, 5 );
+	
+	m_textCtrl_searchparam = new wxTextCtrl( m_panel_depolymanagementbutton, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	m_textCtrl_searchparam->Hide();
+	
+	bSizer144->Add( m_textCtrl_searchparam, 0, wxALL, 5 );
+	
+	m_button_depolysearch = new wxButton( m_panel_depolymanagementbutton, wxID_ANY, _("Search"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer144->Add( m_button_depolysearch, 0, wxALL, 5 );
+	
+	m_staticline1 = new wxStaticLine( m_panel_depolymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxLI_HORIZONTAL );
+	bSizer144->Add( m_staticline1, 0, wxEXPAND | wxALL, 5 );
+	
+	m_button_depolyadd = new wxButton( m_panel_depolymanagementbutton, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer144->Add( m_button_depolyadd, 0, wxALL, 5 );
+	
+	m_button_depolydelete = new wxButton( m_panel_depolymanagementbutton, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer144->Add( m_button_depolydelete, 0, wxALL, 5 );
+	
+	m_panel_depolymanagementbutton->SetSizer( bSizer144 );
+	m_panel_depolymanagementbutton->Layout();
+	bSizer144->Fit( m_panel_depolymanagementbutton );
+	bSizer141->Add( m_panel_depolymanagementbutton, 0, wxEXPAND, 5 );
+	
+	m_panel25 = new wxPanel( m_panel_depoly, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer147;
+	bSizer147 = new wxBoxSizer( wxVERTICAL );
+	
+	m_listCtrl_resourcedepoly = new ResourceDepolyListCtrl( m_panel25, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	bSizer147->Add( m_listCtrl_resourcedepoly, 1, wxALL|wxEXPAND, 5 );
+	
+	m_panel25->SetSizer( bSizer147 );
+	m_panel25->Layout();
+	bSizer147->Fit( m_panel25 );
+	bSizer141->Add( m_panel25, 1, wxEXPAND, 5 );
+	
+	m_panel_depoly->SetSizer( bSizer141 );
+	m_panel_depoly->Layout();
+	bSizer141->Fit( m_panel_depoly );
+	bSizer20->Add( m_panel_depoly, 1, wxEXPAND, 0 );
+	
 	m_panel_setting = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_setting->Hide();
+	
 	wxBoxSizer* bSizer129;
 	bSizer129 = new wxBoxSizer( wxVERTICAL );
 	
@@ -729,6 +789,11 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer129->Fit( m_panel_setting );
 	bSizer20->Add( m_panel_setting, 1, wxEXPAND, 0 );
 	
+	m_panel_report = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_report->Hide();
+	
+	bSizer20->Add( m_panel_report, 1, wxEXPAND, 0 );
+	
 	this->SetSizer( bSizer20 );
 	this->Layout();
 	
@@ -752,6 +817,8 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Connect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Connect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
+	m_listCtrl_resourcedepoly->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnDepolyItemActivated ), NULL, this );
+	m_listCtrl_resourcedepoly->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_button_settingadd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
 	m_button_settingdelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
 	m_button_settingrefresh->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingRefresh ), NULL, this );
@@ -805,6 +872,8 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
+	m_listCtrl_resourcedepoly->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnDepolyItemActivated ), NULL, this );
+	m_listCtrl_resourcedepoly->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_button_settingadd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
 	m_button_settingdelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
 	m_button_settingrefresh->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingRefresh ), NULL, this );
@@ -1655,6 +1724,19 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	
 	
 	bSizer155->Add( 0, 0, 0, wxTOP, 10 );
+	
+	wxBoxSizer* bSizer142;
+	bSizer142 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText66 = new wxStaticText( m_panel_base, wxID_ANY, _("System Code:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText66->Wrap( -1 );
+	bSizer142->Add( m_staticText66, 0, wxALL, 5 );
+	
+	m_staticText_systemcode = new wxStaticText( m_panel_base, wxID_ANY, _("SF039413"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_systemcode->Wrap( -1 );
+	bSizer142->Add( m_staticText_systemcode, 0, wxALL, 5 );
+	
+	bSizer155->Add( bSizer142, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer65;
 	bSizer65 = new wxBoxSizer( wxHORIZONTAL );
