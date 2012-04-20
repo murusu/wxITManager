@@ -422,7 +422,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	m_menu6 = new wxMenu();
 	wxMenuItem* m_menuItem18;
-	m_menuItem18 = new wxMenuItem( m_menu6, wxID_ANY, wxString( _("Management") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem18 = new wxMenuItem( m_menu6, wxID_MENUITEM_DEPOLYMANAGEMENT, wxString( _("Management") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu6->Append( m_menuItem18 );
 	
 	wxMenuItem* m_menuItem19;
@@ -559,17 +559,28 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer144->Fit( m_panel_depolymanagementbutton );
 	bSizer141->Add( m_panel_depolymanagementbutton, 0, wxEXPAND, 5 );
 	
-	m_panel25 = new wxPanel( m_panel_depoly, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_depolylist = new wxPanel( m_panel_depoly, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer145;
+	bSizer145 = new wxBoxSizer( wxVERTICAL );
+	
+	m_panel_resourcedepolymanagement = new wxPanel( m_panel_depolylist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer147;
 	bSizer147 = new wxBoxSizer( wxVERTICAL );
 	
-	m_listCtrl_resourcedepoly = new ResourceDepolyListCtrl( m_panel25, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_resourcedepoly = new ResourceDepolyListCtrl( m_panel_resourcedepolymanagement, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_resourcedepoly->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	
 	bSizer147->Add( m_listCtrl_resourcedepoly, 1, wxALL|wxEXPAND, 5 );
 	
-	m_panel25->SetSizer( bSizer147 );
-	m_panel25->Layout();
-	bSizer147->Fit( m_panel25 );
-	bSizer141->Add( m_panel25, 1, wxEXPAND, 5 );
+	m_panel_resourcedepolymanagement->SetSizer( bSizer147 );
+	m_panel_resourcedepolymanagement->Layout();
+	bSizer147->Fit( m_panel_resourcedepolymanagement );
+	bSizer145->Add( m_panel_resourcedepolymanagement, 1, wxEXPAND, 0 );
+	
+	m_panel_depolylist->SetSizer( bSizer145 );
+	m_panel_depolylist->Layout();
+	bSizer145->Fit( m_panel_depolylist );
+	bSizer141->Add( m_panel_depolylist, 1, wxEXPAND, 5 );
 	
 	m_panel_depoly->SetSizer( bSizer141 );
 	m_panel_depoly->Layout();
@@ -803,6 +814,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Connect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Connect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
+	this->Connect( wxID_MENUITEM_DEPOLYMANAGEMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuDepolySelect ) );
 	this->Connect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_VCARD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
@@ -858,6 +870,7 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Disconnect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
+	this->Disconnect( wxID_MENUITEM_DEPOLYMANAGEMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuDepolySelect ) );
 	this->Disconnect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_VCARD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );

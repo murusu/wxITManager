@@ -61,6 +61,11 @@ DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEFEETYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEFEETYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEFEETYPE)
 
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEDEPOLY)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEDEPOLY)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEDEPOLY)
+
 
 IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
 
@@ -1400,6 +1405,127 @@ void ResourceFeeTypeController::OnDatabaseResponse(wxDatabaseEvent& event)
         for ( int i = 0; i < result_data.Size(); i++ )
         {
             m_resourcefeetypelist->Add(ResourceFeeTypeInfo(wxAtoi(result_data[i][0].AsString()), result_data[i][1].AsString(), wxAtoi(result_data[i][2].AsString())));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+ResourceDepolyController::ResourceDepolyController()
+{
+    m_resourcedepolylist = new ResourceDepolyInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPOLY, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEDEPOLY, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPOLY, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
+}
+
+ResourceDepolyController::~ResourceDepolyController()
+{
+    m_resourcedepolylist->Clear();
+
+    if(m_resourcedepolylist) delete m_resourcedepolylist;
+}
+
+void ResourceDepolyController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETRESOURCEDEPOLYLIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT id, name, have_expiration FROM 'resource_depoly' WHERE valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDRESOURCEDEPOLY)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'resource_depoly' ('name') VALUES ('");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("'");
+        //sql_str += request_data[1].AsString();
+        sql_str += wxT(")");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETERESOURCEDEPOLY)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'resource_depoly' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCEDEPOLY)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'resource_depoly' SET name = '");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT("'");
+
+        sql_str += wxT(" WHERE id = ");
+        sql_str += request_data[1].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void ResourceDepolyController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCEDEPOLYLIST)
+    {
+        m_resourcedepolylist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_resourcedepolylist->Add(ResourceDepolyInfo(
+                wxAtoi(result_data[i][0].AsString()),
+                result_data[i][1].AsString(),
+                result_data[i][2].AsString(),
+                wxAtoi(result_data[i][3].AsString()),
+                result_data[i][4].AsString(),
+                wxAtoi(result_data[i][5].AsString()),
+                result_data[i][6].AsString(),
+                wxAtoi(result_data[i][7].AsString()),
+                result_data[i][8].AsString(),
+                wxAtoi(result_data[i][9].AsString()),
+                result_data[i][10].AsString(),
+                wxAtoi(result_data[i][11].AsString()),
+                result_data[i][12].AsString(),
+                result_data[i][13].AsString()
+            ));
         }
     }
 

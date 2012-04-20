@@ -60,20 +60,21 @@ class VcardListCtrl;
 #define wxID_BUTTON_CANCEL 1004
 #define wxID_MENUITEM_LOGOUT 1005
 #define wxID_MENUITEM_EXIT 1006
-#define wxID_MENUITEM_USER 1007
-#define wxID_MENUITEM_USERGROUP 1008
-#define wxID_MENUITEM_VCARD 1009
-#define wxID_MENUITEM_VCARDGROUP 1010
-#define wxID_MENUITEM_COMPANY 1011
-#define wxID_MENUITEM_COMPANYTYPE 1012
-#define wxID_MENUITEM_LOCATION 1013
-#define wxID_MENUITEM_RESOURCE 1014
-#define wxID_MENUITEM_RESOURCETYPE 1015
-#define wxID_MENUITEM_RESOURCESTATUS 1016
-#define wxID_MENUITEM_RESOURCEFEETYPE 1017
-#define wxID_MENUITEM_IMPORTDATA 1018
-#define wxID_MENUITEM_EXPORTDATA 1019
-#define wxID_MENUITEM_ABOUT 1020
+#define wxID_MENUITEM_DEPOLYMANAGEMENT 1007
+#define wxID_MENUITEM_USER 1008
+#define wxID_MENUITEM_USERGROUP 1009
+#define wxID_MENUITEM_VCARD 1010
+#define wxID_MENUITEM_VCARDGROUP 1011
+#define wxID_MENUITEM_COMPANY 1012
+#define wxID_MENUITEM_COMPANYTYPE 1013
+#define wxID_MENUITEM_LOCATION 1014
+#define wxID_MENUITEM_RESOURCE 1015
+#define wxID_MENUITEM_RESOURCETYPE 1016
+#define wxID_MENUITEM_RESOURCESTATUS 1017
+#define wxID_MENUITEM_RESOURCEFEETYPE 1018
+#define wxID_MENUITEM_IMPORTDATA 1019
+#define wxID_MENUITEM_EXPORTDATA 1020
+#define wxID_MENUITEM_ABOUT 1021
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class LoginFrameBase
@@ -212,7 +213,8 @@ class MainFrameBase : public wxFrame
 		wxStaticLine* m_staticline1;
 		wxButton* m_button_depolyadd;
 		wxButton* m_button_depolydelete;
-		wxPanel* m_panel25;
+		wxPanel* m_panel_depolylist;
+		wxPanel* m_panel_resourcedepolymanagement;
 		ResourceDepolyListCtrl* m_listCtrl_resourcedepoly;
 		wxPanel* m_panel_setting;
 		wxPanel* m_panel_settingbutton;
@@ -248,6 +250,7 @@ class MainFrameBase : public wxFrame
 		virtual void OnMainFrameClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnMenuLogoutSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExitSelection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnMenuDepolySelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuSettingSelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuImportdataSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExportdataSelection( wxCommandEvent& event ) { event.Skip(); }

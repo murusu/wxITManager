@@ -72,6 +72,11 @@ Database::Database(ManagerConfig *database_config)
     this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEDEPOLY, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPOLY, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPOLY, wxDatabaseEventHandler(Database::OnRequest));
 }
 
 Database::~Database()

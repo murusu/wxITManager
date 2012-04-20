@@ -75,6 +75,7 @@ class MainFrame : public MainFrameBase
 		void OnMenuLogoutSelection( wxCommandEvent& event );
 		void OnMenuExitSelection( wxCommandEvent& event );
 		void OnMenuSettingSelect( wxCommandEvent& event );
+		void OnMenuDepolySelect( wxCommandEvent& event );
 
 		void OnButtonSettingAdd( wxCommandEvent& event );
 		void OnButtonSettingDelete( wxCommandEvent& event );
@@ -99,6 +100,8 @@ class MainFrame : public MainFrameBase
 		inline ResourceTypeListCtrl* GetResourceTypeListctrl(){return m_listCtrl_resourcetype;};
 		inline ResourceStatusListCtrl* GetResourceStatusListctrl(){return m_listCtrl_resourcestatus;};
 		inline ResourceFeeTypeListCtrl* GetResourceFeeTypeListctrl(){return m_listCtrl_resourcefeetype;};
+
+		inline ResourceDepolyListCtrl* GetResourceDepolyListctrl(){return m_listCtrl_resourcedepoly;};
 };
 
 class UserDialog : public UserDialogBase

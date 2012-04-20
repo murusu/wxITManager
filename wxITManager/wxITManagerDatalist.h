@@ -19,6 +19,8 @@ class ResourceTypeInfo;
 class ResourceStatusInfo;
 class ResourceFeeTypeInfo;
 
+class ResourceDepolyInfo;
+
 WX_DECLARE_OBJARRAY(UserInfo, UserInfoArray);
 WX_DECLARE_OBJARRAY(UserGroupInfo, UserGroupInfoArray);
 
@@ -32,6 +34,8 @@ WX_DECLARE_OBJARRAY(ResourceInfo, ResourceInfoArray);
 WX_DECLARE_OBJARRAY(ResourceTypeInfo, ResourceTypeInfoArray);
 WX_DECLARE_OBJARRAY(ResourceStatusInfo, ResourceStatusInfoArray);
 WX_DECLARE_OBJARRAY(ResourceFeeTypeInfo, ResourceFeeTypeInfoArray);
+
+WX_DECLARE_OBJARRAY(ResourceDepolyInfo, ResourceDepolyInfoArray);
 
 class UserInfo
 {
@@ -146,6 +150,43 @@ class ResourceFeeTypeInfo
         bool            m_haveexpiration;
 
         ResourceFeeTypeInfo(size_t resourcefeetype_id, const wxString& resourcefeetype_name, bool have_expiration){m_id = resourcefeetype_id; m_name = resourcefeetype_name; m_haveexpiration = have_expiration;};
+};
+
+class ResourceDepolyInfo
+{
+    public:
+        size_t          m_id;
+        wxString        m_systemcode;
+        wxString        m_code;
+        size_t          m_resourceid;
+        wxString        m_resource;
+        size_t          m_resourcestatusid;
+        wxString        m_resourcestatus;
+        size_t          m_locationid;
+        wxString        m_location;
+        size_t          m_vcardid;
+        wxString        m_vcardfullname;
+        size_t          m_parentid;
+        wxString        m_parentsystemcode;
+        wxString        m_remark;
+
+        ResourceDepolyInfo(size_t resourcedepoly_id, const wxString& resourcedepoly_systemcode, const wxString& resourcedepoly_code, size_t resourcedepoly_resourceid, const wxString& resourcedepoly_resource, size_t resourcedepoly_resourcestatusid, const wxString& resourcedepoly_resourcestatus, size_t resourcedepoly_locationid, const wxString& resourcedepoly_location, size_t resourcedepoly_vcardid, const wxString& resourcedepoly_vcardfullname, size_t resourcedepoly_parentid, const wxString& resourcedepoly_parentsystemcode, const wxString& resourcedepoly_remark)
+        {
+            m_id = resourcedepoly_id;
+            m_systemcode = resourcedepoly_systemcode;
+            m_code = resourcedepoly_code;
+            m_resourceid = resourcedepoly_resourceid;
+            m_resource = resourcedepoly_resource;
+            m_resourcestatusid = resourcedepoly_resourcestatusid;
+            m_resourcestatus = resourcedepoly_resourcestatus;
+            m_locationid = resourcedepoly_locationid;
+            m_location = resourcedepoly_location;
+            m_vcardid = resourcedepoly_vcardid;
+            m_vcardfullname = resourcedepoly_vcardfullname;
+            m_parentid = resourcedepoly_parentid;
+            m_parentsystemcode = resourcedepoly_parentsystemcode;
+            m_remark = resourcedepoly_remark;
+        };
 };
 
 #endif // WXITMANAGERDATALIST_H_INCLUDED

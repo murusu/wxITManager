@@ -562,3 +562,49 @@ wxString ResourceFeeTypeListCtrl::OnGetItemText(long item, long column) const
 
     return ItemText;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceDepolyListCtrl::ResourceDepolyListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnListChange));
+}
+
+void ResourceDepolyListCtrl::OnListChange( wxDatabaseEvent& event)
+{
+    RefreshList();
+}
+
+void ResourceDepolyListCtrl::OnRefreshList( wxDatabaseEvent& event)
+{
+    SetItemCount(((ResourceDepolyController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPOLY)))->getItemNumber());
+    Refresh();
+}
+
+void ResourceDepolyListCtrl::RefreshList()
+{
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCEDEPOLY);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST, CONTROLLER_RESOURCEDEPOLY);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    handler->AddPendingEvent(database_event);
+}
+
+wxString ResourceDepolyListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+
+    ResourceDepolyInfoArray* list = ((ResourceDepolyController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPOLY)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_systemcode;
+            break;
+    }
+
+    return ItemText;
+}

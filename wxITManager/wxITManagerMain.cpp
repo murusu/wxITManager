@@ -28,6 +28,8 @@ bool wxITManagerApp::OnInit(void)
     m_resourcestatuscontroller  = NULL;
     m_resourcefeetypecontroller = NULL;
 
+    m_resourcedepolycontroller  = NULL;
+
     SetupLocale();
 
     m_loginframe = new LoginFrame(NULL);
@@ -58,6 +60,8 @@ int wxITManagerApp::OnExit()
     if(m_resourcetypecontroller) delete m_resourcetypecontroller;
     if(m_resourcestatuscontroller) delete m_resourcestatuscontroller;
     if(m_resourcefeetypecontroller) delete m_resourcefeetypecontroller;
+
+    if(m_resourcedepolycontroller) delete m_resourcedepolycontroller;
 
     return 0;
 }
@@ -187,6 +191,11 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
         case CONTROLLER_RESOURCEFEETYPE:
             if(!m_resourcefeetypecontroller) m_resourcefeetypecontroller = new ResourceFeeTypeController();
             handler = m_resourcefeetypecontroller;
+            break;
+
+        case CONTROLLER_RESOURCEDEPOLY:
+            if(!m_resourcedepolycontroller) m_resourcedepolycontroller = new ResourceDepolyController();
+            handler = m_resourcedepolycontroller;
             break;
     }
 

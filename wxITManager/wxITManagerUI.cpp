@@ -93,7 +93,6 @@ DatabaseConfigDialog::~DatabaseConfigDialog()
 
 void DatabaseConfigDialog::OnChoiceDatabaseType( wxCommandEvent& event )
 {
-
 }
 
 void DatabaseConfigDialog::OnButtonSqliteBrowse( wxCommandEvent& event )
@@ -388,6 +387,8 @@ MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
     m_listCtrl_resourcefeetype->InsertColumn(0,_("Resource Fee Type Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_resourcefeetype->InsertColumn(1,_("Have Expiration"),wxLIST_FORMAT_LEFT,200);
 
+    m_listCtrl_resourcedepoly->InsertColumn(0,_("Resource Depoly System Code"),wxLIST_FORMAT_LEFT,200);
+
     DoListSize();
 }
 
@@ -410,11 +411,38 @@ void MainFrame::OnMenuExitSelection( wxCommandEvent& event )
     wxGetApp().DoExit();
 }
 
+void MainFrame::OnMenuDepolySelect( wxCommandEvent& event )
+{
+    wxPanel *select_panel = NULL;
+
+    m_panel_setting->Show(false);
+    m_panel_depoly->Show(true);
+
+    m_panel_resourcedepolymanagement->Show(false);
+
+    switch(event.GetId())
+    {
+        case wxID_MENUITEM_DEPOLYMANAGEMENT:
+            select_panel = m_panel_resourcedepolymanagement;
+            break;
+    }
+
+    select_panel->Show(true);
+
+    select_panel->SetSize(this->GetSizer()->GetSize());
+    wxPoint temppoint = this->GetSizer()->GetPosition();
+    temppoint.y++;
+    select_panel->Move(temppoint);
+
+    m_panel_setting->SetSize(this->GetSizer()->GetSize());
+}
+
 void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
 {
     wxPanel *select_panel = NULL;
 
     m_panel_setting->Show(true);
+    m_panel_depoly->Show(false);
 
     m_panel_user->Show(false);
     m_panel_usergroup->Show(false);
@@ -483,6 +511,8 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     wxPoint temppoint = this->GetSizer()->GetPosition();
     temppoint.y++;
     select_panel->Move(temppoint);
+
+    m_panel_depoly->SetSize(this->GetSizer()->GetSize());
 }
 
 void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )
@@ -750,16 +780,19 @@ void MainFrame::OnSettingItemActivated( wxListEvent& event )
         dialog = new ResourceDialog(this, event.GetIndex());
         listctrl = m_listCtrl_resource;
     }
+
     if(m_panel_resourcetype->IsShown())
     {
         dialog = new ResourceTypeDialog(this, event.GetIndex());
         listctrl = m_listCtrl_resourcetype;
     }
+
     if(m_panel_resourcestatus->IsShown())
     {
         dialog = new ResourceStatusDialog(this, event.GetIndex());
         listctrl = m_listCtrl_resourcestatus;
     }
+
     if(m_panel_resourcefeetype->IsShown())
     {
         dialog = new ResourceFeeTypeDialog(this, event.GetIndex());
@@ -767,7 +800,7 @@ void MainFrame::OnSettingItemActivated( wxListEvent& event )
     }
 
     dialog->ShowModal();
-    listctrl->Refresh();
+    //listctrl->Refresh();
 
     delete dialog;
 }
@@ -795,6 +828,8 @@ void MainFrame::DoListSize()
     m_listCtrl_resourcetype->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
     m_listCtrl_resourcestatus->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
     m_listCtrl_resourcefeetype->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
+
+    m_listCtrl_resourcedepoly->SetSize(0, 0, size.x - 5, size.y - (m_panel_depolymanagementbutton->GetSize()).GetHeight());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

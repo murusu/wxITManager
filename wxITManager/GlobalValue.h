@@ -1,7 +1,7 @@
 #ifndef GLOBALVALUE_H_INCLUDED
 #define GLOBALVALUE_H_INCLUDED
 
-const size_t DATABASE_VERSION       = 2012041901;
+const size_t DATABASE_VERSION       = 2012042001;
 
 const char * const CONFIGFILE_NAME      = "config.xml";
 const char * const CONFIGFILE_ROOTNAME  = "wxITmanager_Config";
@@ -35,6 +35,7 @@ const size_t CONTROLLER_RESOURCE        = 10;
 const size_t CONTROLLER_RESOURCETYPE    = 11;
 const size_t CONTROLLER_RESOURCESTATUS  = 12;
 const size_t CONTROLLER_RESOURCEFEETYPE = 13;
+const size_t CONTROLLER_RESOURCEDEPOLY  = 14;
 
 const size_t DATABASE_SQLITE    = 0;
 const size_t DATABASE_MYSQL     = 1;
