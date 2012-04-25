@@ -512,7 +512,7 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     temppoint.y++;
     select_panel->Move(temppoint);
 
-    m_panel_depoly->SetSize(this->GetSizer()->GetSize());
+
 }
 
 void MainFrame::OnButtonSettingAdd( wxCommandEvent& event )
@@ -813,6 +813,9 @@ void MainFrame::OnListSizeChange( wxSizeEvent& event )
 
 void MainFrame::DoListSize()
 {
+    m_panel_depoly->SetSize(this->GetSizer()->GetSize());
+     m_panel_setting->SetSize(this->GetSizer()->GetSize());
+
     wxSize size = GetClientSize();
 
     m_listCtrl_user->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
