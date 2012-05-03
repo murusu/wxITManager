@@ -50,7 +50,7 @@ class ResourceTypeController;
 class ResourceStatusController;
 class ResourceFeeTypeController;
 
-class ResourceDepolyController;
+class ResourceDeployController;
 
 class wxITManagerApp: public wxApp
 {
@@ -79,7 +79,7 @@ class wxITManagerApp: public wxApp
         ResourceStatusController    *m_resourcestatuscontroller;
         ResourceFeeTypeController   *m_resourcefeetypecontroller;
 
-        ResourceDepolyController    *m_resourcedepolycontroller;
+        ResourceDeployController    *m_resourcedeploycontroller;
 
     public:
         bool    OnInit(void);

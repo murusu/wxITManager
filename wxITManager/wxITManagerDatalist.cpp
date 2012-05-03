@@ -14,7 +14,7 @@ WX_DEFINE_OBJARRAY(ResourceTypeInfoArray);
 WX_DEFINE_OBJARRAY(ResourceStatusInfoArray);
 WX_DEFINE_OBJARRAY(ResourceFeeTypeInfoArray);
 
-WX_DEFINE_OBJARRAY(ResourceDepolyInfoArray);
+WX_DEFINE_OBJARRAY(ResourceDeployInfoArray);
 
 
 

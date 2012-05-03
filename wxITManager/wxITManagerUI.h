@@ -17,8 +17,8 @@ class LoginFrame : public LoginFrameBase
 		LoginFrame(wxFrame *frame);
 		~LoginFrame();
 
-		void OnButtonLoginClick( wxCommandEvent& event );
-		void OnButtonConfigClick( wxCommandEvent& event );
+		void OnLogin( wxCommandEvent& event );
+		void OnConfig( wxCommandEvent& event );
 
         void OnLoginRespone(wxDatabaseEvent& event);
 		void EnableFrame(bool flag);
@@ -75,7 +75,12 @@ class MainFrame : public MainFrameBase
 		void OnMenuLogoutSelection( wxCommandEvent& event );
 		void OnMenuExitSelection( wxCommandEvent& event );
 		void OnMenuSettingSelect( wxCommandEvent& event );
-		void OnMenuDepolySelect( wxCommandEvent& event );
+		void OnMenuDeploySelect( wxCommandEvent& event );
+
+		void OnChoiceDeploySearchType( wxCommandEvent& event );
+        void OnButtonDeploySearch( wxCommandEvent& event );
+		void OnButtonDeployAdd( wxCommandEvent& event );
+		void OnButtonDeployDelete( wxCommandEvent& event );
 
 		void OnButtonSettingAdd( wxCommandEvent& event );
 		void OnButtonSettingDelete( wxCommandEvent& event );
@@ -101,7 +106,7 @@ class MainFrame : public MainFrameBase
 		inline ResourceStatusListCtrl* GetResourceStatusListctrl(){return m_listCtrl_resourcestatus;};
 		inline ResourceFeeTypeListCtrl* GetResourceFeeTypeListctrl(){return m_listCtrl_resourcefeetype;};
 
-		inline ResourceDepolyListCtrl* GetResourceDepolyListctrl(){return m_listCtrl_resourcedepoly;};
+		inline ResourceDeployListCtrl* GetResourceDeployListctrl(){return m_listCtrl_resourcedeploy;};
 };
 
 class UserDialog : public UserDialogBase
@@ -287,6 +292,22 @@ class ResourceFeeTypeDialog : public ResourceFeeTypeDialogBase
 		void OnButtonSaveClick( wxCommandEvent& event );
 
 		void OnResourceFeeTypeInfoUpdate( wxDatabaseEvent& event);
+};
+
+class ResourceDeployDialog : public ResourceDeployDialogBase
+{
+    private:
+        size_t          m_id;
+
+	public:
+		ResourceDeployDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		void EnableDialog(bool flag);
+
+		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
+		void OnButtonSaveClick( wxCommandEvent& event );
+
+		void OnResourceDeployInfoUpdate( wxDatabaseEvent& event);
 };
 
 #endif // WXITMANAGERUI_H_INCLUDED

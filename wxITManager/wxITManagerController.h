@@ -240,20 +240,20 @@ class ResourceFeeTypeController : public Controller
         ResourceFeeTypeInfoArray* GetList() {return m_resourcefeetypelist;};
 };
 
-class ResourceDepolyController : public Controller
+class ResourceDeployController : public Controller
 {
     private:
-        ResourceDepolyInfoArray *m_resourcedepolylist;
+        ResourceDeployInfoArray *m_resourcedeploylist;
 
     public:
-        ResourceDepolyController();
-        ~ResourceDepolyController();
+        ResourceDeployController();
+        ~ResourceDeployController();
 
         void OnDatabaseRequest(wxDatabaseEvent& event);
         void OnDatabaseResponse(wxDatabaseEvent& event);
 
-        size_t getItemNumber() {return m_resourcedepolylist->GetCount();};
-        ResourceDepolyInfoArray* GetList() {return m_resourcedepolylist;};
+        size_t getItemNumber() {return m_resourcedeploylist->GetCount();};
+        ResourceDeployInfoArray* GetList() {return m_resourcedeploylist;};
 };
 
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

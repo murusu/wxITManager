@@ -565,39 +565,39 @@ wxString ResourceFeeTypeListCtrl::OnGetItemText(long item, long column) const
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-ResourceDepolyListCtrl::ResourceDepolyListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+ResourceDeployListCtrl::ResourceDeployListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
 {
-    this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnRefreshList));
-    this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnListChange));
-    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnListChange));
-    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDepolyListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceDeployListCtrl::OnRefreshList));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
 }
 
-void ResourceDepolyListCtrl::OnListChange( wxDatabaseEvent& event)
+void ResourceDeployListCtrl::OnListChange( wxDatabaseEvent& event)
 {
     RefreshList();
 }
 
-void ResourceDepolyListCtrl::OnRefreshList( wxDatabaseEvent& event)
+void ResourceDeployListCtrl::OnRefreshList( wxDatabaseEvent& event)
 {
-    SetItemCount(((ResourceDepolyController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPOLY)))->getItemNumber());
+    SetItemCount(((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->getItemNumber());
     Refresh();
 }
 
-void ResourceDepolyListCtrl::RefreshList()
+void ResourceDeployListCtrl::RefreshList()
 {
-    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCEDEPOLY);
-    wxDatabaseEvent database_event(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST, CONTROLLER_RESOURCEDEPOLY);
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY);
+    wxDatabaseEvent database_event(wxEVT_DATABASE_GETRESOURCEDEPLOYLIST, CONTROLLER_RESOURCEDEPLOY);
     database_event.SetStatus(EVENTSTATUS_REQUEST);
     database_event.SetEventObject(this);
     handler->AddPendingEvent(database_event);
 }
 
-wxString ResourceDepolyListCtrl::OnGetItemText(long item, long column) const
+wxString ResourceDeployListCtrl::OnGetItemText(long item, long column) const
 {
     wxString ItemText = wxT("");
 
-    ResourceDepolyInfoArray* list = ((ResourceDepolyController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPOLY)))->GetList();
+    ResourceDeployInfoArray* list = ((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->GetList();
 
     switch(column)
     {

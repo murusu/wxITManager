@@ -73,10 +73,10 @@ Database::Database(ManagerConfig *database_config)
     this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
     this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(Database::OnRequest));
 
-    this->Connect(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST, wxDatabaseEventHandler(Database::OnRequest));
-    this->Connect(wxEVT_DATABASE_DELETERESOURCEDEPOLY, wxDatabaseEventHandler(Database::OnRequest));
-    this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPOLY, wxDatabaseEventHandler(Database::OnRequest));
-    this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPOLY, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_GETRESOURCEDEPLOYLIST, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEDEPLOY, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPLOY, wxDatabaseEventHandler(Database::OnRequest));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPLOY, wxDatabaseEventHandler(Database::OnRequest));
 }
 
 Database::~Database()
@@ -87,16 +87,16 @@ void Database::OnRequest(wxDatabaseEvent& event)
 {
     bool check_flag = false;
 
-    if(InitDBByConfig())
-    {
-        DatabaseProcessThread *database_thread = new DatabaseProcessThread(event.GetEventObject(), event.GetId(), this, event.GetSqlString(), event.GetEventType(), event.GetSqlType());
+    //if(InitDBByConfig())
+    //{
+    DatabaseProcessThread *database_thread = new DatabaseProcessThread(event.GetEventObject(), event.GetId(), this, event.GetSqlString(), event.GetEventType(), event.GetSqlType());
 
-        if(database_thread->Create() == wxTHREAD_NO_ERROR)
-        {
-            database_thread->Run();
-            check_flag = true;
-        }
+    if(database_thread->Create() == wxTHREAD_NO_ERROR)
+    {
+        database_thread->Run();
+        check_flag = true;
     }
+    //}
 
     if(!check_flag)
     {
@@ -143,7 +143,7 @@ wxString DatabaseSqlite::GetDBTableInitStr()
     init_sql += wxT("CREATE TABLE `resource_type` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_status` (id INTEGER PRIMARY KEY, name VARCHAR, available BOOL DEFAULT 1, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_feetype` (id INTEGER PRIMARY KEY, name VARCHAR, have_expiration BOOL DEFAULT 0, valid BOOL DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `resource_depoly` (id INTEGER PRIMARY KEY, system_code VARCHAR, code VARCHAR, resource_id INTEGER, resourcestatus_id INTEGER, location_id INTEGER, vcard_id INTEGER, parentdepoly_id INTEGER, remark VARCHAR, valid INTEGER);");
+    init_sql += wxT("CREATE TABLE `resource_deploy` (id INTEGER PRIMARY KEY, system_code VARCHAR, code VARCHAR, resource_id INTEGER, resourcestatus_id INTEGER, location_id INTEGER, vcard_id INTEGER, parentdeploy_id INTEGER, remark VARCHAR, valid INTEGER);");
 
     init_sql += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('admin','admin',1);");
     init_sql += wxT("INSERT INTO 'user_group' ('name') VALUES ('administrator');");

@@ -39,7 +39,7 @@
 			<Add option="-DSQLITE_SECURE_DELETE" />
 			<Add option="-DSQLITE_ENABLE_COLUMN_METADATA" />
 			<Add option="-DSQLITE_SOUNDEX" />
-			<Add option="-DSQLITE_THREADSAFE" />
+			<Add option="-DSQLITE_THREADSAFE=1" />
 		</Compiler>
 		<Unit filename="sqlite3secure.c">
 			<Option compilerVar="CC" />

@@ -14,7 +14,7 @@ LoginFrame::~LoginFrame()
 {
 }
 
-void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
+void LoginFrame::OnLogin( wxCommandEvent& event )
 {
     using namespace CryptoPP;
 
@@ -34,7 +34,7 @@ void LoginFrame::OnButtonLoginClick( wxCommandEvent& event )
     handler->AddPendingEvent(database_event);
 }
 
-void LoginFrame::OnButtonConfigClick( wxCommandEvent& event )
+void LoginFrame::OnConfig( wxCommandEvent& event )
 {
     if(!m_configdialog) m_configdialog = new DatabaseConfigDialog(this);
 
@@ -387,9 +387,21 @@ MainFrame::MainFrame(wxFrame *frame) : MainFrameBase(frame)
     m_listCtrl_resourcefeetype->InsertColumn(0,_("Resource Fee Type Name"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_resourcefeetype->InsertColumn(1,_("Have Expiration"),wxLIST_FORMAT_LEFT,200);
 
-    m_listCtrl_resourcedepoly->InsertColumn(0,_("Resource Depoly System Code"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_resourcedeploy->InsertColumn(0,_("Resource Deploy System Code"),wxLIST_FORMAT_LEFT,200);
 
     DoListSize();
+
+    m_listCtrl_user->RefreshList();
+    m_listCtrl_usergroup->RefreshList();
+    m_listCtrl_vcard->RefreshList();
+    m_listCtrl_vcardgroup->RefreshList();
+    m_listCtrl_company->RefreshList();
+    m_listCtrl_companytype->RefreshList();
+    m_listCtrl_location->RefreshList();
+    m_listCtrl_resource->RefreshList();
+    m_listCtrl_resourcetype->RefreshList();
+    m_listCtrl_resourcestatus->RefreshList();
+    m_listCtrl_resourcefeetype->RefreshList();
 }
 
 MainFrame::~MainFrame()
@@ -411,19 +423,19 @@ void MainFrame::OnMenuExitSelection( wxCommandEvent& event )
     wxGetApp().DoExit();
 }
 
-void MainFrame::OnMenuDepolySelect( wxCommandEvent& event )
+void MainFrame::OnMenuDeploySelect( wxCommandEvent& event )
 {
     wxPanel *select_panel = NULL;
 
     m_panel_setting->Show(false);
-    m_panel_depoly->Show(true);
+    m_panel_deploy->Show(true);
 
-    m_panel_resourcedepolymanagement->Show(false);
+    m_panel_resourcedeploymanagement->Show(false);
 
     switch(event.GetId())
     {
-        case wxID_MENUITEM_DEPOLYMANAGEMENT:
-            select_panel = m_panel_resourcedepolymanagement;
+        case wxID_MENUITEM_DEPLOYMANAGEMENT:
+            select_panel = m_panel_resourcedeploymanagement;
             break;
     }
 
@@ -442,7 +454,7 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     wxPanel *select_panel = NULL;
 
     m_panel_setting->Show(true);
-    m_panel_depoly->Show(false);
+    m_panel_deploy->Show(false);
 
     m_panel_user->Show(false);
     m_panel_usergroup->Show(false);
@@ -511,7 +523,58 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
     wxPoint temppoint = this->GetSizer()->GetPosition();
     temppoint.y++;
     select_panel->Move(temppoint);
+}
 
+void MainFrame::OnChoiceDeploySearchType( wxCommandEvent& event )
+{
+    switch(m_choice_serachtype->GetCurrentSelection())
+    {
+        case 0:
+            m_choice_serachparam->Show(false);
+            m_textCtrl_searchparam->Show(false);
+            break;
+
+        case 1:
+        case 2:
+        case 3:
+            m_choice_serachparam->Show(false);
+            m_textCtrl_searchparam->Show(true);
+            break;
+
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            m_choice_serachparam->Show(true);
+            m_textCtrl_searchparam->Show(false);
+            break;
+    }
+}
+
+void MainFrame::OnButtonDeploySearch( wxCommandEvent& event )
+{
+
+}
+
+void MainFrame::OnButtonDeployAdd( wxCommandEvent& event )
+{
+    wxDialog    *dialog   = NULL;
+    wxListCtrl  *listctrl = NULL;
+
+    if(m_panel_resourcedeploymanagement->IsShown())
+    {
+        dialog   = new ResourceDeployDialog(this);
+        listctrl = m_listCtrl_resourcedeploy;
+    }
+
+    dialog->ShowModal();
+    //listctrl->Refresh();
+
+    delete dialog;
+}
+
+void MainFrame::OnButtonDeployDelete( wxCommandEvent& event )
+{
 
 }
 
@@ -813,7 +876,7 @@ void MainFrame::OnListSizeChange( wxSizeEvent& event )
 
 void MainFrame::DoListSize()
 {
-    m_panel_depoly->SetSize(this->GetSizer()->GetSize());
+    m_panel_deploy->SetSize(this->GetSizer()->GetSize());
      m_panel_setting->SetSize(this->GetSizer()->GetSize());
 
     wxSize size = GetClientSize();
@@ -832,7 +895,7 @@ void MainFrame::DoListSize()
     m_listCtrl_resourcestatus->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
     m_listCtrl_resourcefeetype->SetSize(0, 0, size.x - 5, size.y - (m_panel_settingbutton->GetSize()).GetHeight());
 
-    m_listCtrl_resourcedepoly->SetSize(0, 0, size.x - 5, size.y - (m_panel_depolymanagementbutton->GetSize()).GetHeight());
+    m_listCtrl_resourcedeploy->SetSize(0, 0, size.x - 5, size.y - (m_panel_deploymanagementbutton->GetSize()).GetHeight());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -1951,6 +2014,99 @@ void ResourceFeeTypeDialog::OnResourceFeeTypeInfoUpdate( wxDatabaseEvent& event)
         else
         {
             m_staticTextStatus->SetLabel(_("Fail To Update Resource Fee Type Info"));
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+ResourceDeployDialog::ResourceDeployDialog(wxWindow* parent, size_t id):ResourceDeployDialogBase(parent)
+{
+    m_id = id;
+
+    if(m_id != NULL_ID)
+    {
+        ResourceDeployInfo resourcedeploy_info = ((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->GetList()->Item(m_id);
+
+        //m_textCtrl_feetype->SetValue(resourcedeploy_info.m_name);
+        //m_checkBox_expire->SetValue(resourcedeploy_info.m_haveexpiration);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPLOY, wxDatabaseEventHandler(ResourceDeployDialog::OnResourceDeployInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPLOY, wxDatabaseEventHandler(ResourceDeployDialog::OnResourceDeployInfoUpdate));
+}
+
+void ResourceDeployDialog::EnableDialog(bool flag)
+{
+    //m_textCtrl_feetype->Enable(flag);
+    m_button_save->Enable(flag);
+    m_button_close->Enable(flag);
+}
+
+void ResourceDeployDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+    /*
+    if(m_textCtrl_feetype->GetValue().IsEmpty())
+    {
+        m_staticTextStatus->SetLabel(_("Resource Deploy Name Cannot Be Empty!"));
+        return;
+    }
+    */
+
+    m_staticTextStatus->SetLabel(_("Saving Data......"));
+    EnableDialog(false);
+
+    wxJSONValue request_json;
+    //request_json[0] = m_textCtrl_feetype->GetValue();
+    //request_json[1] = m_checkBox_expire->GetValue()?1:0;
+
+    if(m_id != NULL_ID)
+    {
+        ResourceDeployInfo resourcedeploy_info = ((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->GetList()->Item(m_id);
+        //request_json[2] = resourcedeploy_info.m_id;
+    }
+
+    wxEventType event_type = wxEVT_DATABASE_ADDRESOURCEDEPLOY;
+    if(m_id != NULL_ID) event_type = wxEVT_DATABASE_UPDATERESOURCEDEPLOY;
+
+    wxEvtHandler *handler = wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY);
+    wxDatabaseEvent database_event(event_type, CONTROLLER_RESOURCEDEPLOY);
+    database_event.SetStatus(EVENTSTATUS_REQUEST);
+    database_event.SetEventObject(this);
+    database_event.SetJsonData(request_json);
+    handler->AddPendingEvent(database_event);
+}
+
+void ResourceDeployDialog::OnResourceDeployInfoUpdate( wxDatabaseEvent& event)
+{
+    EnableDialog(true);
+
+    if(event.GetStatus() == EVENTSTATUS_SUCCESS && event.GetResultRow())
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCEDEPLOY)
+        {
+            m_staticTextStatus->SetLabel(_("Add Resource Deploy Successfully"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Update Resource Deploy Info Successfully"));
+        }
+
+        //m_textCtrl_feetype->SetValue(wxT(""));
+        //m_checkBox_expire->SetValue(false);
+        m_id = NULL_ID;
+
+        wxGetApp().GetMainFrame()->GetResourceDeployListctrl()->RefreshList();
+    }
+    else
+    {
+        if(event.GetEventType() == wxEVT_DATABASE_ADDRESOURCEDEPLOY)
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Add Resource Deploy"));
+        }
+        else
+        {
+            m_staticTextStatus->SetLabel(_("Fail To Update Resource Deploy Info"));
         }
     }
 }

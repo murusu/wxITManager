@@ -124,10 +124,10 @@ class ResourceFeeTypeListCtrl : public wxListCtrl
         wxString OnGetItemText(long item, long column) const;
 };
 
-class ResourceDepolyListCtrl : public wxListCtrl
+class ResourceDeployListCtrl : public wxListCtrl
 {
     public:
-        ResourceDepolyListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+        ResourceDeployListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
         void OnListChange( wxDatabaseEvent& event);
         void OnRefreshList( wxDatabaseEvent& event);

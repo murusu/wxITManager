@@ -49,7 +49,7 @@ void *DatabaseProcessThread::Entry()
 
     if(m_controller)
     {
-       m_controller->AddPendingEvent(event);
+        m_controller->AddPendingEvent(event);
     }
     else
     {

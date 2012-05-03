@@ -28,7 +28,7 @@ bool wxITManagerApp::OnInit(void)
     m_resourcestatuscontroller  = NULL;
     m_resourcefeetypecontroller = NULL;
 
-    m_resourcedepolycontroller  = NULL;
+    m_resourcedeploycontroller  = NULL;
 
     SetupLocale();
 
@@ -61,7 +61,7 @@ int wxITManagerApp::OnExit()
     if(m_resourcestatuscontroller) delete m_resourcestatuscontroller;
     if(m_resourcefeetypecontroller) delete m_resourcefeetypecontroller;
 
-    if(m_resourcedepolycontroller) delete m_resourcedepolycontroller;
+    if(m_resourcedeploycontroller) delete m_resourcedeploycontroller;
 
     return 0;
 }
@@ -193,9 +193,9 @@ wxEvtHandler* wxITManagerApp::GetController(size_t controller_id)
             handler = m_resourcefeetypecontroller;
             break;
 
-        case CONTROLLER_RESOURCEDEPOLY:
-            if(!m_resourcedepolycontroller) m_resourcedepolycontroller = new ResourceDepolyController();
-            handler = m_resourcedepolycontroller;
+        case CONTROLLER_RESOURCEDEPLOY:
+            if(!m_resourcedeploycontroller) m_resourcedeploycontroller = new ResourceDeployController();
+            handler = m_resourcedeploycontroller;
             break;
     }
 

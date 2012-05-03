@@ -52,7 +52,7 @@ LoginFrameBase::LoginFrameBase( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText2->Wrap( -1 );
 	bSizer5->Add( m_staticText2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_textCtrl_password = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), wxTE_PASSWORD );
+	m_textCtrl_password = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), wxTE_PASSWORD|wxTE_PROCESS_ENTER );
 	bSizer5->Add( m_textCtrl_password, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	bSizer3->Add( bSizer5, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -85,15 +85,17 @@ LoginFrameBase::LoginFrameBase( wxWindow* parent, wxWindowID id, const wxString&
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	m_button_login->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnButtonLoginClick ), NULL, this );
-	m_button_config->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnButtonConfigClick ), NULL, this );
+	m_textCtrl_password->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( LoginFrameBase::OnLogin ), NULL, this );
+	m_button_login->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnLogin ), NULL, this );
+	m_button_config->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnConfig ), NULL, this );
 }
 
 LoginFrameBase::~LoginFrameBase()
 {
 	// Disconnect Events
-	m_button_login->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnButtonLoginClick ), NULL, this );
-	m_button_config->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnButtonConfigClick ), NULL, this );
+	m_textCtrl_password->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( LoginFrameBase::OnLogin ), NULL, this );
+	m_button_login->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnLogin ), NULL, this );
+	m_button_config->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginFrameBase::OnConfig ), NULL, this );
 	
 }
 
@@ -422,14 +424,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	m_menu6 = new wxMenu();
 	wxMenuItem* m_menuItem18;
-	m_menuItem18 = new wxMenuItem( m_menu6, wxID_MENUITEM_DEPOLYMANAGEMENT, wxString( _("Management") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem18 = new wxMenuItem( m_menu6, wxID_MENUITEM_DEPLOYMANAGEMENT, wxString( _("Management") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu6->Append( m_menuItem18 );
 	
 	wxMenuItem* m_menuItem19;
 	m_menuItem19 = new wxMenuItem( m_menu6, wxID_ANY, wxString( _("Log") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu6->Append( m_menuItem19 );
 	
-	m_menubar->Append( m_menu6, _("Depoly") ); 
+	m_menubar->Append( m_menu6, _("Deploy") ); 
 	
 	m_menu3 = new wxMenu();
 	wxMenuItem* m_menuItem4;
@@ -518,74 +520,91 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* bSizer20;
 	bSizer20 = new wxBoxSizer( wxVERTICAL );
 	
-	m_panel_depoly = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_deploy = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer141;
 	bSizer141 = new wxBoxSizer( wxVERTICAL );
 	
-	m_panel_depolymanagementbutton = new wxPanel( m_panel_depoly, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_deploymanagementbutton = new wxPanel( m_panel_deploy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer144;
 	bSizer144 = new wxBoxSizer( wxHORIZONTAL );
 	
+	wxBoxSizer* bSizer146;
+	bSizer146 = new wxBoxSizer( wxHORIZONTAL );
+	
 	wxString m_choice_serachtypeChoices[] = { _("All"), _("System Code"), _("Code"), _("Resource Name"), _("Resource Type"), _("Location"), _("Owner"), _("Status") };
 	int m_choice_serachtypeNChoices = sizeof( m_choice_serachtypeChoices ) / sizeof( wxString );
-	m_choice_serachtype = new wxChoice( m_panel_depolymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_serachtypeNChoices, m_choice_serachtypeChoices, 0 );
+	m_choice_serachtype = new wxChoice( m_panel_deploymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_serachtypeNChoices, m_choice_serachtypeChoices, 0 );
 	m_choice_serachtype->SetSelection( 0 );
-	bSizer144->Add( m_choice_serachtype, 0, wxALL, 5 );
+	bSizer146->Add( m_choice_serachtype, 1, wxALL, 5 );
+	
+	bSizer144->Add( bSizer146, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer148;
+	bSizer148 = new wxBoxSizer( wxHORIZONTAL );
 	
 	wxArrayString m_choice_serachparamChoices;
-	m_choice_serachparam = new wxChoice( m_panel_depolymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_serachparamChoices, 0 );
+	m_choice_serachparam = new wxChoice( m_panel_deploymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_serachparamChoices, 0 );
 	m_choice_serachparam->SetSelection( 0 );
-	bSizer144->Add( m_choice_serachparam, 0, wxALL, 5 );
+	m_choice_serachparam->Hide();
 	
-	m_textCtrl_searchparam = new wxTextCtrl( m_panel_depolymanagementbutton, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	bSizer148->Add( m_choice_serachparam, 1, wxALL, 5 );
+	
+	m_textCtrl_searchparam = new wxTextCtrl( m_panel_deploymanagementbutton, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
 	m_textCtrl_searchparam->Hide();
 	
-	bSizer144->Add( m_textCtrl_searchparam, 0, wxALL, 5 );
+	bSizer148->Add( m_textCtrl_searchparam, 1, wxALL, 5 );
 	
-	m_button_depolysearch = new wxButton( m_panel_depolymanagementbutton, wxID_ANY, _("Search"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer144->Add( m_button_depolysearch, 0, wxALL, 5 );
+	bSizer144->Add( bSizer148, 1, wxEXPAND, 5 );
 	
-	m_staticline1 = new wxStaticLine( m_panel_depolymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxLI_HORIZONTAL );
-	bSizer144->Add( m_staticline1, 0, wxEXPAND | wxALL, 5 );
+	wxBoxSizer* bSizer1471;
+	bSizer1471 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_button_depolyadd = new wxButton( m_panel_depolymanagementbutton, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer144->Add( m_button_depolyadd, 0, wxALL, 5 );
+	m_button_deploysearch = new wxButton( m_panel_deploymanagementbutton, wxID_ANY, _("Search"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1471->Add( m_button_deploysearch, 0, wxALL, 5 );
 	
-	m_button_depolydelete = new wxButton( m_panel_depolymanagementbutton, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer144->Add( m_button_depolydelete, 0, wxALL, 5 );
+	m_staticline1 = new wxStaticLine( m_panel_deploymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxLI_HORIZONTAL );
+	bSizer1471->Add( m_staticline1, 0, wxEXPAND | wxALL, 5 );
 	
-	m_panel_depolymanagementbutton->SetSizer( bSizer144 );
-	m_panel_depolymanagementbutton->Layout();
-	bSizer144->Fit( m_panel_depolymanagementbutton );
-	bSizer141->Add( m_panel_depolymanagementbutton, 0, wxEXPAND, 5 );
+	m_button_deployadd = new wxButton( m_panel_deploymanagementbutton, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1471->Add( m_button_deployadd, 0, wxALL, 5 );
 	
-	m_panel_depolylist = new wxPanel( m_panel_depoly, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_button_deploydelete = new wxButton( m_panel_deploymanagementbutton, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1471->Add( m_button_deploydelete, 0, wxALL, 5 );
+	
+	bSizer144->Add( bSizer1471, 2, wxEXPAND, 5 );
+	
+	m_panel_deploymanagementbutton->SetSizer( bSizer144 );
+	m_panel_deploymanagementbutton->Layout();
+	bSizer144->Fit( m_panel_deploymanagementbutton );
+	bSizer141->Add( m_panel_deploymanagementbutton, 0, wxEXPAND, 5 );
+	
+	m_panel_deploylist = new wxPanel( m_panel_deploy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer145;
 	bSizer145 = new wxBoxSizer( wxVERTICAL );
 	
-	m_panel_resourcedepolymanagement = new wxPanel( m_panel_depolylist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel_resourcedeploymanagement = new wxPanel( m_panel_deploylist, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer147;
 	bSizer147 = new wxBoxSizer( wxVERTICAL );
 	
-	m_listCtrl_resourcedepoly = new ResourceDepolyListCtrl( m_panel_resourcedepolymanagement, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
-	m_listCtrl_resourcedepoly->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
+	m_listCtrl_resourcedeploy = new ResourceDeployListCtrl( m_panel_resourcedeploymanagement, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_resourcedeploy->SetFont( wxFont( 11, 70, 90, 90, false, wxT("Arial") ) );
 	
-	bSizer147->Add( m_listCtrl_resourcedepoly, 1, wxALL|wxEXPAND, 5 );
+	bSizer147->Add( m_listCtrl_resourcedeploy, 1, wxALL|wxEXPAND, 5 );
 	
-	m_panel_resourcedepolymanagement->SetSizer( bSizer147 );
-	m_panel_resourcedepolymanagement->Layout();
-	bSizer147->Fit( m_panel_resourcedepolymanagement );
-	bSizer145->Add( m_panel_resourcedepolymanagement, 1, wxEXPAND, 0 );
+	m_panel_resourcedeploymanagement->SetSizer( bSizer147 );
+	m_panel_resourcedeploymanagement->Layout();
+	bSizer147->Fit( m_panel_resourcedeploymanagement );
+	bSizer145->Add( m_panel_resourcedeploymanagement, 1, wxEXPAND, 0 );
 	
-	m_panel_depolylist->SetSizer( bSizer145 );
-	m_panel_depolylist->Layout();
-	bSizer145->Fit( m_panel_depolylist );
-	bSizer141->Add( m_panel_depolylist, 1, wxEXPAND, 5 );
+	m_panel_deploylist->SetSizer( bSizer145 );
+	m_panel_deploylist->Layout();
+	bSizer145->Fit( m_panel_deploylist );
+	bSizer141->Add( m_panel_deploylist, 1, wxEXPAND, 5 );
 	
-	m_panel_depoly->SetSizer( bSizer141 );
-	m_panel_depoly->Layout();
-	bSizer141->Fit( m_panel_depoly );
-	bSizer20->Add( m_panel_depoly, 1, wxEXPAND, 0 );
+	m_panel_deploy->SetSizer( bSizer141 );
+	m_panel_deploy->Layout();
+	bSizer141->Fit( m_panel_deploy );
+	bSizer20->Add( m_panel_deploy, 1, wxEXPAND, 0 );
 	
 	m_panel_setting = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel_setting->Hide();
@@ -814,7 +833,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Connect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Connect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
-	this->Connect( wxID_MENUITEM_DEPOLYMANAGEMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuDepolySelect ) );
+	this->Connect( wxID_MENUITEM_DEPLOYMANAGEMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuDeploySelect ) );
 	this->Connect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Connect( wxID_MENUITEM_VCARD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
@@ -829,8 +848,12 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Connect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Connect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
-	m_listCtrl_resourcedepoly->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnDepolyItemActivated ), NULL, this );
-	m_listCtrl_resourcedepoly->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_choice_serachtype->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameBase::OnChoiceDeploySearchType ), NULL, this );
+	m_button_deploysearch->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonDeploySearch ), NULL, this );
+	m_button_deployadd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonDeployAdd ), NULL, this );
+	m_button_deploydelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonDeployDelete ), NULL, this );
+	m_listCtrl_resourcedeploy->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnDeployItemActivated ), NULL, this );
+	m_listCtrl_resourcedeploy->Connect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_button_settingadd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
 	m_button_settingdelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
 	m_button_settingrefresh->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingRefresh ), NULL, this );
@@ -870,7 +893,7 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBase::OnMainFrameClose ) );
 	this->Disconnect( wxID_MENUITEM_LOGOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuLogoutSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExitSelection ) );
-	this->Disconnect( wxID_MENUITEM_DEPOLYMANAGEMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuDepolySelect ) );
+	this->Disconnect( wxID_MENUITEM_DEPLOYMANAGEMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuDeploySelect ) );
 	this->Disconnect( wxID_MENUITEM_USER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_USERGROUP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
 	this->Disconnect( wxID_MENUITEM_VCARD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuSettingSelect ) );
@@ -885,8 +908,12 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_MENUITEM_IMPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuImportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_EXPORTDATA, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuExportdataSelection ) );
 	this->Disconnect( wxID_MENUITEM_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnMenuAboutSelection ) );
-	m_listCtrl_resourcedepoly->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnDepolyItemActivated ), NULL, this );
-	m_listCtrl_resourcedepoly->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
+	m_choice_serachtype->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameBase::OnChoiceDeploySearchType ), NULL, this );
+	m_button_deploysearch->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonDeploySearch ), NULL, this );
+	m_button_deployadd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonDeployAdd ), NULL, this );
+	m_button_deploydelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonDeployDelete ), NULL, this );
+	m_listCtrl_resourcedeploy->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( MainFrameBase::OnDeployItemActivated ), NULL, this );
+	m_listCtrl_resourcedeploy->Disconnect( wxEVT_SIZE, wxSizeEventHandler( MainFrameBase::OnListSizeChange ), NULL, this );
 	m_button_settingadd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingAdd ), NULL, this );
 	m_button_settingdelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingDelete ), NULL, this );
 	m_button_settingrefresh->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrameBase::OnButtonSettingRefresh ), NULL, this );

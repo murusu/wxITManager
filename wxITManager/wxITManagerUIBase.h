@@ -13,7 +13,7 @@
 class CompanyListCtrl;
 class CompanyTypeListCtrl;
 class LocationListCtrl;
-class ResourceDepolyListCtrl;
+class ResourceDeployListCtrl;
 class ResourceFeeTypeListCtrl;
 class ResourceListCtrl;
 class ResourceStatusListCtrl;
@@ -60,7 +60,7 @@ class VcardListCtrl;
 #define wxID_BUTTON_CANCEL 1004
 #define wxID_MENUITEM_LOGOUT 1005
 #define wxID_MENUITEM_EXIT 1006
-#define wxID_MENUITEM_DEPOLYMANAGEMENT 1007
+#define wxID_MENUITEM_DEPLOYMANAGEMENT 1007
 #define wxID_MENUITEM_USER 1008
 #define wxID_MENUITEM_USERGROUP 1009
 #define wxID_MENUITEM_VCARD 1010
@@ -94,8 +94,8 @@ class LoginFrameBase : public wxFrame
 		wxButton* m_button_config;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnButtonLoginClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnButtonConfigClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnLogin( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnConfig( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -204,18 +204,18 @@ class MainFrameBase : public wxFrame
 		wxMenu* m_menu7;
 		wxMenu* m_menu4;
 		wxMenu* m_menu2;
-		wxPanel* m_panel_depoly;
-		wxPanel* m_panel_depolymanagementbutton;
+		wxPanel* m_panel_deploy;
+		wxPanel* m_panel_deploymanagementbutton;
 		wxChoice* m_choice_serachtype;
 		wxChoice* m_choice_serachparam;
 		wxTextCtrl* m_textCtrl_searchparam;
-		wxButton* m_button_depolysearch;
+		wxButton* m_button_deploysearch;
 		wxStaticLine* m_staticline1;
-		wxButton* m_button_depolyadd;
-		wxButton* m_button_depolydelete;
-		wxPanel* m_panel_depolylist;
-		wxPanel* m_panel_resourcedepolymanagement;
-		ResourceDepolyListCtrl* m_listCtrl_resourcedepoly;
+		wxButton* m_button_deployadd;
+		wxButton* m_button_deploydelete;
+		wxPanel* m_panel_deploylist;
+		wxPanel* m_panel_resourcedeploymanagement;
+		ResourceDeployListCtrl* m_listCtrl_resourcedeploy;
 		wxPanel* m_panel_setting;
 		wxPanel* m_panel_settingbutton;
 		wxButton* m_button_settingadd;
@@ -250,12 +250,16 @@ class MainFrameBase : public wxFrame
 		virtual void OnMainFrameClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnMenuLogoutSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExitSelection( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnMenuDepolySelect( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnMenuDeploySelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuSettingSelect( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuImportdataSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuExportdataSelection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMenuAboutSelection( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDepolyItemActivated( wxListEvent& event ) { event.Skip(); }
+		virtual void OnChoiceDeploySearchType( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonDeploySearch( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonDeployAdd( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonDeployDelete( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDeployItemActivated( wxListEvent& event ) { event.Skip(); }
 		virtual void OnListSizeChange( wxSizeEvent& event ) { event.Skip(); }
 		virtual void OnButtonSettingAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSettingDelete( wxCommandEvent& event ) { event.Skip(); }

@@ -61,10 +61,10 @@ DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEFEETYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEFEETYPE)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEFEETYPE)
 
-DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST)
-DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEDEPOLY)
-DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEDEPOLY)
-DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEDEPOLY)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCEDEPLOYLIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEDEPLOY)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEDEPLOY)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEDEPLOY)
 
 
 IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
@@ -112,6 +112,7 @@ void DatabaseController::OnDatabaseRequest(wxDatabaseEvent& event)
     if(m_locker->IsOk())
     {
         m_database = DatabaseFactory::CreateDatabase(m_config->GetDatabaseType(), m_config);
+        m_database->InitDBByConfig();
 
         wxDatabaseEvent controller_event;
         controller_event.SetEventType(event.GetEventType());
@@ -1418,42 +1419,42 @@ void ResourceFeeTypeController::OnDatabaseResponse(wxDatabaseEvent& event)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ResourceDepolyController::ResourceDepolyController()
+ResourceDeployController::ResourceDeployController()
 {
-    m_resourcedepolylist = new ResourceDepolyInfoArray();
+    m_resourcedeploylist = new ResourceDeployInfoArray();
 
-    this->Connect(wxEVT_DATABASE_GETRESOURCEDEPOLYLIST, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
-    this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPOLY, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
-    this->Connect(wxEVT_DATABASE_DELETERESOURCEDEPOLY, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
-    this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPOLY, wxDatabaseEventHandler(ResourceDepolyController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_GETRESOURCEDEPLOYLIST, wxDatabaseEventHandler(ResourceDeployController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPLOY, wxDatabaseEventHandler(ResourceDeployController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEDEPLOY, wxDatabaseEventHandler(ResourceDeployController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPLOY, wxDatabaseEventHandler(ResourceDeployController::OnDatabaseEvent));
 }
 
-ResourceDepolyController::~ResourceDepolyController()
+ResourceDeployController::~ResourceDeployController()
 {
-    m_resourcedepolylist->Clear();
+    m_resourcedeploylist->Clear();
 
-    if(m_resourcedepolylist) delete m_resourcedepolylist;
+    if(m_resourcedeploylist) delete m_resourcedeploylist;
 }
 
-void ResourceDepolyController::OnDatabaseRequest(wxDatabaseEvent& event)
+void ResourceDeployController::OnDatabaseRequest(wxDatabaseEvent& event)
 {
     wxEventType event_type = event.GetEventType();
 
     wxDatabaseEvent controller_event;
     controller_event.SetEventType(event_type);
 
-    if(event_type == wxEVT_DATABASE_GETRESOURCEDEPOLYLIST)
+    if(event_type == wxEVT_DATABASE_GETRESOURCEDEPLOYLIST)
     {
-        controller_event.SetSqlString(wxT("SELECT id, name, have_expiration FROM 'resource_depoly' WHERE valid = 1;"));
+        controller_event.SetSqlString(wxT("SELECT id, name, have_expiration FROM 'resource_deploy' WHERE valid = 1;"));
         controller_event.SetSqlType(SQLTYPE_QUERY);
     }
 
-    if(event_type == wxEVT_DATABASE_ADDRESOURCEDEPOLY)
+    if(event_type == wxEVT_DATABASE_ADDRESOURCEDEPLOY)
     {
         wxString sql_str = wxT("");
         wxJSONValue request_data = event.GetJsonData();
 
-        sql_str += wxT("INSERT INTO 'resource_depoly' ('name') VALUES ('");
+        sql_str += wxT("INSERT INTO 'resource_deploy' ('name') VALUES ('");
         sql_str += request_data[0].AsString();
         sql_str += wxT("'");
         //sql_str += request_data[1].AsString();
@@ -1463,14 +1464,14 @@ void ResourceDepolyController::OnDatabaseRequest(wxDatabaseEvent& event)
         controller_event.SetSqlType(SQLTYPE_UPDATE);
     }
 
-    if(event_type == wxEVT_DATABASE_DELETERESOURCEDEPOLY)
+    if(event_type == wxEVT_DATABASE_DELETERESOURCEDEPLOY)
     {
         wxString sql_str = wxT("");
         wxJSONValue request_data = event.GetJsonData();
 
         for ( int i = 0; i < request_data.Size(); i++ )
         {
-            sql_str += wxT("UPDATE 'resource_depoly' SET 'valid' = 0 WHERE id = ");
+            sql_str += wxT("UPDATE 'resource_deploy' SET 'valid' = 0 WHERE id = ");
             sql_str += request_data[i].AsString();
             sql_str += wxT(";");
         }
@@ -1479,12 +1480,12 @@ void ResourceDepolyController::OnDatabaseRequest(wxDatabaseEvent& event)
         controller_event.SetSqlType(SQLTYPE_UPDATE);
     }
 
-    if(event_type == wxEVT_DATABASE_UPDATERESOURCEDEPOLY)
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCEDEPLOY)
     {
         wxString sql_str = wxT("");
         wxJSONValue request_data = event.GetJsonData();
 
-        sql_str += wxT("UPDATE 'resource_depoly' SET name = '");
+        sql_str += wxT("UPDATE 'resource_deploy' SET name = '");
         sql_str += request_data[0].AsString();
         sql_str += wxT("'");
 
@@ -1501,16 +1502,16 @@ void ResourceDepolyController::OnDatabaseRequest(wxDatabaseEvent& event)
     (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
 }
 
-void ResourceDepolyController::OnDatabaseResponse(wxDatabaseEvent& event)
+void ResourceDeployController::OnDatabaseResponse(wxDatabaseEvent& event)
 {
-    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCEDEPOLYLIST)
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCEDEPLOYLIST)
     {
-        m_resourcedepolylist->Clear();
+        m_resourcedeploylist->Clear();
 
         wxJSONValue result_data = event.GetJsonData();
         for ( int i = 0; i < result_data.Size(); i++ )
         {
-            m_resourcedepolylist->Add(ResourceDepolyInfo(
+            m_resourcedeploylist->Add(ResourceDeployInfo(
                 wxAtoi(result_data[i][0].AsString()),
                 result_data[i][1].AsString(),
                 result_data[i][2].AsString(),

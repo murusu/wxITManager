@@ -19,7 +19,7 @@ class ResourceTypeInfo;
 class ResourceStatusInfo;
 class ResourceFeeTypeInfo;
 
-class ResourceDepolyInfo;
+class ResourceDeployInfo;
 
 WX_DECLARE_OBJARRAY(UserInfo, UserInfoArray);
 WX_DECLARE_OBJARRAY(UserGroupInfo, UserGroupInfoArray);
@@ -35,7 +35,7 @@ WX_DECLARE_OBJARRAY(ResourceTypeInfo, ResourceTypeInfoArray);
 WX_DECLARE_OBJARRAY(ResourceStatusInfo, ResourceStatusInfoArray);
 WX_DECLARE_OBJARRAY(ResourceFeeTypeInfo, ResourceFeeTypeInfoArray);
 
-WX_DECLARE_OBJARRAY(ResourceDepolyInfo, ResourceDepolyInfoArray);
+WX_DECLARE_OBJARRAY(ResourceDeployInfo, ResourceDeployInfoArray);
 
 class UserInfo
 {
@@ -152,7 +152,7 @@ class ResourceFeeTypeInfo
         ResourceFeeTypeInfo(size_t resourcefeetype_id, const wxString& resourcefeetype_name, bool have_expiration){m_id = resourcefeetype_id; m_name = resourcefeetype_name; m_haveexpiration = have_expiration;};
 };
 
-class ResourceDepolyInfo
+class ResourceDeployInfo
 {
     public:
         size_t          m_id;
@@ -170,22 +170,22 @@ class ResourceDepolyInfo
         wxString        m_parentsystemcode;
         wxString        m_remark;
 
-        ResourceDepolyInfo(size_t resourcedepoly_id, const wxString& resourcedepoly_systemcode, const wxString& resourcedepoly_code, size_t resourcedepoly_resourceid, const wxString& resourcedepoly_resource, size_t resourcedepoly_resourcestatusid, const wxString& resourcedepoly_resourcestatus, size_t resourcedepoly_locationid, const wxString& resourcedepoly_location, size_t resourcedepoly_vcardid, const wxString& resourcedepoly_vcardfullname, size_t resourcedepoly_parentid, const wxString& resourcedepoly_parentsystemcode, const wxString& resourcedepoly_remark)
+        ResourceDeployInfo(size_t resourcedeploy_id, const wxString& resourcedeploy_systemcode, const wxString& resourcedeploy_code, size_t resourcedeploy_resourceid, const wxString& resourcedeploy_resource, size_t resourcedeploy_resourcestatusid, const wxString& resourcedeploy_resourcestatus, size_t resourcedeploy_locationid, const wxString& resourcedeploy_location, size_t resourcedeploy_vcardid, const wxString& resourcedeploy_vcardfullname, size_t resourcedeploy_parentid, const wxString& resourcedeploy_parentsystemcode, const wxString& resourcedeploy_remark)
         {
-            m_id = resourcedepoly_id;
-            m_systemcode = resourcedepoly_systemcode;
-            m_code = resourcedepoly_code;
-            m_resourceid = resourcedepoly_resourceid;
-            m_resource = resourcedepoly_resource;
-            m_resourcestatusid = resourcedepoly_resourcestatusid;
-            m_resourcestatus = resourcedepoly_resourcestatus;
-            m_locationid = resourcedepoly_locationid;
-            m_location = resourcedepoly_location;
-            m_vcardid = resourcedepoly_vcardid;
-            m_vcardfullname = resourcedepoly_vcardfullname;
-            m_parentid = resourcedepoly_parentid;
-            m_parentsystemcode = resourcedepoly_parentsystemcode;
-            m_remark = resourcedepoly_remark;
+            m_id = resourcedeploy_id;
+            m_systemcode = resourcedeploy_systemcode;
+            m_code = resourcedeploy_code;
+            m_resourceid = resourcedeploy_resourceid;
+            m_resource = resourcedeploy_resource;
+            m_resourcestatusid = resourcedeploy_resourcestatusid;
+            m_resourcestatus = resourcedeploy_resourcestatus;
+            m_locationid = resourcedeploy_locationid;
+            m_location = resourcedeploy_location;
+            m_vcardid = resourcedeploy_vcardid;
+            m_vcardfullname = resourcedeploy_vcardfullname;
+            m_parentid = resourcedeploy_parentid;
+            m_parentsystemcode = resourcedeploy_parentsystemcode;
+            m_remark = resourcedeploy_remark;
         };
 };
 
