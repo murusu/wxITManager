@@ -584,16 +584,22 @@ class ResourceDeployDialogBase : public wxDialog
 		wxStaticText* m_staticText_systemcode;
 		wxStaticText* m_staticText28;
 		wxTextCtrl* m_textCtrl_code;
+		
 		wxStaticText* m_staticText83;
 		wxChoice* m_choice_resourcestatus;
+		wxButton* m_button_addresourcestatus;
 		wxStaticText* m_staticText29;
 		wxChoice* m_choice_resourcetype;
+		wxButton* m_button_addresourcetype;
 		wxStaticText* m_staticText82;
 		wxChoice* m_choice_resourcename;
+		wxButton* m_button_addresource;
 		wxStaticText* m_staticText30;
 		wxChoice* m_choice_location;
+		wxButton* m_button_addlocation;
 		wxStaticText* m_staticText85;
 		wxChoice* m_choice_owner;
+		wxButton* m_button_addvcard;
 		wxStaticText* m_staticText98;
 		wxTextCtrl* m_textCtrl_remark;
 		wxPanel* m_panel_sub;
@@ -612,13 +618,18 @@ class ResourceDeployDialogBase : public wxDialog
 		wxButton* m_button_close;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnButtonAddResourceStatusClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonAddResourceTypeClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonAddResourceClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonAddLocationClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonAddVcardClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonCloseClick( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		ResourceDeployDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Resource Deploy"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 572,352 ), long style = wxDEFAULT_DIALOG_STYLE );
+		ResourceDeployDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxITManager - Resource Deploy"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 738,360 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~ResourceDeployDialogBase();
 	
 };

@@ -2024,6 +2024,12 @@ ResourceDeployDialog::ResourceDeployDialog(wxWindow* parent, size_t id):Resource
 {
     m_id = id;
 
+    RefreshResourceStatusChoice();
+	RefreshResourceTypeChoice();
+	RefreshResourceChoice();
+	RefreshLocationChoice();
+	RefreshVcardChoice();
+
     if(m_id != NULL_ID)
     {
         ResourceDeployInfo resourcedeploy_info = ((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->GetList()->Item(m_id);
@@ -2041,6 +2047,123 @@ void ResourceDeployDialog::EnableDialog(bool flag)
     //m_textCtrl_feetype->Enable(flag);
     m_button_save->Enable(flag);
     m_button_close->Enable(flag);
+}
+
+void ResourceDeployDialog::OnButtonAddResourceStatusClick( wxCommandEvent& event )
+{
+    ResourceStatusDialog *dialog = new ResourceStatusDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+    RefreshResourceStatusChoice();
+    m_choice_resourcestatus->SetSelection(0);
+}
+
+void ResourceDeployDialog::OnButtonAddResourceTypeClick( wxCommandEvent& event )
+{
+    ResourceTypeDialog *dialog = new ResourceTypeDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+    RefreshResourceTypeChoice();
+    m_choice_resourcetype->SetSelection(0);
+}
+
+void ResourceDeployDialog::OnButtonAddResourceClick( wxCommandEvent& event )
+{
+    ResourceDialog *dialog = new ResourceDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+    RefreshResourceChoice();
+    m_choice_resourcename->SetSelection(0);
+}
+
+void ResourceDeployDialog::OnButtonAddLocationClick( wxCommandEvent& event )
+{
+    LocationDialog *dialog = new LocationDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+    RefreshLocationChoice();
+    m_choice_location->SetSelection(0);
+}
+
+void ResourceDeployDialog::OnButtonAddVcardClick( wxCommandEvent& event )
+{
+    VcardDialog *dialog = new VcardDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+    RefreshVcardChoice();
+    m_choice_owner->SetSelection(0);
+}
+
+void ResourceDeployDialog::RefreshResourceStatusChoice()
+{
+    m_choice_resourcestatus->Clear();
+
+    ResourceStatusInfoArray* resourcestatus_array = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList();
+    for(size_t index = 0; index < resourcestatus_array->GetCount(); index++)
+    {
+        m_choice_resourcestatus->Append(resourcestatus_array->Item(index).m_name, &(resourcestatus_array->Item(index).m_id));
+    }
+
+    m_choice_resourcestatus->SetSelection(0);
+}
+
+void ResourceDeployDialog::RefreshResourceTypeChoice()
+{
+    m_choice_resourcetype->Clear();
+
+    //m_choice_resourcetype->Append(_("All"), 0);
+
+    ResourceTypeInfoArray* resourcetype_array = ((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->GetList();
+    for(size_t index = 0; index < resourcetype_array->GetCount(); index++)
+    {
+        m_choice_resourcetype->Append(resourcetype_array->Item(index).m_name, &(resourcetype_array->Item(index).m_id));
+    }
+    m_choice_resourcetype->SetSelection(0);
+}
+
+void ResourceDeployDialog::RefreshResourceChoice()
+{
+    m_choice_resourcename->Clear();
+
+    ResourceInfoArray* resource_array = ((ResourceController *)(wxGetApp().GetController(CONTROLLER_RESOURCE)))->GetList();
+    for(size_t index = 0; index < resource_array->GetCount(); index++)
+    {
+        m_choice_resourcename->Append(resource_array->Item(index).m_name, &(resource_array->Item(index).m_id));
+    }
+    m_choice_resourcename->SetSelection(0);
+}
+
+void ResourceDeployDialog::RefreshLocationChoice()
+{
+    m_choice_location->Clear();
+
+    //m_choice_location->Append(_("NONE"), 0);
+
+    LocationInfoArray* location_array = ((LocationController *)(wxGetApp().GetController(CONTROLLER_LOCATION)))->GetList();
+    for(size_t index = 0; index < location_array->GetCount(); index++)
+    {
+        m_choice_location->Append(location_array->Item(index).m_name, &(location_array->Item(index).m_id));
+    }
+    m_choice_location->SetSelection(0);
+}
+
+void ResourceDeployDialog::RefreshVcardChoice()
+{
+    m_choice_owner->Clear();
+
+    //m_choice_owner->Append(_("NONE"), 0);
+
+    VcardInfoArray* vcard_array = ((VcardController *)(wxGetApp().GetController(CONTROLLER_VCARD)))->GetList();
+    for(size_t index = 0; index < vcard_array->GetCount(); index++)
+    {
+        m_choice_owner->Append(vcard_array->Item(index).m_fullname, &(vcard_array->Item(index).m_id));
+    }
+    m_choice_owner->SetSelection(0);
 }
 
 void ResourceDeployDialog::OnButtonSaveClick( wxCommandEvent& event )

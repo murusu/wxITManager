@@ -1772,7 +1772,7 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_staticText66->Wrap( -1 );
 	bSizer142->Add( m_staticText66, 0, wxALL, 5 );
 	
-	m_staticText_systemcode = new wxStaticText( m_panel_base, wxID_ANY, _("SF039413"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_systemcode = new wxStaticText( m_panel_base, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText_systemcode->Wrap( -1 );
 	bSizer142->Add( m_staticText_systemcode, 0, wxALL, 5 );
 	
@@ -1788,6 +1788,9 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_textCtrl_code = new wxTextCtrl( m_panel_base, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
 	bSizer65->Add( m_textCtrl_code, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
+	
+	bSizer65->Add( 85, 0, 0, wxEXPAND, 5 );
+	
 	m_staticText83 = new wxStaticText( m_panel_base, wxID_ANY, _("Resource Status:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
 	m_staticText83->Wrap( -1 );
 	bSizer65->Add( m_staticText83, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
@@ -1796,6 +1799,9 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_choice_resourcestatus = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_resourcestatusChoices, 0 );
 	m_choice_resourcestatus->SetSelection( 0 );
 	bSizer65->Add( m_choice_resourcestatus, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_button_addresourcestatus = new wxButton( m_panel_base, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer65->Add( m_button_addresourcestatus, 0, wxALL, 5 );
 	
 	bSizer155->Add( bSizer65, 0, wxEXPAND, 5 );
 	
@@ -1812,6 +1818,9 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_choice_resourcetype->SetSelection( 0 );
 	bSizer66->Add( m_choice_resourcetype, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
+	m_button_addresourcetype = new wxButton( m_panel_base, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer66->Add( m_button_addresourcetype, 0, wxALL, 5 );
+	
 	m_staticText82 = new wxStaticText( m_panel_base, wxID_ANY, _("Resource Name:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
 	m_staticText82->Wrap( -1 );
 	bSizer66->Add( m_staticText82, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
@@ -1820,6 +1829,9 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_choice_resourcename = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_resourcenameChoices, 0 );
 	m_choice_resourcename->SetSelection( 0 );
 	bSizer66->Add( m_choice_resourcename, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_button_addresource = new wxButton( m_panel_base, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer66->Add( m_button_addresource, 0, wxALL, 5 );
 	
 	bSizer155->Add( bSizer66, 0, wxEXPAND, 5 );
 	
@@ -1830,21 +1842,25 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_staticText30->Wrap( -1 );
 	bSizer67->Add( m_staticText30, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	wxString m_choice_locationChoices[] = { _("None") };
-	int m_choice_locationNChoices = sizeof( m_choice_locationChoices ) / sizeof( wxString );
-	m_choice_location = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_locationNChoices, m_choice_locationChoices, 0 );
+	wxArrayString m_choice_locationChoices;
+	m_choice_location = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_locationChoices, 0 );
 	m_choice_location->SetSelection( 0 );
 	bSizer67->Add( m_choice_location, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_button_addlocation = new wxButton( m_panel_base, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer67->Add( m_button_addlocation, 0, wxALL, 5 );
 	
 	m_staticText85 = new wxStaticText( m_panel_base, wxID_ANY, _("Owner:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
 	m_staticText85->Wrap( -1 );
 	bSizer67->Add( m_staticText85, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	wxString m_choice_ownerChoices[] = { _("None") };
-	int m_choice_ownerNChoices = sizeof( m_choice_ownerChoices ) / sizeof( wxString );
-	m_choice_owner = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_ownerNChoices, m_choice_ownerChoices, 0 );
+	wxArrayString m_choice_ownerChoices;
+	m_choice_owner = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_ownerChoices, 0 );
 	m_choice_owner->SetSelection( 0 );
 	bSizer67->Add( m_choice_owner, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_button_addvcard = new wxButton( m_panel_base, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer67->Add( m_button_addvcard, 0, wxALL, 5 );
 	
 	bSizer155->Add( bSizer67, 0, wxEXPAND, 5 );
 	
@@ -1855,7 +1871,7 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_staticText98->Wrap( -1 );
 	bSizer170->Add( m_staticText98, 0, wxALL, 5 );
 	
-	m_textCtrl_remark = new wxTextCtrl( m_panel_base, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 530,90 ), 0 );
+	m_textCtrl_remark = new wxTextCtrl( m_panel_base, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 700,90 ), wxTE_MULTILINE );
 	bSizer170->Add( m_textCtrl_remark, 0, wxALL, 5 );
 	
 	bSizer155->Add( bSizer170, 1, wxEXPAND, 5 );
@@ -1966,6 +1982,11 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	m_button_addresourcestatus->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceStatusClick ), NULL, this );
+	m_button_addresourcetype->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceTypeClick ), NULL, this );
+	m_button_addresource->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceClick ), NULL, this );
+	m_button_addlocation->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddLocationClick ), NULL, this );
+	m_button_addvcard->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddVcardClick ), NULL, this );
 	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonCloseClick ), NULL, this );
 }
@@ -1973,6 +1994,11 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 ResourceDeployDialogBase::~ResourceDeployDialogBase()
 {
 	// Disconnect Events
+	m_button_addresourcestatus->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceStatusClick ), NULL, this );
+	m_button_addresourcetype->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceTypeClick ), NULL, this );
+	m_button_addresource->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceClick ), NULL, this );
+	m_button_addlocation->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddLocationClick ), NULL, this );
+	m_button_addvcard->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddVcardClick ), NULL, this );
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonCloseClick ), NULL, this );
 	

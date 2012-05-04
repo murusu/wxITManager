@@ -304,8 +304,20 @@ class ResourceDeployDialog : public ResourceDeployDialogBase
 
 		void EnableDialog(bool flag);
 
+		void OnButtonAddResourceStatusClick( wxCommandEvent& event );
+		void OnButtonAddResourceTypeClick( wxCommandEvent& event );
+		void OnButtonAddResourceClick( wxCommandEvent& event );
+		void OnButtonAddLocationClick( wxCommandEvent& event );
+		void OnButtonAddVcardClick( wxCommandEvent& event );
+
 		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
 		void OnButtonSaveClick( wxCommandEvent& event );
+
+        void RefreshResourceStatusChoice();
+		void RefreshResourceTypeChoice();
+		void RefreshResourceChoice();
+		void RefreshLocationChoice();
+		void RefreshVcardChoice();
 
 		void OnResourceDeployInfoUpdate( wxDatabaseEvent& event);
 };
