@@ -310,6 +310,9 @@ class ResourceDeployDialog : public ResourceDeployDialogBase
 		void OnButtonAddLocationClick( wxCommandEvent& event );
 		void OnButtonAddVcardClick( wxCommandEvent& event );
 
+		void OnButtonAddFeeClick( wxCommandEvent& event );
+		void OnButtonDeleteFeeClick( wxCommandEvent& event );
+
 		void OnButtonCloseClick( wxCommandEvent& event ){Close();};
 		void OnButtonSaveClick( wxCommandEvent& event );
 
@@ -320,6 +323,18 @@ class ResourceDeployDialog : public ResourceDeployDialogBase
 		void RefreshVcardChoice();
 
 		void OnResourceDeployInfoUpdate( wxDatabaseEvent& event);
+};
+
+class ResourceFeeDialog : public ResourceFeeDialogBase
+{
+    private:
+        size_t          m_id;
+
+    public:
+		ResourceFeeDialog( wxWindow* parent, size_t id = NULL_ID );
+
+		void OnButtonSaveClick( wxCommandEvent& event );
+		void OnButtonCloseClick( wxCommandEvent& event );
 };
 
 #endif // WXITMANAGERUI_H_INCLUDED

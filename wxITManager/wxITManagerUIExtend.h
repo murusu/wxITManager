@@ -135,4 +135,38 @@ class ResourceDeployListCtrl : public wxListCtrl
         wxString OnGetItemText(long item, long column) const;
 };
 
+class SubResourceDeployListCtrl : public wxListCtrl
+{
+    public:
+        SubResourceDeployListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        //void OnListChange( wxDatabaseEvent& event);
+        //void OnRefreshList( wxDatabaseEvent& event);
+        //void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class ResourceFeeListCtrl : public wxListCtrl
+{
+    public:
+        ResourceFeeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        //void OnListChange( wxDatabaseEvent& event);
+        //void OnRefreshList( wxDatabaseEvent& event);
+        //void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+class ResourceLogListCtrl : public wxListCtrl
+{
+    public:
+        ResourceLogListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
+
+        //void OnListChange( wxDatabaseEvent& event);
+        //void OnRefreshList( wxDatabaseEvent& event);
+        //void RefreshList();
+        wxString OnGetItemText(long item, long column) const;
+};
+
+
 #endif // WXITMANAGERUIEXTEND_H_INCLUDED

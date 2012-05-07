@@ -14,10 +14,13 @@ class CompanyListCtrl;
 class CompanyTypeListCtrl;
 class LocationListCtrl;
 class ResourceDeployListCtrl;
+class ResourceFeeListCtrl;
 class ResourceFeeTypeListCtrl;
 class ResourceListCtrl;
+class ResourceLogListCtrl;
 class ResourceStatusListCtrl;
 class ResourceTypeListCtrl;
+class SubResourceDeployListCtrl;
 class UserGroupListCtrl;
 class UserListCtrl;
 class VcardGroupListCtrl;
@@ -606,13 +609,13 @@ class ResourceDeployDialogBase : public wxDialog
 		wxButton* m_button_addnewsub;
 		wxButton* m_button_addexitsub;
 		wxButton* m_button_deletesub;
-		wxListCtrl* m_listCtrl_sub;
+		SubResourceDeployListCtrl* m_listCtrl_sub;
 		wxPanel* m_panel_fee;
 		wxButton* m_button_addfee;
 		wxButton* m_button_deletefee;
-		wxListCtrl* m_listCtrl_fee;
+		ResourceFeeListCtrl* m_listCtrl_fee;
 		wxPanel* m_panel_log;
-		wxListCtrl* m_listCtrl_log;
+		ResourceLogListCtrl* m_listCtrl_log;
 		wxStaticText* m_staticTextStatus;
 		wxButton* m_button_save;
 		wxButton* m_button_close;
@@ -623,6 +626,8 @@ class ResourceDeployDialogBase : public wxDialog
 		virtual void OnButtonAddResourceClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonAddLocationClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonAddVcardClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonAddFeeClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonDeleteFeeClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonCloseClick( wxCommandEvent& event ) { event.Skip(); }
 		
@@ -671,10 +676,8 @@ class ResourceFeeDialogBase : public wxDialog
 	protected:
 		wxStaticText* m_staticText_resourcename;
 		wxChoice* m_choice_feetype;
-		
 		wxButton* m_button_addfeetype;
 		wxStaticText* m_staticText25;
-		wxChoice* m_choice_companytype;
 		wxChoice* m_choice_company;
 		wxButton* m_button_addcompany;
 		wxStaticText* m_staticText24;

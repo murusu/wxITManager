@@ -2024,6 +2024,19 @@ ResourceDeployDialog::ResourceDeployDialog(wxWindow* parent, size_t id):Resource
 {
     m_id = id;
 
+    m_listCtrl_sub->InsertColumn(0,_("System Code"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_sub->InsertColumn(1,_("Code"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_sub->InsertColumn(2,_("Resource Type"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_sub->InsertColumn(3,_("Resource Name"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_fee->InsertColumn(0,_("Fee Type"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_fee->InsertColumn(1,_("Company"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_fee->InsertColumn(2,_("Price"),wxLIST_FORMAT_LEFT,200);
+
+    m_listCtrl_log->InsertColumn(0,_("Operation Date"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_log->InsertColumn(1,_("Operater"),wxLIST_FORMAT_LEFT,200);
+    m_listCtrl_log->InsertColumn(2,_("Operation Content"),wxLIST_FORMAT_LEFT,200);
+
     RefreshResourceStatusChoice();
 	RefreshResourceTypeChoice();
 	RefreshResourceChoice();
@@ -2161,9 +2174,26 @@ void ResourceDeployDialog::RefreshVcardChoice()
     VcardInfoArray* vcard_array = ((VcardController *)(wxGetApp().GetController(CONTROLLER_VCARD)))->GetList();
     for(size_t index = 0; index < vcard_array->GetCount(); index++)
     {
-        m_choice_owner->Append(vcard_array->Item(index).m_fullname, &(vcard_array->Item(index).m_id));
+        wxString display_name = wxT("");
+        if(vcard_array->Item(index).m_nickname.Len()) display_name = vcard_array->Item(index).m_fullname + wxT("(") + vcard_array->Item(index).m_nickname + wxT(")");
+        else display_name = display_name = vcard_array->Item(index).m_fullname;
+
+        m_choice_owner->Append(display_name, &(vcard_array->Item(index).m_id));
     }
     m_choice_owner->SetSelection(0);
+}
+
+void ResourceDeployDialog::OnButtonAddFeeClick( wxCommandEvent& event )
+{
+    ResourceFeeDialog *dialog = new ResourceFeeDialog(this, m_id);
+    dialog->ShowModal();
+
+    delete dialog;
+}
+
+void ResourceDeployDialog::OnButtonDeleteFeeClick( wxCommandEvent& event )
+{
+
 }
 
 void ResourceDeployDialog::OnButtonSaveClick( wxCommandEvent& event )
@@ -2232,4 +2262,34 @@ void ResourceDeployDialog::OnResourceDeployInfoUpdate( wxDatabaseEvent& event)
             m_staticTextStatus->SetLabel(_("Fail To Update Resource Deploy Info"));
         }
     }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+ResourceFeeDialog::ResourceFeeDialog(wxWindow* parent, size_t id):ResourceFeeDialogBase(parent)
+{
+    m_id = id;
+
+    /*
+    if(m_id != NULL_ID)
+    {
+        ResourceFeeTypeInfo resourcefeetype_info = ((ResourceFeeTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE)))->GetList()->Item(m_id);
+
+        m_textCtrl_feetype->SetValue(resourcefeetype_info.m_name);
+        m_checkBox_expire->SetValue(resourcefeetype_info.m_haveexpiration);
+    }
+
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeDialog::OnResourceFeeTypeInfoUpdate));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceFeeTypeDialog::OnResourceFeeTypeInfoUpdate));
+    */
+}
+
+void ResourceFeeDialog::OnButtonSaveClick( wxCommandEvent& event )
+{
+
+}
+
+void ResourceFeeDialog::OnButtonCloseClick( wxCommandEvent& event )
+{
+
 }

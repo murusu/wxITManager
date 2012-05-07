@@ -1812,9 +1812,8 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_staticText29->Wrap( -1 );
 	bSizer66->Add( m_staticText29, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	wxString m_choice_resourcetypeChoices[] = { _("All") };
-	int m_choice_resourcetypeNChoices = sizeof( m_choice_resourcetypeChoices ) / sizeof( wxString );
-	m_choice_resourcetype = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_resourcetypeNChoices, m_choice_resourcetypeChoices, 0 );
+	wxArrayString m_choice_resourcetypeChoices;
+	m_choice_resourcetype = new wxChoice( m_panel_base, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_resourcetypeChoices, 0 );
 	m_choice_resourcetype->SetSelection( 0 );
 	bSizer66->Add( m_choice_resourcetype, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
@@ -1901,7 +1900,7 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	wxBoxSizer* bSizer159;
 	bSizer159 = new wxBoxSizer( wxVERTICAL );
 	
-	m_listCtrl_sub = new wxListCtrl( m_panel_sub, wxID_ANY, wxDefaultPosition, wxSize( 530,190 ), wxLC_HRULES|wxLC_REPORT|wxLC_VRULES );
+	m_listCtrl_sub = new SubResourceDeployListCtrl( m_panel_sub, wxID_ANY, wxDefaultPosition, wxSize( 700,210 ), wxLC_HRULES|wxLC_REPORT|wxLC_VRULES );
 	bSizer159->Add( m_listCtrl_sub, 0, wxALL, 5 );
 	
 	bSizer157->Add( bSizer159, 0, wxEXPAND, 5 );
@@ -1928,7 +1927,7 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	wxBoxSizer* bSizer1591;
 	bSizer1591 = new wxBoxSizer( wxVERTICAL );
 	
-	m_listCtrl_fee = new wxListCtrl( m_panel_fee, wxID_ANY, wxDefaultPosition, wxSize( 530,190 ), wxLC_HRULES|wxLC_REPORT|wxLC_VRULES );
+	m_listCtrl_fee = new ResourceFeeListCtrl( m_panel_fee, wxID_ANY, wxDefaultPosition, wxSize( 700,210 ), wxLC_HRULES|wxLC_REPORT|wxLC_VRULES );
 	bSizer1591->Add( m_listCtrl_fee, 0, wxALL, 5 );
 	
 	bSizer1571->Add( bSizer1591, 0, wxEXPAND, 5 );
@@ -1941,7 +1940,7 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	wxBoxSizer* bSizer168;
 	bSizer168 = new wxBoxSizer( wxVERTICAL );
 	
-	m_listCtrl_log = new wxListCtrl( m_panel_log, wxID_ANY, wxDefaultPosition, wxSize( 530,220 ), wxLC_HRULES|wxLC_REPORT|wxLC_VRULES );
+	m_listCtrl_log = new ResourceLogListCtrl( m_panel_log, wxID_ANY, wxDefaultPosition, wxSize( 700,250 ), wxLC_HRULES|wxLC_REPORT|wxLC_VRULES );
 	bSizer168->Add( m_listCtrl_log, 0, wxALL, 5 );
 	
 	m_panel_log->SetSizer( bSizer168 );
@@ -1987,6 +1986,8 @@ ResourceDeployDialogBase::ResourceDeployDialogBase( wxWindow* parent, wxWindowID
 	m_button_addresource->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceClick ), NULL, this );
 	m_button_addlocation->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddLocationClick ), NULL, this );
 	m_button_addvcard->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddVcardClick ), NULL, this );
+	m_button_addfee->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddFeeClick ), NULL, this );
+	m_button_deletefee->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonDeleteFeeClick ), NULL, this );
 	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonCloseClick ), NULL, this );
 }
@@ -1999,6 +2000,8 @@ ResourceDeployDialogBase::~ResourceDeployDialogBase()
 	m_button_addresource->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddResourceClick ), NULL, this );
 	m_button_addlocation->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddLocationClick ), NULL, this );
 	m_button_addvcard->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddVcardClick ), NULL, this );
+	m_button_addfee->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonAddFeeClick ), NULL, this );
+	m_button_deletefee->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonDeleteFeeClick ), NULL, this );
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceDeployDialogBase::OnButtonCloseClick ), NULL, this );
 	
@@ -2093,9 +2096,6 @@ ResourceFeeDialogBase::ResourceFeeDialogBase( wxWindow* parent, wxWindowID id, c
 	m_choice_feetype->SetSelection( 0 );
 	bSizer54->Add( m_choice_feetype, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	
-	bSizer54->Add( 0, 0, 0, wxLEFT, 160 );
-	
 	m_button_addfeetype = new wxButton( this, wxID_ANY, _("Add"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer54->Add( m_button_addfeetype, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
@@ -2107,12 +2107,6 @@ ResourceFeeDialogBase::ResourceFeeDialogBase( wxWindow* parent, wxWindowID id, c
 	m_staticText25 = new wxStaticText( this, wxID_ANY, _("Company:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
 	m_staticText25->Wrap( -1 );
 	bSizer56->Add( m_staticText25, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-	
-	wxString m_choice_companytypeChoices[] = { _("All") };
-	int m_choice_companytypeNChoices = sizeof( m_choice_companytypeChoices ) / sizeof( wxString );
-	m_choice_companytype = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_companytypeNChoices, m_choice_companytypeChoices, 0 );
-	m_choice_companytype->SetSelection( 0 );
-	bSizer56->Add( m_choice_companytype, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	wxArrayString m_choice_companyChoices;
 	m_choice_company = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_companyChoices, 0 );

@@ -608,3 +608,81 @@ wxString ResourceDeployListCtrl::OnGetItemText(long item, long column) const
 
     return ItemText;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+SubResourceDeployListCtrl::SubResourceDeployListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    //this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceDeployListCtrl::OnRefreshList));
+    //this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    //this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    //this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+}
+
+wxString SubResourceDeployListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+/*
+    ResourceDeployInfoArray* list = ((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_systemcode;
+            break;
+    }
+*/
+    return ItemText;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceFeeListCtrl::ResourceFeeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    //this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceDeployListCtrl::OnRefreshList));
+    //this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    //this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    //this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+}
+
+wxString ResourceFeeListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+/*
+    ResourceDeployInfoArray* list = ((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_systemcode;
+            break;
+    }
+*/
+    return ItemText;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+ResourceLogListCtrl::ResourceLogListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style):wxListCtrl(parent, id, pos, size, style)
+{
+    //this->Connect(wxEVT_DATABASE_GETRESOURCEFEETYPELIST, wxDatabaseEventHandler(ResourceDeployListCtrl::OnRefreshList));
+    //this->Connect(wxEVT_DATABASE_DELETERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    //this->Connect(wxEVT_DATABASE_ADDRESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+    //this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEETYPE, wxDatabaseEventHandler(ResourceDeployListCtrl::OnListChange));
+}
+
+wxString ResourceLogListCtrl::OnGetItemText(long item, long column) const
+{
+    wxString ItemText = wxT("");
+/*
+    ResourceDeployInfoArray* list = ((ResourceDeployController *)(wxGetApp().GetController(CONTROLLER_RESOURCEDEPLOY)))->GetList();
+
+    switch(column)
+    {
+        case 0:
+            ItemText = list->Item(item).m_systemcode;
+            break;
+    }
+*/
+    return ItemText;
+}
