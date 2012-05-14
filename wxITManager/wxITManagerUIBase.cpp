@@ -2192,6 +2192,8 @@ ResourceFeeDialogBase::ResourceFeeDialogBase( wxWindow* parent, wxWindowID id, c
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	m_button_addfeetype->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonAddFeeTypeClick ), NULL, this );
+	m_button_addcompany->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonAddCompanyClick ), NULL, this );
 	m_button_save->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonCloseClick ), NULL, this );
 }
@@ -2199,6 +2201,8 @@ ResourceFeeDialogBase::ResourceFeeDialogBase( wxWindow* parent, wxWindowID id, c
 ResourceFeeDialogBase::~ResourceFeeDialogBase()
 {
 	// Disconnect Events
+	m_button_addfeetype->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonAddFeeTypeClick ), NULL, this );
+	m_button_addcompany->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonAddCompanyClick ), NULL, this );
 	m_button_save->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonSaveClick ), NULL, this );
 	m_button_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ResourceFeeDialogBase::OnButtonCloseClick ), NULL, this );
 	

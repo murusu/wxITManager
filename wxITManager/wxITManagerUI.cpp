@@ -2270,6 +2270,9 @@ ResourceFeeDialog::ResourceFeeDialog(wxWindow* parent, size_t id):ResourceFeeDia
 {
     m_id = id;
 
+    RefreshFeeTypeChoice();
+    RefreshCompanyChoice();
+
     /*
     if(m_id != NULL_ID)
     {
@@ -2284,6 +2287,46 @@ ResourceFeeDialog::ResourceFeeDialog(wxWindow* parent, size_t id):ResourceFeeDia
     */
 }
 
+void ResourceFeeDialog::OnButtonAddFeeTypeClick( wxCommandEvent& event )
+{
+    ResourceFeeTypeDialog *dialog = new ResourceFeeTypeDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+}
+
+void ResourceFeeDialog::OnButtonAddCompanyClick( wxCommandEvent& event )
+{
+    CompanyDialog *dialog = new CompanyDialog(this);
+    dialog->ShowModal();
+
+    delete dialog;
+}
+
+void ResourceFeeDialog::RefreshFeeTypeChoice()
+{
+    m_choice_feetype->Clear();
+
+    ResourceFeeTypeInfoArray* feetype_array = ((ResourceFeeTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCEFEETYPE)))->GetList();
+    for(size_t index = 0; index < feetype_array->GetCount(); index++)
+    {
+        m_choice_feetype->Append(feetype_array->Item(index).m_name, &(feetype_array->Item(index).m_id));
+    }
+    m_choice_feetype->SetSelection(0);
+}
+
+void ResourceFeeDialog::RefreshCompanyChoice()
+{
+    m_choice_company->Clear();
+
+    CompanyInfoArray* company_array = ((CompanyController *)(wxGetApp().GetController(CONTROLLER_COMPANY)))->GetList();
+    for(size_t index = 0; index < company_array->GetCount(); index++)
+    {
+        m_choice_company->Append(company_array->Item(index).m_name, &(company_array->Item(index).m_id));
+    }
+    m_choice_company->SetSelection(0);
+}
+
 void ResourceFeeDialog::OnButtonSaveClick( wxCommandEvent& event )
 {
 
@@ -2291,5 +2334,5 @@ void ResourceFeeDialog::OnButtonSaveClick( wxCommandEvent& event )
 
 void ResourceFeeDialog::OnButtonCloseClick( wxCommandEvent& event )
 {
-
+    Close();
 }

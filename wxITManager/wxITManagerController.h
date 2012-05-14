@@ -256,4 +256,36 @@ class ResourceDeployController : public Controller
         ResourceDeployInfoArray* GetList() {return m_resourcedeploylist;};
 };
 
+class ResourceFeeController : public Controller
+{
+    private:
+        ResourceFeeInfoArray *m_resourcefeelist;
+
+    public:
+        ResourceFeeController();
+        ~ResourceFeeController();
+
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_resourcefeelist->GetCount();};
+        ResourceFeeInfoArray* GetList() {return m_resourcefeelist;};
+};
+
+class ResourceLogController : public Controller
+{
+    private:
+        ResourceLogInfoArray *m_resourceloglist;
+
+    public:
+        ResourceLogController();
+        ~ResourceLogController();
+
+        void OnDatabaseRequest(wxDatabaseEvent& event);
+        void OnDatabaseResponse(wxDatabaseEvent& event);
+
+        size_t getItemNumber() {return m_resourceloglist->GetCount();};
+        ResourceLogInfoArray* GetList() {return m_resourceloglist;};
+};
+
 #endif // WXITMANAGERCONTROLLER_H_INCLUDED

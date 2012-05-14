@@ -66,6 +66,16 @@ DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEDEPLOY)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEDEPLOY)
 DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEDEPLOY)
 
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCEFEELIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEFEE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEFEE)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEFEE)
+
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCELOGLIST)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCELOG)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCELOG)
+DEFINE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCELOG)
+
 
 IMPLEMENT_DYNAMIC_CLASS(wxDatabaseEvent, wxNotifyEvent)
 
@@ -1526,6 +1536,274 @@ void ResourceDeployController::OnDatabaseResponse(wxDatabaseEvent& event)
                 wxAtoi(result_data[i][11].AsString()),
                 result_data[i][12].AsString(),
                 result_data[i][13].AsString()
+            ));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+ResourceFeeController::ResourceFeeController()
+{
+    m_resourcefeelist = new ResourceFeeInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCEFEELIST, wxDatabaseEventHandler(ResourceFeeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCEFEE, wxDatabaseEventHandler(ResourceFeeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCEFEE, wxDatabaseEventHandler(ResourceFeeController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCEFEE, wxDatabaseEventHandler(ResourceFeeController::OnDatabaseEvent));
+}
+
+ResourceFeeController::~ResourceFeeController()
+{
+    m_resourcefeelist->Clear();
+
+    if(m_resourcefeelist) delete m_resourcefeelist;
+}
+
+void ResourceFeeController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETRESOURCEFEELIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT a.id, a.resourcefeetype_id, b.name as resourcefeetype_name, a.company_id, c.name as company_name, a.serial_number, a.price, a.purchase_date, a.expiration_date  FROM 'resource_fee' a JOIN 'resource_feetype' b ON a.resourcefeetype_id = b.id JOIN 'company' c ON a.company_id = c.id  WHERE a.valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDRESOURCEFEE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'resource_fee' ('resourcedeploy_id', 'resourcefeetype_id', 'company_id', 'serial_number', 'price', 'purchase_date', 'expiration_date') VALUES (");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[2].AsString();
+        sql_str += wxT(",'");
+        sql_str += request_data[3].AsString();
+        sql_str += wxT("',");
+        sql_str += request_data[4].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[5].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[6].AsString();
+        //sql_str += request_data[1].AsString();
+        sql_str += wxT(")");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETERESOURCEFEE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'resource_fee' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCEFEE)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'resource_fee' SET resourcefeetype_id = ");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT(", company_id = ");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT(", serial_number = '");
+        sql_str += request_data[2].AsString();
+        sql_str += wxT("', price = ");
+        sql_str += request_data[3].AsString();
+        sql_str += wxT(", purchase_date = ");
+        sql_str += request_data[4].AsString();
+        sql_str += wxT(", expiration_date = ");
+        sql_str += request_data[5].AsString();
+
+        sql_str += wxT(" WHERE id = ");
+        sql_str += request_data[6].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void ResourceFeeController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCEFEELIST)
+    {
+        m_resourcefeelist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_resourcefeelist->Add(ResourceFeeInfo(
+                wxAtoi(result_data[i][0].AsString()),
+                wxAtoi(result_data[i][1].AsString()),
+                result_data[i][2].AsString(),
+                wxAtoi(result_data[i][3].AsString()),
+                result_data[i][4].AsString(),
+                wxAtof(result_data[i][5].AsString()),
+                wxAtoi(result_data[i][6].AsString()),
+                wxAtoi(result_data[i][7].AsString())
+            ));
+        }
+    }
+
+    wxDatabaseEvent controller_event(event.GetEventType());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetErrorString(event.GetErrorString());
+    controller_event.SetResultRow(event.GetResultRow());
+    controller_event.SetJsonData(event.GetJsonData());
+    ((wxEvtHandler *)event.GetEventObject())->AddPendingEvent(controller_event);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+ResourceLogController::ResourceLogController()
+{
+    m_resourceloglist = new ResourceLogInfoArray();
+
+    this->Connect(wxEVT_DATABASE_GETRESOURCELOGLIST, wxDatabaseEventHandler(ResourceLogController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_ADDRESOURCELOG, wxDatabaseEventHandler(ResourceLogController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_DELETERESOURCELOG, wxDatabaseEventHandler(ResourceLogController::OnDatabaseEvent));
+    this->Connect(wxEVT_DATABASE_UPDATERESOURCELOG, wxDatabaseEventHandler(ResourceLogController::OnDatabaseEvent));
+}
+
+ResourceLogController::~ResourceLogController()
+{
+    m_resourceloglist->Clear();
+
+    if(m_resourceloglist) delete m_resourceloglist;
+}
+
+void ResourceLogController::OnDatabaseRequest(wxDatabaseEvent& event)
+{
+    wxEventType event_type = event.GetEventType();
+
+    wxDatabaseEvent controller_event;
+    controller_event.SetEventType(event_type);
+
+    if(event_type == wxEVT_DATABASE_GETRESOURCELOGLIST)
+    {
+        controller_event.SetSqlString(wxT("SELECT a.id, a.resourcedeploy_id, b.system_code as resourcedeploy_systemcode, a.operater_id, c.fullname as operater_name, a.operation_type, a.operation_content, a.operation_date FROM 'resource_log' a JOIN 'resource_deploy' b ON a.resourcedeploy_id = b.id JOIN 'vcard' c ON a.operater_id = c.id  WHERE a.valid = 1;"));
+        controller_event.SetSqlType(SQLTYPE_QUERY);
+    }
+
+    if(event_type == wxEVT_DATABASE_ADDRESOURCELOG)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("INSERT INTO 'resource_log' ('resourcedeploy_id', 'resourcelogtype_id', 'company_id', 'serial_number', 'price', 'purchase_date', 'expiration_date') VALUES (");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[2].AsString();
+        sql_str += wxT(",'");
+        sql_str += request_data[3].AsString();
+        sql_str += wxT("',");
+        sql_str += request_data[4].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[5].AsString();
+        sql_str += wxT(",");
+        sql_str += request_data[6].AsString();
+        //sql_str += request_data[1].AsString();
+        sql_str += wxT(")");
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_DELETERESOURCELOG)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        for ( int i = 0; i < request_data.Size(); i++ )
+        {
+            sql_str += wxT("UPDATE 'resource_log' SET 'valid' = 0 WHERE id = ");
+            sql_str += request_data[i].AsString();
+            sql_str += wxT(";");
+        }
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    if(event_type == wxEVT_DATABASE_UPDATERESOURCELOG)
+    {
+        wxString sql_str = wxT("");
+        wxJSONValue request_data = event.GetJsonData();
+
+        sql_str += wxT("UPDATE 'resource_log' SET resourcelogtype_id = ");
+        sql_str += request_data[0].AsString();
+        sql_str += wxT(", company_id = ");
+        sql_str += request_data[1].AsString();
+        sql_str += wxT(", serial_number = '");
+        sql_str += request_data[2].AsString();
+        sql_str += wxT("', price = ");
+        sql_str += request_data[3].AsString();
+        sql_str += wxT(", purchase_date = ");
+        sql_str += request_data[4].AsString();
+        sql_str += wxT(", expiration_date = ");
+        sql_str += request_data[5].AsString();
+
+        sql_str += wxT(" WHERE id = ");
+        sql_str += request_data[6].AsString();
+
+        controller_event.SetSqlString(sql_str);
+        controller_event.SetSqlType(SQLTYPE_UPDATE);
+    }
+
+    controller_event.SetEventObject(event.GetEventObject());
+    controller_event.SetStatus(event.GetStatus());
+    controller_event.SetId(event.GetId());
+    (wxGetApp().GetDatabase())->AddPendingEvent(controller_event);
+}
+
+void ResourceLogController::OnDatabaseResponse(wxDatabaseEvent& event)
+{
+    if(event.GetEventType() == wxEVT_DATABASE_GETRESOURCELOGLIST)
+    {
+        m_resourceloglist->Clear();
+
+        wxJSONValue result_data = event.GetJsonData();
+        for ( int i = 0; i < result_data.Size(); i++ )
+        {
+            m_resourceloglist->Add(ResourceLogInfo(
+                wxAtoi(result_data[i][0].AsString()),
+                wxAtoi(result_data[i][1].AsString()),
+                result_data[i][2].AsString(),
+                wxAtoi(result_data[i][3].AsString()),
+                result_data[i][4].AsString(),
+                wxAtoi(result_data[i][8].AsString())
             ));
         }
     }

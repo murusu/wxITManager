@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="sqlite/sqlite.cbp" active="1" />
+		<Project filename="sqlite/sqlite.cbp" />
 		<Project filename="wxsqlite/wxsqlite.cbp" />
-		<Project filename="wxITManager/wxITManager.cbp" />
+		<Project filename="wxITManager/wxITManager.cbp" active="1" />
 		<Project filename="wxjson/wxjson.cbp" />
 		<Project filename="cryptopp/cryptlib.cbp" />
 		<Project filename="test/test.cbp" />

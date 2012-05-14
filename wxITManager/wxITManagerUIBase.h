@@ -693,6 +693,8 @@ class ResourceFeeDialogBase : public wxDialog
 		wxButton* m_button_close;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnButtonAddFeeTypeClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnButtonAddCompanyClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonSaveClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnButtonCloseClick( wxCommandEvent& event ) { event.Skip(); }
 		

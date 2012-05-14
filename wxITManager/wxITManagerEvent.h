@@ -114,6 +114,16 @@ BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEDEPLOY, 155)
     DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEDEPLOY, 156)
 
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCEFEELIST, 157)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCEFEE, 158)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCEFEE, 159)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCEFEE, 160)
+
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_GETRESOURCELOGLIST, 161)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_ADDRESOURCELOG, 162)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_DELETERESOURCELOG, 163)
+    DECLARE_EVENT_TYPE(wxEVT_DATABASE_UPDATERESOURCELOG, 164)
+
 END_DECLARE_EVENT_TYPES()
 #define EVT_DATABASE_CREATEDATABSE(fn) DECLARE_EVENT_TABLE_ENTRY( \
     wxEVT_DATABASE_CREATEDATABSE, 0, -1, (wxObjectEventFunction) \
@@ -325,6 +335,40 @@ END_DECLARE_EVENT_TYPES()
     (wxObject *) NULL ),
 #define EVT_DATABASE_UPDATERESOURCEDEPLOY(fn) DECLARE_EVENT_TABLE_ENTRY( \
     wxEVT_DATABASE_UPDATERESOURCEDEPLOY, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+
+#define EVT_DATABASE_GETRESOURCEFEELIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETRESOURCEFEELIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDRESOURCEFEE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDRESOURCEFEE, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETERESOURCEFEE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETERESOURCEFEE, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATERESOURCEFEE(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATERESOURCEFEE, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+
+#define EVT_DATABASE_GETRESOURCELOGLIST(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_GETRESOURCELOGLIST, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_ADDRESOURCELOG(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_ADDRESOURCELOG, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_DELETERESOURCELOG(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_DELETERESOURCELOG, 0, -1, (wxObjectEventFunction) \
+    (wxEventFunction) (wxDatabaseEventFunction) & fn, \
+    (wxObject *) NULL ),
+#define EVT_DATABASE_UPDATERESOURCELOG(fn) DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_DATABASE_UPDATERESOURCELOG, 0, -1, (wxObjectEventFunction) \
     (wxEventFunction) (wxDatabaseEventFunction) & fn, \
     (wxObject *) NULL ),
 

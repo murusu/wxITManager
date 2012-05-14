@@ -143,9 +143,9 @@ wxString DatabaseSqlite::GetDBTableInitStr()
     init_sql += wxT("CREATE TABLE `resource_type` (id INTEGER PRIMARY KEY, name VARCHAR, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_status` (id INTEGER PRIMARY KEY, name VARCHAR, available BOOL DEFAULT 1, valid BOOL DEFAULT 1);");
     init_sql += wxT("CREATE TABLE `resource_feetype` (id INTEGER PRIMARY KEY, name VARCHAR, have_expiration BOOL DEFAULT 0, valid BOOL DEFAULT 1);");
-    init_sql += wxT("CREATE TABLE `resource_deploy` (id INTEGER PRIMARY KEY, system_code VARCHAR, code VARCHAR, resource_id INTEGER, resourcestatus_id INTEGER, location_id INTEGER, vcard_id INTEGER, parentdeploy_id INTEGER, remark VARCHAR, valid INTEGER);");
-    init_sql += wxT("CREATE TABLE `resource_fee` (id INTEGER PRIMARY KEY, resourcedeploy_id INTEGER, resourcefeetype_id INTEGER, company_id INTEGER, serial_number VARCHAR, price FLOAT, purchase_date DATETIME, expiration_date DATETIME, valid BOOL);");
-    init_sql += wxT("CREATE TABLE `resource_log` (id INTEGER PRIMARY KEY, resourcedeploy_id INTEGER, operater_id INTEGER, operation_type INTEGER, operation_content VARCHAR, operation_date DATETIME, valid BOOL);");
+    init_sql += wxT("CREATE TABLE `resource_deploy` (id INTEGER PRIMARY KEY, system_code VARCHAR, code VARCHAR, resource_id INTEGER, resourcestatus_id INTEGER, location_id INTEGER, vcard_id INTEGER, parentdeploy_id INTEGER, remark VARCHAR, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `resource_fee` (id INTEGER PRIMARY KEY, resourcedeploy_id INTEGER, resourcefeetype_id INTEGER, company_id INTEGER, serial_number VARCHAR, price FLOAT, purchase_date DATETIME, expiration_date DATETIME, valid BOOL DEFAULT 1);");
+    init_sql += wxT("CREATE TABLE `resource_log` (id INTEGER PRIMARY KEY, resourcedeploy_id INTEGER, operater_id INTEGER, operation_type INTEGER, operation_content VARCHAR, operation_date DATETIME, valid BOOL DEFAULT 1);");
 
     init_sql += wxT("INSERT INTO 'user' ('name','password','group_id') VALUES ('admin','admin',1);");
     init_sql += wxT("INSERT INTO 'user_group' ('name') VALUES ('administrator');");

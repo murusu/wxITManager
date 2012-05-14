@@ -330,8 +330,15 @@ class ResourceFeeDialog : public ResourceFeeDialogBase
     private:
         size_t          m_id;
 
+    protected:
+        void OnButtonAddFeeTypeClick( wxCommandEvent& event );
+		void OnButtonAddCompanyClick( wxCommandEvent& event );
+
     public:
 		ResourceFeeDialog( wxWindow* parent, size_t id = NULL_ID );
+
+        void RefreshFeeTypeChoice();
+		void RefreshCompanyChoice();
 
 		void OnButtonSaveClick( wxCommandEvent& event );
 		void OnButtonCloseClick( wxCommandEvent& event );

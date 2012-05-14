@@ -20,6 +20,8 @@ class ResourceStatusInfo;
 class ResourceFeeTypeInfo;
 
 class ResourceDeployInfo;
+class ResourceFeeInfo;
+class ResourceLogInfo;
 
 WX_DECLARE_OBJARRAY(UserInfo, UserInfoArray);
 WX_DECLARE_OBJARRAY(UserGroupInfo, UserGroupInfoArray);
@@ -36,6 +38,8 @@ WX_DECLARE_OBJARRAY(ResourceStatusInfo, ResourceStatusInfoArray);
 WX_DECLARE_OBJARRAY(ResourceFeeTypeInfo, ResourceFeeTypeInfoArray);
 
 WX_DECLARE_OBJARRAY(ResourceDeployInfo, ResourceDeployInfoArray);
+WX_DECLARE_OBJARRAY(ResourceFeeInfo, ResourceFeeInfoArray);
+WX_DECLARE_OBJARRAY(ResourceLogInfo, ResourceLogInfoArray);
 
 class UserInfo
 {
@@ -187,6 +191,52 @@ class ResourceDeployInfo
             m_parentsystemcode = resourcedeploy_parentsystemcode;
             m_remark = resourcedeploy_remark;
         };
+};
+
+class ResourceFeeInfo
+{
+    public:
+        size_t          m_id;
+        size_t          m_resourcefeetypeid;
+        wxString        m_resourcefeetypename;
+        size_t          m_companyid;
+        wxString        m_companyname;
+        float           m_price;
+        time_t          m_purchasedate;
+        time_t          m_expirationdate;
+
+        ResourceFeeInfo(size_t resourcefee_id, size_t resourcefee_feetypeid, const wxString& resourcefee_feetypename, size_t resourcefee_companyid, const wxString& resourcefee_companyname, float resourcefee_price, time_t resourcefee_purchasedate, time_t resourcefee_expirationdate)
+        {
+            m_id = resourcefee_id;
+            m_resourcefeetypeid = resourcefee_feetypeid;
+            m_resourcefeetypename = resourcefee_feetypename;
+            m_companyid = resourcefee_companyid;
+            m_companyname = resourcefee_companyname;
+            m_price = resourcefee_price;
+            m_purchasedate = resourcefee_purchasedate;
+            m_expirationdate = resourcefee_expirationdate;
+        }
+};
+
+class ResourceLogInfo
+{
+    public:
+        size_t          m_id;
+        size_t          m_userid;
+        wxString        m_username;
+        size_t          m_operationtype;
+        wxString        m_operationcontent;
+        time_t          m_operationdate;
+
+        ResourceLogInfo(size_t resourcelog_id, size_t resourcelog_userid, const wxString& resourcelog_username, size_t resourcelog_operationtype, const wxString& resourcelog_operationcontent, time_t resourcelog_operationdate)
+        {
+            m_id = resourcelog_id;
+            m_userid = resourcelog_userid;
+            m_username = resourcelog_username;
+            m_operationtype = resourcelog_operationtype;
+            m_operationcontent = resourcelog_operationcontent;
+            m_operationdate = resourcelog_operationdate;
+        }
 };
 
 #endif // WXITMANAGERDATALIST_H_INCLUDED
