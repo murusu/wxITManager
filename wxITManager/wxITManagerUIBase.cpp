@@ -535,7 +535,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	int m_choice_serachtypeNChoices = sizeof( m_choice_serachtypeChoices ) / sizeof( wxString );
 	m_choice_serachtype = new wxChoice( m_panel_deploymanagementbutton, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), m_choice_serachtypeNChoices, m_choice_serachtypeChoices, 0 );
 	m_choice_serachtype->SetSelection( 0 );
-	bSizer146->Add( m_choice_serachtype, 1, wxALL, 5 );
+	bSizer146->Add( m_choice_serachtype, 1, wxALIGN_CENTER|wxALL, 5 );
 	
 	bSizer144->Add( bSizer146, 0, wxEXPAND, 5 );
 	
@@ -547,14 +547,14 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_choice_serachparam->SetSelection( 0 );
 	m_choice_serachparam->Hide();
 	
-	bSizer148->Add( m_choice_serachparam, 1, wxALL, 5 );
+	bSizer148->Add( m_choice_serachparam, 1, wxALIGN_CENTER|wxALL, 5 );
 	
 	m_textCtrl_searchparam = new wxTextCtrl( m_panel_deploymanagementbutton, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
 	m_textCtrl_searchparam->Hide();
 	
-	bSizer148->Add( m_textCtrl_searchparam, 1, wxALL, 5 );
+	bSizer148->Add( m_textCtrl_searchparam, 1, wxALIGN_CENTER|wxALL, 5 );
 	
-	bSizer144->Add( bSizer148, 1, wxEXPAND, 5 );
+	bSizer144->Add( bSizer148, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer1471;
 	bSizer1471 = new wxBoxSizer( wxHORIZONTAL );
@@ -571,7 +571,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	m_button_deploydelete = new wxButton( m_panel_deploymanagementbutton, wxID_ANY, _("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer1471->Add( m_button_deploydelete, 0, wxALL, 5 );
 	
-	bSizer144->Add( bSizer1471, 2, wxEXPAND, 5 );
+	bSizer144->Add( bSizer1471, 0, wxEXPAND, 5 );
 	
 	m_panel_deploymanagementbutton->SetSizer( bSizer144 );
 	m_panel_deploymanagementbutton->Layout();

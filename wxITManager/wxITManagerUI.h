@@ -6,6 +6,9 @@
 class DatabaseConfigDialog;
 class SqliteCreateDialog;
 
+class ResourceFeeController;
+class ResourceLogController;
+
 //////////////////////////////////////////////////////////////////////////////////////
 
 class LoginFrame : public LoginFrameBase
@@ -297,10 +300,14 @@ class ResourceFeeTypeDialog : public ResourceFeeTypeDialogBase
 class ResourceDeployDialog : public ResourceDeployDialogBase
 {
     private:
-        size_t          m_id;
+        size_t                  m_id;
+        ResourceFeeController   *m_resourcefeecontroller;
+        ResourceLogController   *m_resourcelogcontroller;
 
 	public:
 		ResourceDeployDialog(wxWindow* parent, size_t id = NULL_ID);
+
+		wxEvtHandler* GetController(size_t controller_id);
 
 		void EnableDialog(bool flag);
 

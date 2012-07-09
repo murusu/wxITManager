@@ -527,28 +527,71 @@ void MainFrame::OnMenuSettingSelect( wxCommandEvent& event )
 
 void MainFrame::OnChoiceDeploySearchType( wxCommandEvent& event )
 {
+    m_choice_serachparam->Show(false);
+    m_textCtrl_searchparam->Show(false);
+
+    m_choice_serachparam->Clear();
+
+    ResourceTypeInfoArray* resourcetype_array       = NULL;
+    LocationInfoArray* location_array               = NULL;
+    VcardInfoArray* vcard_array                     = NULL;
+    ResourceStatusInfoArray* resourcestatus_array   = NULL;
+
     switch(m_choice_serachtype->GetCurrentSelection())
     {
         case 0:
-            m_choice_serachparam->Show(false);
-            m_textCtrl_searchparam->Show(false);
             break;
 
         case 1:
         case 2:
         case 3:
-            m_choice_serachparam->Show(false);
             m_textCtrl_searchparam->Show(true);
             break;
 
         case 4:
+            m_choice_serachparam->Show(true);
+            resourcetype_array = ((ResourceTypeController *)(wxGetApp().GetController(CONTROLLER_RESOURCETYPE)))->GetList();
+            for(size_t index = 0; index < resourcetype_array->GetCount(); index++)
+            {
+                m_choice_serachparam->Append(resourcetype_array->Item(index).m_name, &(resourcetype_array->Item(index).m_id));
+            }
+            break;
+
         case 5:
+            m_choice_serachparam->Show(true);
+            location_array = ((LocationController *)(wxGetApp().GetController(CONTROLLER_LOCATION)))->GetList();
+            for(size_t index = 0; index < location_array->GetCount(); index++)
+            {
+                m_choice_serachparam->Append(location_array->Item(index).m_name, &(location_array->Item(index).m_id));
+            }
+            break;
+
         case 6:
+            m_choice_serachparam->Show(true);
+            vcard_array = ((VcardController *)(wxGetApp().GetController(CONTROLLER_VCARD)))->GetList();
+            for(size_t index = 0; index < vcard_array->GetCount(); index++)
+            {
+                wxString display_name = wxT("");
+                if(vcard_array->Item(index).m_nickname.Len()) display_name = vcard_array->Item(index).m_fullname + wxT("(") + vcard_array->Item(index).m_nickname + wxT(")");
+                else display_name = vcard_array->Item(index).m_fullname;
+
+                m_choice_serachparam->Append(display_name, &(vcard_array->Item(index).m_id));
+            }
+            break;
+
         case 7:
             m_choice_serachparam->Show(true);
-            m_textCtrl_searchparam->Show(false);
+            resourcestatus_array = ((ResourceStatusController *)(wxGetApp().GetController(CONTROLLER_RESOURCESTATUS)))->GetList();
+            for(size_t index = 0; index < resourcestatus_array->GetCount(); index++)
+            {
+                m_choice_serachparam->Append(resourcestatus_array->Item(index).m_name, &(resourcestatus_array->Item(index).m_id));
+            }
             break;
     }
+
+    m_choice_serachparam->SetSelection(0);
+
+    m_panel_deploymanagementbutton->GetSizer()->Layout();
 }
 
 void MainFrame::OnButtonDeploySearch( wxCommandEvent& event )
@@ -877,7 +920,7 @@ void MainFrame::OnListSizeChange( wxSizeEvent& event )
 void MainFrame::DoListSize()
 {
     m_panel_deploy->SetSize(this->GetSizer()->GetSize());
-     m_panel_setting->SetSize(this->GetSizer()->GetSize());
+    m_panel_setting->SetSize(this->GetSizer()->GetSize());
 
     wxSize size = GetClientSize();
 
@@ -2023,6 +2066,8 @@ void ResourceFeeTypeDialog::OnResourceFeeTypeInfoUpdate( wxDatabaseEvent& event)
 ResourceDeployDialog::ResourceDeployDialog(wxWindow* parent, size_t id):ResourceDeployDialogBase(parent)
 {
     m_id = id;
+    m_resourcefeecontroller = NULL;
+    m_resourcelogcontroller = NULL;
 
     m_listCtrl_sub->InsertColumn(0,_("System Code"),wxLIST_FORMAT_LEFT,200);
     m_listCtrl_sub->InsertColumn(1,_("Code"),wxLIST_FORMAT_LEFT,200);
@@ -2053,6 +2098,26 @@ ResourceDeployDialog::ResourceDeployDialog(wxWindow* parent, size_t id):Resource
 
     this->Connect(wxEVT_DATABASE_ADDRESOURCEDEPLOY, wxDatabaseEventHandler(ResourceDeployDialog::OnResourceDeployInfoUpdate));
     this->Connect(wxEVT_DATABASE_UPDATERESOURCEDEPLOY, wxDatabaseEventHandler(ResourceDeployDialog::OnResourceDeployInfoUpdate));
+}
+
+wxEvtHandler* ResourceDeployDialog::GetController(size_t controller_id)
+{
+    wxEvtHandler* handler = NULL;
+
+    switch(controller_id)
+    {
+        case CONTROLLER_RESOURCEFEE:
+            if(!m_resourcefeecontroller) m_resourcefeecontroller = new ResourceFeeController();
+            handler = m_resourcefeecontroller;
+            break;
+
+        case CONTROLLER_RESOURCELOG:
+            if(!m_resourcelogcontroller) m_resourcelogcontroller = new ResourceLogController();
+            handler = m_resourcelogcontroller;
+            break;
+    }
+
+    return handler;
 }
 
 void ResourceDeployDialog::EnableDialog(bool flag)
@@ -2176,7 +2241,7 @@ void ResourceDeployDialog::RefreshVcardChoice()
     {
         wxString display_name = wxT("");
         if(vcard_array->Item(index).m_nickname.Len()) display_name = vcard_array->Item(index).m_fullname + wxT("(") + vcard_array->Item(index).m_nickname + wxT(")");
-        else display_name = display_name = vcard_array->Item(index).m_fullname;
+        else display_name = vcard_array->Item(index).m_fullname;
 
         m_choice_owner->Append(display_name, &(vcard_array->Item(index).m_id));
     }

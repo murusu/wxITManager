@@ -3,6 +3,8 @@
 
 #include "wxITManagerMain.h"
 
+class ResourceDeployDialog;
+
 class UserListCtrl : public wxListCtrl
 {
     public:
@@ -148,23 +150,29 @@ class SubResourceDeployListCtrl : public wxListCtrl
 
 class ResourceFeeListCtrl : public wxListCtrl
 {
+    private:
+        ResourceDeployDialog *m_resourcedeploydialog;
+
     public:
         ResourceFeeListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
         //void OnListChange( wxDatabaseEvent& event);
         //void OnRefreshList( wxDatabaseEvent& event);
-        //void RefreshList();
+        void RefreshList();
         wxString OnGetItemText(long item, long column) const;
 };
 
 class ResourceLogListCtrl : public wxListCtrl
 {
+    private:
+        ResourceDeployDialog *m_resourcedeploydialog;
+
     public:
         ResourceLogListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style);
 
         //void OnListChange( wxDatabaseEvent& event);
         //void OnRefreshList( wxDatabaseEvent& event);
-        //void RefreshList();
+        void RefreshList();
         wxString OnGetItemText(long item, long column) const;
 };
 
