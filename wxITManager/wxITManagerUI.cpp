@@ -596,7 +596,6 @@ void MainFrame::OnChoiceDeploySearchType( wxCommandEvent& event )
 
 void MainFrame::OnButtonDeploySearch( wxCommandEvent& event )
 {
-
 }
 
 void MainFrame::OnButtonDeployAdd( wxCommandEvent& event )
